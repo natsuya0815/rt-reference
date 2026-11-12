@@ -1,5 +1,5 @@
 {
-  "name": "RT Reference β — 放射線治療臨床リファレンス",
+  "name": "RT Reference β v0.2",
   "short_name": "RT Reference",
   "description": "放射線治療専門家のための個人用臨床リファレンス（ベータ版）",
   "start_url": "./index.html",
@@ -9,7 +9,17 @@
   "theme_color": "#102d46",
   "lang": "ja",
   "icons": [
-    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
-    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }
