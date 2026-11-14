@@ -213,6 +213,72 @@ function assess(p){
  const ptLabel=unknown(p.t)?(p.t==='notdone'?'未評価':'不明'):p.t.replace('t',p.neo==='yes'?'ypT':'pT');
  return {errors:[],trials,plan,fields,warnings,guidelines:GUIDELINES,staging:`治療前：${ctLabel} / ${cnLabel[p.cn]||'不明'}（診察:${evalLabel[p.cnExam]||'不明'}、画像:${evalLabel[p.cnImaging]||'不明'}、針生検:${evalLabel[p.cnBiopsy]||'不明'}）\n術後：${ptLabel}、${prefix}所見：${histLabels[p.micro]||'不明'}、転移陽性=${p.n??'未評価'}／検索=${p.exam??'不明'}。${p.neo==='yes'?'ypN入力：'+(ypLabel[p.ypn]||'不明'):''}`};
 }
-const api={assess,assessTrials,validate,combinedPlan,imnAssessment,GUIDELINES,REFERENCES};
+// Presentation helpers leave the strict assessment and five trial checks unchanged.
+function followUpQuestions(p){
+ if(!['mas','bcs'].includes(p.s))return [];
+ const groups=[];
+ const group=(title,reason,ids)=>groups.push({title,reason,ids});
+ group('病理・治療の前提','未確認の病理やM0を陰性として扱わず、候補の前提を確認します。',['hist','m0']);
+ if(p.neo==='yes'){
+  group('術前治療後の重要情報','初期病期とypNで照射方針が変わります。ypN0だけでB-51に合致とはしません。',['ct','ypn',...(['c1','c23'].includes(p.cn)?['cnBiopsy']:[])]);
+ }else if(['c1','c23'].includes(p.cn)||p.cnBiopsy==='pos'||p.cnExam==='pos'){
+  group('術前cNの根拠','術後SLNBとは別の時点の診察・画像・針生検を確認します。',['cnExam','cnImaging','cnBiopsy']);
+ }
+ const nodePositive=p.n>0||['micro','macro','itc'].includes(p.micro);
+ if(p.ax==='slnb'&&nodePositive&&p.neo==='no'){
+  group('郭清省略を検討する条件','基本情報だけで郭清省略や専用腋窩照射を確定しません。',['ct','cnExam','examined','gross']);
+  group('手術と照射の方針','追加ALNDと照射による管理を比較します。未定のままでも候補は確認できます。',['strategy',p.s==='mas'?'rt':'wbi','systemic']);
+ }
+ if(p.ax==='alnd')group('郭清範囲と残存病変','Level I–IIの重複照射を避けられるか判断するために必要です。',['quality','gross']);
+ if(p.neo==='no'&&p.s==='mas'&&p.n===0&&['negative','itc'].includes(p.micro))group('低リスクの確認','節陰性だけでPMRT省略を確定せず、総合的な低リスク評価を確認します。',['lowRisk']);
+ if(nodePositive)group('内胸照射の個別適応','ALND省略やRNIを選んだだけで内胸照射を自動追加しません。',['imn']);
+ const correction=[];
+ if(p.neo==='no'&&!['na','unk',undefined].includes(p.ypn))correction.push('ypn');
+ if(p.ax!=='alnd'&&!['unk','notdone',undefined].includes(p.quality))correction.push('quality');
+ if(p.rt==='yes'&&p.rtPossible==='no')correction.push('rt','rtPossible');
+ if(p.s==='bcs'&&p.strategy==='omit_rt'||p.s==='mas'&&p.strategy==='bcs_omit')correction.push('strategy');
+ if(correction.length)groups.unshift({title:'入力の整合性を確認',reason:'以前の詳細入力を保持しています。現在の基本情報との矛盾を修正してください。',ids:correction});
+ const seen=new Set();
+ return groups.map(g=>({...g,ids:g.ids.filter(id=>!seen.has(id)&&seen.add(id))})).filter(g=>g.ids.length);
+}
+function assessForDisplay(p){
+ const result=assess(p),questions=followUpQuestions(p);
+ if(result.errors.length)return {...result,questions};
+ const displayFields=Object.fromEntries(Object.entries(result.fields).map(([k,x])=>[k,{...x}]));
+ const provisional=(key,title,desc,refs)=>{displayFields[key]={l:'consider',title,desc,refs,provisional:true};};
+ const m0Unknown=unknown(p.m0),histUnknown=unknown(p.hist);
+ if(p.s==='bcs'&&m0Unknown)provisional('wbi','全乳房照射が暫定候補','病理・M0・局所条件を確認して適応を確定します。未確認を陰性と仮定した判定ではありません。',['J22']);
+ if(p.s==='mas'&&p.neo==='no'&&p.micro==='macro'&&p.n>0&&m0Unknown&&result.fields.chest.l==='review'){
+  provisional('chest','胸壁＋領域照射が暫定候補','転移負荷等からの候補です。M0・病理・腋窩治療方針を確認するまで実施を確定しません。',['JB6','APOCKET']);
+  provisional('scv','鎖骨上・Level IIIを含むRNIが暫定候補','M0・郭清範囲・残存病変と照射の利益を確認します。',['JB6','APOCKET']);
+ }
+ if(p.s==='mas'&&p.neo==='no'&&p.ax==='slnb'&&p.micro==='macro'&&p.n>0&&result.fields.axilla.l==='review')displayFields.axilla={l:'review',title:'追加ALND／照射による腋窩管理を比較',desc:'専用I–II照射の要否は基本情報だけでは確定しません。PMRT＋RNIの経路を選ぶ場合の範囲と区別します。',refs:['JF3','ASLN25'],provisional:true};
+ if(p.s==='bcs'&&p.neo==='no'&&p.ax==='slnb'&&p.n>0&&result.fields.axilla.l==='review')displayFields.axilla={l:'review',title:'専用腋窩照射は条件確認後に判断',desc:'全乳房照射・郭清省略の条件と追加ALNDを比較。郭清省略を専用I–II照射必須と同一視しません。',refs:['Z11','JF3'],provisional:true};
+ if(p.neo==='yes'&&unknown(p.ypn))for(const key of ['chest','scv','axilla'])if(result.fields[key].l==='review')displayFields[key]={...result.fields[key],title:'ypN・治療前病期を確認するまで保留',desc:'術前治療後の主要情報が不足しています。追加質問のcT・ypN等を確認してください。'};
+ if(histUnknown)for(const [key,x] of Object.entries(displayFields))if(x.l==='strong')provisional(key,'暫定候補：'+x.title,'病理診断が未確認です。浸潤癌／DCISを確認し、元の適用条件に照合してください。',x.refs);
+ if(p.m0==='no')for(const [key,x] of Object.entries(displayFields))if(x.l!=='omit')displayFields[key]={...x,l:'review',title:'M1：本候補の適用範囲を確認',desc:'非転移性乳癌を対象とした候補をそのまま適用せず、治療目的を個別確認してください。',provisional:false};
+ const important=[];
+ const need=(condition,id,text)=>{if(condition)important.push({id,text});};
+ need(histUnknown,'hist','浸潤癌／純粋DCISの病理診断');
+ need(p.m0==='no','m0','M1：治療目的と本ツールの適用範囲を個別確認');
+ need(m0Unknown,'m0','M0の評価（未評価・不明を陰性としない）');
+ need(unknown(p.neo),'neo','術前薬物療法の有無');
+ need(unknown(p.cn),'cn','術前の臨床的cN（術後SLNBとは別）');
+ need(p.s==='bcs'&&p.age==null,'age','ブースト検討に関わる年齢');
+ need(unknown(p.t),'tstage','術後T分類');
+ need(unknown(p.micro)||p.n==null,'micro','転移分類と陽性数（未評価を0としない）');
+ need(unknown(p.margin),'margin','断端所見');
+ need(p.neo==='yes'&&unknown(p.ct),'ct','治療前cT分類');
+ need(p.neo==='yes'&&unknown(p.ypn),'ypn','術前治療後ypN');
+ need(['c1','c23'].includes(p.cn)&&p.cnBiopsy!=='pos','cnBiopsy','術前cN陽性の針生検による転移確認');
+ need(p.ax==='alnd'&&(p.quality!=='adequate'||p.gross!=='no'),'quality','実施済みALNDの範囲・十分性と肉眼的残存');
+ need(p.ax==='slnb'&&p.n>0&&p.neo==='no'&&(p.cnExam!=='neg'||unknown(p.ct)||p.exam==null||p.gross!=='no'),'cnExam','郭清省略に関わる治療前cT・診察所見、検索数、肉眼的残存');
+ need(p.ax==='slnb'&&p.n>0&&p.neo==='no'&&(p.strategy==='undecided'||p.s==='mas'&&p.rt!=='yes'||p.s==='bcs'&&p.wbi!=='yes'),'strategy','追加ALND／照射による管理方針と照射予定');
+ need(p.s==='mas'&&p.neo==='no'&&p.n===0&&p.micro==='negative'&&p.lowRisk!=='yes','lowRisk','PMRT省略を検討するための総合的な低リスク評価');
+ need(p.n>0&&(p.imn!=='no'||unknown(p.site)),'imn','内胸リンパ節の所見と個別適応');
+ return {...result,displayFields,questions,important};
+}
+
+const api={assessForDisplay,followUpQuestions,assess,assessTrials,validate,combinedPlan,imnAssessment,GUIDELINES,REFERENCES};
 if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.BreastFieldLogic=api;
 })(typeof window==='undefined'?globalThis:window);
