@@ -4,6 +4,7 @@
 'use strict';
 const REFERENCES={
  J22:['日本乳癌学会2022 放射線療法','2022','日本','https://jbcs.xsrv.jp/guideline/2022/h_index/'],
+ JBOOST:['日本2022 放射線CQ2（腫瘍床ブースト）','2022','日本','https://jbcs.xsrv.jp/guideline/2022/h_index/cq2/'],
  J5:['日本2022 放射線CQ5（全摘・ALND後1–3個）','2022','日本','https://jbcs.xsrv.jp/guideline/2022/h_index/cq5/'],
  J6:['日本2022 放射線CQ6（IMN）','2022','日本','https://jbcs.xsrv.jp/guideline/2022/h_index/cq6/'],
  JPATH:['日本2022 病理BQ6（ITC・微小・マクロ転移）','2022','日本','https://jbcs.xsrv.jp/guideline/2022/b_index/bq6/'],
@@ -25,7 +26,7 @@ const REFERENCES={
 const GUIDELINES=[
  {name:'日本2022 外科CQ1',population:'初回手術・SLN陽性。微小／マクロ、BCS／全摘、照射あり／なしを区別。',recommendation:'マクロ転移の郭清省略は照射・薬物療法等の条件付き。全摘無照射では郭清を勧める。',certainty:'BCSマクロ：弱い推奨・確実性中。全摘＋照射：弱い推奨・確実性弱。微小転移：省略を強く推奨・確実性中。',refs:['JC1']},
  {name:'日本2022 放射線FRQ3・BQ6/CQ6',population:'SLN陽性・郭清省略と、ALND後のPMRTを区別。',recommendation:'FRQ3だけで専用腋窩照射を全例必須としない。PMRT選択時は胸壁＋鎖骨上を基本に未郭清部を評価。IMNは別途個別適応。',certainty:'FRQは未解決課題。BQは標準の解説。CQ6は高リスク例への弱い推奨・確実性弱。',refs:['JF3','JB6','J6']},
- {name:'ASCO 2025 SLNB',population:'初回手術、cN0、浸潤癌≤5 cm、全摘・SLN陽性1–2個。BCSは別のRec 3.1。',recommendation:'全摘ではPMRT＋RNIを伴う郭清省略の選択肢。BCS＋全乳房照射では少数SLN陽性のALND省略を支持。',certainty:'Rec 3.1/4.1/4.2：推奨強・質高。3個はRec 4.3の版間表記を原典確認。',refs:['ASLN25']},
+ {name:'ASCO 2025 SLNB',population:'初回手術、cN0、浸潤癌≤5 cm、全摘・SLN陽性1–2個。BCSは別のRec 3.1。',recommendation:'全摘ではPMRT＋RNIを伴う郭清省略の選択肢。BCS＋全乳房照射では少数SLN陽性のALND省略を支持。',certainty:'Rec 3.1/4.1/4.2：推奨強・質高。Rec 4.3：全摘・陽性3個以上はALND後PMRT、推奨強・質高（2025原著Table 1）。',refs:['ASLN25']},
  {name:'ASTRO/ASCO/SSO 2025 PMRT',population:'全摘後（初回手術／術前治療後）。BCSの照射省略規則ではない。',recommendation:'適応があるPMRTでは胸壁＋領域。SLN陽性・ALND省略のPMRT経路では未郭清腋窩をカバー。IMNは個別化。',certainty:'体積：推奨強・質高。cT1–3N1→ypN0等：条件付き推奨。対象箇所のみ照合。',refs:['APM25','APOCKET']},
  {name:'欧州補足：AGO 2024（ドイツ）',population:'初回手術・SLNマクロ転移／ALND省略、またはALND後。欧州全体の統一見解ではない。',recommendation:'Level I–IIをCTVに含めることを支持する記載があり、Z0011の「専用照射必須ではない」と区別して施設方針を検討。',certainty:'Z0011条件内：LoE 2b/B/AGO+。郭清後の通常のI–II重複照射は避ける。',refs:['AGO24']}
 ];
@@ -135,8 +136,8 @@ function combinedPlan(p,trials=assessTrials(p)){
   const needed=[['初回手術',p.neo==='no'],['cT1–2・pT1–2',['ct1','ct2'].includes(groupT(p.ct))&&['t1','t2'].includes(groupT(p.t))],['術前cN0と診察評価',p.cn==='c0'&&p.cnExam==='neg'],['SLNマクロ転移1–2個',p.ax==='slnb'&&p.micro==='macro'&&p.n>=1&&p.n<=2],['検索数',p.exam!=null&&p.exam>=p.n],['M0',p.m0==='yes'],['肉眼的残存なし',p.gross==='no'],['薬物療法計画',p.systemic==='yes'],['断端評価',!unknown(p.margin)]];
   checks.push(...needed.filter(x=>!x[1]).map(x=>x[0]+'を確認'));refs.push('APM25','JB6');
   if(needed.every(x=>x[1])&&p.rt==='yes'&&p.strategy==='omit_rt'){status='combined';title='全摘：ALND省略＋PMRT・RNIの選択肢';reason='このPMRT経路を選ぶ場合に胸壁＋領域（未郭清腋窩を含む）を一体計画。郭清省略一般を専用照射必須とはしません。';}
+  else if(p.neo==='no'&&p.n>=3&&p.micro==='macro'){status='outside';title='全摘・陽性3個以上：ALND後PMRTを推奨';reason='ASCO 2025 Rec 4.3（強・質高）。1–2個のALND省略経路へ拡張しません。';checks.push('追加ALND後の最終病理・郭清範囲を確認し、PMRT体積を確定。');}
   else if(p.micro==='macro'&&p.rt==='no'&&p.neo==='no'){status='alnd-needed';title='PMRT＋RNIなし：追加ALNDを含め検討';}
-  else if(p.n>=3&&p.micro==='macro'){status='outside';title='少数SLN陽性1–2個の経路の対象外';checks.push('ASCO Rec 4.3の陽性3個の版間表記は原典確認が必要。');}
   else checks.push('PMRT＋RNIの実施可能性・合意と検討方針を確認。未定を実施予定と扱いません。');
  }else if(p.s==='bcs'){
   refs.push('Z11','AGO24');
@@ -173,6 +174,9 @@ function assessFields(p,trials,plan){
  }else if(high){
   if(p.s==='mas')fields.chest=f('strong','高リスク節転移／T4：胸壁PMRTを検討','初回手術・最終病理を確認。',['JB6','APOCKET']);
   fields.scv=f('strong','鎖骨上・Level IIIを含むRNIを検討','郭清範囲・IMN適応・心肺線量を別確認。',['JB6','APOCKET']);
+ }else if(p.neo==='no'&&p.s==='mas'&&p.micro==='macro'&&p.n===3){
+  fields.chest=f('strong','全摘・陽性3個：ALND後のPMRTを検討','ASCO 2025 Rec 4.3。未施行ALNDは実施済みとせず、最終病理と省略例外を確認。',['ASLN25','APOCKET']);
+  fields.scv=f('strong','PMRT経路では鎖骨上・Level IIIを含め検討','術後郭清範囲で未郭清腋窩と区別し、IMNを個別評価。',['ASLN25','APOCKET']);
  }else if(p.neo==='no'&&nodalKnown&&['negative','itc'].includes(p.micro)&&p.n===0){
   if(p.s==='mas')fields.chest=['t1','t2'].includes(groupT(p.t))&&p.margin==='neg'&&p.lowRisk==='yes'?f('omit','低リスクpT1–2N0全摘後は通常PMRT対象外','ITCはマクロ転移陽性と数えません。病理pN0・低リスク評価の信頼性と既照射歴を確認。',['APOCKET']):f('consider','N0でも局所リスクを個別評価','T3、断端、LVI等を確認。陰性のみで省略確定しません。',['APOCKET']);
   fields.scv=f('consider','節陰性／ITC：RNIは自動追加しない','部位・生物学的リスクを確認。',['J22']);
@@ -241,6 +245,66 @@ function followUpQuestions(p){
  const seen=new Set();
  return groups.map(g=>({...g,ids:g.ids.filter(id=>!seen.has(id)&&seen.add(id))})).filter(g=>g.ids.length);
 }
+// Integrated candidates summarize, but never substitute for, the strict trial checks.
+function overallAssessment(p,r){
+ const evidence=[],checks=[];
+ const ev=(source,strength,conditions,unconfirmed,refs)=>evidence.push({source,strength,conditions,unconfirmed,refs});
+ const baseReady=p.hist==='inv'&&p.m0==='yes'&&p.neo==='no'&&!unknown(p.t)&&!unknown(p.micro)&&p.n!=null&&!unknown(p.margin);
+ let pathway='review',status='暫定候補',first='照射方針を保留：基本情報・病理・治療経過を確認',alternative='必要情報を確認し、手術と照射を多職種で比較します。',details='未入力を陰性と仮定しません。',refs=['J22'];
+ const add=(condition,text)=>{if(condition)checks.push(text);};
+ add(p.hist!=='inv','病理診断（浸潤癌／DCIS）を確認');add(p.m0!=='yes','M0評価・治療目的を確認');
+ if(p.hist==='dcis'||p.m0==='no'){
+  pathway='scope';first=p.m0==='no'?'M1：治療目的を個別確認':'純粋DCIS：浸潤癌の腋窩管理経路は適用しない';details='下の領域別評価を確認し、原典と個別の局所条件に照合してください。';
+ }else if(p.neo==='yes'){
+  pathway='post-neo';first=matches(r.trials,'B51')?'術前治療後：PMRT／RNI省略も含め個別検討':'術前治療後：治療前病期・ypNに応じた照射候補';status=matches(r.trials,'B51')?'個別検討':'暫定候補';
+  details='全摘では胸壁＋RNI、温存では全乳房±RNIを区別。B-51の主要条件合致だけで省略を確定しません。';alternative='残存ypN陽性や初期高病期ならPMRT／RNIを検討。ypN0の省略とは別経路です。';refs=['B51','APOCKET'];
+  add(unknown(p.ct)||unknown(p.ypn),'治療前cT/cNと術前治療後ypN');add(p.cnBiopsy!=='pos','治療前の針生検による転移確認と術前治療内容');
+  ev('ASTRO/ASCO/SSO 2025・B-51','cT1–3N1→ypN0：条件付き・中／B-51：RCT','規定の術前化学療法、治療前生検確認、適切な術後腋窩評価','長期・サブグループ、ITC単独の効果は原典確認が必要',refs);
+ }else if(p.neo==='no'&&p.s==='mas'&&p.ax==='slnb'&&p.n>=3&&p.micro==='macro'){
+  pathway='mas-three-plus';first='追加ALND後にPMRTを行う方針';status=baseReady?'標準的に推奨':'暫定候補';
+  details='ASCO 2025 Rec 4.3：全摘・陽性3個以上。1–2個のALND省略経路へ拡張しません。追加手術後に胸壁＋領域の範囲を確定。';alternative='ALND困難・照射困難の場合は多職種で個別調整（同等性が確立した省略経路とは扱わない）。';refs=['ASLN25','APOCKET'];add(true,'最終転移数・郭清範囲・残存病変と照射可能性');
+  ev('ASCO 2025 Rec 4.3','強・質高','初回手術・全摘、陽性3個以上','微小転移のみ等の特殊例は原典確認が必要',['ASLN25']);
+ }else if(p.neo==='no'&&p.s==='mas'&&p.ax==='slnb'&&p.n>=1&&p.n<=2&&p.micro==='macro'){
+  pathway='mas-sln';status=baseReady&&r.plan?.status==='combined'?'個別検討':'暫定候補';
+  first='A：ALND省略＋PMRT／RNI（条件付きの有力な選択肢）';details='この経路を選ぶなら胸壁・再建乳房＋鎖骨上／Level III＋未郭清腋窩Level I–IIを含めて検討。内胸リンパ節は個別評価。PMRTを全例必須とはしません。';
+  alternative='B：追加ALND。最終病理・転移負荷・郭清範囲に応じてPMRT／RNIを再評価。十分な郭清済みI–IIは通常重複照射しません。';refs=['JC1','JF3','JB6','ASLN25','APOCKET','AMAROS','S24'];
+  if(p.strategy==='add_alnd'||p.rt==='no'||!['c0','unk','notdone',undefined].includes(p.cn)||!unknown(p.ct)&&!['ct1','ct2'].includes(groupT(p.ct))){
+   first='B：追加ALNDを含む腋窩管理を優先して比較';alternative='A：ALND省略＋PMRT／RNIは、cN0・浸潤癌≤5 cm等の適用条件と照射実施可能性が確認できる場合の選択肢。';details='追加ALND後、最終病理・郭清範囲に応じ胸壁＋領域照射を再評価。PMRT不要とは自動判断しません。';
+  }
+  add(p.cn!=='c0'||p.cnExam!=='neg'||unknown(p.ct),'治療前cT≤5 cm・cN0の評価根拠（SLNB陽性とは区別）');
+  add(p.exam==null||p.gross!=='no'||p.systemic!=='yes','SLN検索数、肉眼的進展・残存、薬物療法計画');
+  add(p.rt!=='yes'||p.strategy==='undecided','PMRT＋RNIの実施可能性、追加ALNDとの比較・本人の意向');
+  ev('日本2022 外科CQ1b-3／FRQ3・BQ6','全摘＋照射の郭清省略：弱・確実性弱／FRQ：未解決','マクロ転移、照射・適切な薬物療法を伴う選択','SLN数だけで全腋窩負荷を確定せず、専用照射の一律必須化はしない',['JC1','JF3','JB6']);
+  ev('ASCO 2025 Rec 4.1／4.2','強・質高','cN0・浸潤癌≤5 cm・全摘・SLN陽性1–2個。PMRT＋RNIを伴う省略／非照射pT1–2 pN1は追加ALND','治療可能性と本人の意向を確認',['ASLN25']);
+  ev('ASTRO/ASCO/SSO 2025 PMRT KQ3','体積：強・質高','PMRTを選ぶ場合に胸壁＋領域、未郭清腋窩を評価、IMN個別化','PMRTの適応と照射体積は別の判断',['APM25','APOCKET']);
+  ev('AMAROS／SENOMAC','RCT（適格性は下段で別評価）','AMAROS：ALND対腋窩照射／SENOMAC：多くが領域照射','無照射での郭清省略を一律に証明しない',['AMAROS','S24']);
+ }else if(p.neo==='no'&&p.s==='bcs'){
+  pathway='bcs';const z=getTrial(r.trials,'Z0011'),positive=p.n>0;
+  status=baseReady&&p.margin==='neg'&&(!positive||matches(r.trials,'Z0011'))?'標準的に推奨':'暫定候補';
+  first='全乳房照射を基本とする方針';details=p.age!=null&&p.age<=40?`${p.age}歳：腫瘍床ブーストを積極的に検討。`:'腫瘍床ブーストは年齢・断端・局所リスクに応じて検討。';
+  if(positive){details+=' ALND省略はZ0011等の条件を確認して検討。専用腋窩Level I–II照射は一律必須ではなく、鎖骨上・内胸はリスクに応じ個別検討。';
+   alternative='郭清省略条件に合わない場合は追加ALND等を比較。腋窩照射を選ぶ場合も、専用照射と全乳房照射を区別して範囲を計画。';
+   add(z.status!=='主要条件に合致','Z0011：'+(z.excluded.length?'不一致：'+z.excluded.join('・')+'。':'')+(z.missing.length?'未確認：'+z.missing.slice(0,4).join('・')+(z.missing.length>4?'等（全条件は試験詳細へ）':''):''));
+  }else alternative='全乳房照射の省略・部分照射は別の適格条件が必要。本基本入力だけでは確定しません。';
+  if(p.margin==='pos'){status=baseReady?'個別検討':'暫定候補';first='断端陽性：再切除を含む局所方針を先に確認';details='ブーストで断端陽性の対応を代替しません。';}
+  refs=['J22','JC1','JF3','ASLN25','Z11','JBOOST'];
+  ev('ASCO 2025 Rec 3.1／Z0011','郭清省略：強・質高／Z0011：RCT','初回手術・cN0、SLN陽性1–2個、温存＋全乳房照射。Z0011の主要条件を別表示','RNIの個別適応と専用I–II照射必須を混同しない',['ASLN25','Z11','JF3']);
+  ev('日本2022 放射線CQ2','弱い推奨・確実性中','温存・断端陰性の浸潤癌の腫瘍床ブースト。若年で利益が大きい','局所再発抑制と整容性・線維化を比較。線量は原典確認',['JBOOST']);
+ }else if(p.neo==='no'&&p.s==='mas'&&p.ax==='alnd'){
+  pathway='post-alnd';status=baseReady&&p.micro==='macro'&&p.n>=3?'標準的に推奨':baseReady?'個別検討':'暫定候補';
+  first=p.n>0?'ALND後：PMRT／RNIの適応・範囲を評価':'ALND後：胸壁の局所リスクからPMRT適応を評価';details='節陽性では胸壁＋鎖骨上／Level IIIを検討。十分な郭清済みI–IIの重複照射は通常避け、内胸は個別評価。';alternative='低負荷pN1a等で良好な病理背景ならPMRT省略も選択的に検討。ALND実施だけで照射不要とはしません。';refs=['J5','JB6','APOCKET','ASLN25'];add(p.quality!=='adequate'||p.gross!=='no','実施済みALNDの範囲・十分性・残存病変');
+  ev('ASTRO/ASCO/SSO 2025 KQ1／KQ3','pN+のPMRT・体積：強・質高','初回手術後pN+。低負荷・良好背景の一部では省略を考慮','省略は病理・生物学的因子を確認して個別判断',['APOCKET']);
+ }else if(p.neo==='no'&&p.s==='mas'&&p.n===0&&['negative','itc'].includes(p.micro)){
+  pathway='mas-n0';status=baseReady&&r.displayFields.chest.l==='omit'?'標準的に推奨':'暫定候補';first=r.displayFields.chest.l==='omit'?'低リスクpT1–2N0：通常PMRTを行わない方針':'節陰性全摘：PMRT省略を局所リスクと併せて評価';details='ITCのみを通常の節陽性と同一視しません。';alternative='T3/T4、断端、複数の不良因子等があればPMRTを個別再評価。';refs=['APOCKET'];
+  ev('ASTRO/ASCO/SSO 2025 KQ1','pT1–2N0の非推奨：強・質低','信頼できる節陰性・pT1–2。複数の不良因子を別評価','低リスク情報が不明なら省略を確定しない',refs);
+ }
+ const handled=new Set(['hist','m0',...(['mas-sln','bcs'].includes(pathway)?['cnExam','strategy']:[])]);
+ for(const x of r.important||[])if(!handled.has(x.id)&&checks.length<5&&!checks.some(c=>c.includes(x.text)))checks.push(x.text);
+ const summaryChecks=[...new Set(checks)].slice(0,5);
+ if(!evidence.length)ev('原典・対象の確認','未確定','術式・治療時点・病理に対応する領域別理由と詳細を参照','原典確認が必要',refs);
+ return {pathway,status,first,alternative,details,checks:summaryChecks,evidence,refs};
+}
+
 function assessForDisplay(p){
  const result=assess(p),questions=followUpQuestions(p);
  if(result.errors.length)return {...result,questions};
@@ -276,9 +340,10 @@ function assessForDisplay(p){
  need(p.ax==='slnb'&&p.n>0&&p.neo==='no'&&(p.strategy==='undecided'||p.s==='mas'&&p.rt!=='yes'||p.s==='bcs'&&p.wbi!=='yes'),'strategy','追加ALND／照射による管理方針と照射予定');
  need(p.s==='mas'&&p.neo==='no'&&p.n===0&&p.micro==='negative'&&p.lowRisk!=='yes','lowRisk','PMRT省略を検討するための総合的な低リスク評価');
  need(p.n>0&&(p.imn!=='no'||unknown(p.site)),'imn','内胸リンパ節の所見と個別適応');
- return {...result,displayFields,questions,important};
+ const display={...result,displayFields,questions,important};
+ display.overall=overallAssessment(p,display);return display;
 }
 
-const api={assessForDisplay,followUpQuestions,assess,assessTrials,validate,combinedPlan,imnAssessment,GUIDELINES,REFERENCES};
+const api={overallAssessment,assessForDisplay,followUpQuestions,assess,assessTrials,validate,combinedPlan,imnAssessment,GUIDELINES,REFERENCES};
 if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.BreastFieldLogic=api;
 })(typeof window==='undefined'?globalThis:window);
