@@ -1,50 +1,36 @@
-/* Run against a local static server: RT_BASE_URL=http://127.0.0.1:8766 node tests/breast-field-ui.cjs
- * Requires Playwright and Chromium. Test data is fictional and contains no patient identifiers. */
-const {chromium,devices}=require('playwright');
-const assert=require('node:assert/strict');
-const fs=require('node:fs');
-const {execFileSync}=require('node:child_process');
+/* RT_BASE_URL=http://127.0.0.1:8766 node tests/breast-field-ui.cjs
+ * Requires Playwright, Chromium, Python static server and repository history. Synthetic cases only. */
+const {chromium,devices}=require('playwright');const assert=require('node:assert/strict');const fs=require('node:fs');const {execFileSync}=require('node:child_process');const {raw,complete}=require('./breast-cases.cjs');
 const url=process.env.RT_BASE_URL||'http://127.0.0.1:8766';
-(async()=>{
- const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',headless:true,args:['--no-sandbox']});
- try{
- const reports=[];
- for(const mobile of [false,true]){
-  const context=await browser.newContext(mobile?devices['iPhone 13']:{viewport:{width:1440,height:1000}});
-  await context.grantPermissions(['clipboard-read','clipboard-write']);
-  const page=await context.newPage(),errors=[],failed=[],outgoing=[];
-  page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});page.on('response',r=>{if(r.status()>=400)failed.push(r.url()+':'+r.status())});page.on('request',r=>{if(!r.url().startsWith(url)&&!r.url().startsWith('data:'))outgoing.push(r.url())});
-  const baseline=execFileSync('git',['show','575def0:index.html'],{encoding:'utf8'});
-  await page.route(url+'/',r=>r.fulfill({contentType:'text/html',body:baseline}));await page.goto(url+'/');
-  await page.locator('[data-act="addMemo"]').click();await page.locator('#mTitle').fill('UI保存確認');await page.locator('#mBody').fill('患者情報を含まないテスト');await page.locator('#formMemo button[type=submit]').click();
-  const saved=await page.evaluate(()=>localStorage.getItem('rt_reference_beta_v01'));
-  await page.unroute(url+'/');await page.reload();assert.match(await page.title(),/v0.5/);await page.locator('[data-tab="notes"]').click();assert.match(await page.locator('#content').innerText(),/UI保存確認/);
-  await page.locator('#search').fill('乳癌');await page.locator('#searchResults.show [data-search-go]').first().click();
-  await page.goto(url+'/index.html#breast');await page.locator('[data-tab="overview"]').click();await page.locator('[data-note-open]').first().click();await page.locator('[data-article-back]').first().click();
-  assert.equal(await page.evaluate(()=>RT_SEED.clinicalNotes.length),50);
-  await page.locator('a[href="breast-field-planner.html"]').click();
-  async function fill(patch={}){
-   await page.locator('#reset').click();
-   const values={surgery:'mas',hist:'inv',tstage:'t2',site:'outer',margin:'neg',neo:'no',cn:'c0',ax:'slnb',micro:'macro',ene:'no',ct:'ct2',strategy:'omit_rt',rt:'yes',systemic:'yes',gross:'no',quality:'unk',imn:'no',...patch};
-   for(const [id,v] of Object.entries(values))if(!['nodes','examined'].includes(id))await page.locator('#'+id).selectOption(v);
-   await page.locator('#nodes').fill(patch.nodes||'1');await page.locator('#examined').fill(patch.examined||'2');
-  }
-  async function submit(expected){await page.locator('button[type=submit]').click();await page.locator('#output:not(.hidden)').waitFor();assert.equal(await page.locator('#cards article').count(),5);if(expected)assert.equal(await page.locator('[data-plan-status]').getAttribute('data-plan-status'),expected)}
-  await fill();await submit('combined');assert.equal(await page.locator('#cards .result.strong').count(),3);assert.match(await page.locator('#combined').innerText(),/日本2022/);assert.match(await page.locator('#combined').innerText(),/米国2025/);
-  assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
-  await page.screenshot({path:`/tmp/rt-${mobile?'iphone':'pc'}-combined.png`,fullPage:true});
-  await page.locator('#copy').click();assert.match(await page.evaluate(()=>navigator.clipboard.readText()),/ALNDを追加する場合/);
-  for(const [patch,status] of [[{nodes:'2'},'combined'],[{rt:'unk'},'review'],[{rt:'no'},'alnd-needed'],[{strategy:'add_alnd'},'planned-alnd'],[{nodes:'3',examined:'3'},'outside'],[{ct:'ct3',tstage:'t3'},'review'],[{micro:'micro'},'review'],[{cn:'unk'},'review'],[{neo:'yes',ypn:'ypp'},'review'],[{gross:'yes'},'review'],[{ax:'alnd',quality:'adequate',strategy:'undecided'},'post-alnd'],[{ax:'alnd',quality:'unk',strategy:'undecided'},'review']]){await fill(patch);await submit(status);if(status!=='combined'&&status!=='post-alnd')assert.equal(await page.locator('#cards .result.strong').count(),0)}
-  await fill({imn:'yes'});await submit('combined');assert.match(await page.locator('#cards article').nth(2).innerText(),/治療標的/);
-  await page.locator('#rt').selectOption('no');assert(await page.locator('#output').evaluate(e=>e.classList.contains('hidden')));
-  await fill({ax:'slnb',quality:'adequate'});let msg='';page.once('dialog',async d=>{msg=d.message();await d.accept()});await page.locator('button[type=submit]').click();assert.match(msg,/SLNBのみ/);assert(await page.locator('#output').evaluate(e=>e.classList.contains('hidden')));
-  await fill({surgery:'bcs',nodes:'0'});await submit();assert.equal(await page.locator('[data-plan-status]').count(),0);assert.match(await page.locator('#cards article').first().innerText(),/全乳房/);
-  await page.locator('header a').click();assert.match(await page.locator('h1').innerText(),/乳癌/);
-  await page.evaluate(()=>navigator.serviceWorker.ready);await page.reload();await context.setOffline(true);await page.locator('a[href="breast-field-planner.html"]').click();await fill();await submit('combined');await page.locator('header a').click();await context.setOffline(false);
-  assert.equal(await page.evaluate(()=>localStorage.getItem('rt_reference_beta_v01')),saved);
-  assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);assert.deepEqual(outgoing,[]);
-  reports.push({device:mobile?'iPhone 13 Chromium emulation':'PC Chromium',jsErrors:errors.length,httpErrors:failed.length,externalRequests:outgoing.length,result:'PASS'});await context.close();
+(async()=>{const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',headless:true,args:['--no-sandbox']});try{const reports=[];
+for(const mobile of [false,true]){
+ const context=await browser.newContext(mobile?devices['iPhone 13']:{viewport:{width:1440,height:1000}});await context.grantPermissions(['clipboard-read','clipboard-write']);
+ const page=await context.newPage(),errors=[],http=[],external=[];page.on('pageerror',e=>errors.push(e.message));page.on('console',m=>{if(m.type()==='error')errors.push(m.text())});page.on('response',r=>{if(r.status()>=400)http.push(r.url()+':'+r.status())});page.on('request',r=>{if(!r.url().startsWith(url)&&!r.url().startsWith('data:'))external.push(r.url())});
+ await page.route(url+'/',r=>r.fulfill({contentType:'text/html',body:execFileSync('git',['show','575def0:index.html'],{encoding:'utf8'})}));await page.goto(url+'/');
+ await page.locator('[data-act="addMemo"]').click();await page.locator('#mTitle').fill('機能検証');await page.locator('#mBody').fill('患者情報を含まない保存テスト');await page.locator('#formMemo button[type=submit]').click();const saved=await page.evaluate(()=>localStorage.getItem('rt_reference_beta_v01'));
+ await page.unroute(url+'/');await page.reload();await page.locator('[data-tab="notes"]').click();assert.match(await page.locator('#content').innerText(),/機能検証/);
+ await page.locator('#search').fill('乳癌');await page.locator('#searchResults.show [data-search-go]').first().click();await page.goto(url+'/index.html#breast');await page.locator('[data-tab="overview"]').click();await page.locator('[data-note-open]').first().click();await page.locator('[data-article-back]').first().click();assert.equal(await page.evaluate(()=>RT_SEED.clinicalNotes.length),50);
+ await page.locator('a[href="breast-field-planner.html"]').click();
+ const map={s:'surgery',t:'tstage',n:'nodes',exam:'examined'};
+ async function fillCase(p){await page.locator('#reset').click();for(const [key,value] of Object.entries(p)){const el=page.locator('#'+(map[key]||key));if(await el.count()){const tag=await el.evaluate(e=>e.tagName);if(tag==='SELECT')await el.selectOption(value??'unk');else await el.fill(value==null?'':String(value));}}}
+ async function submit(){await page.locator('button[type=submit]').click();await page.locator('#output:not(.hidden)').waitFor();assert.equal(await page.locator('[data-field]').count(),6);assert.equal(await page.locator('[data-trial]').count(),5)}
+ const trialState=id=>page.locator('[data-trial="'+id+'"]').getAttribute('data-trial-status');const fieldClass=id=>page.locator('[data-field="'+id+'"]').getAttribute('class');
+ for(const [id,p] of Object.entries(raw)){await fillCase(p);await submit();if(['A','C'].includes(id))assert.equal(await trialState('Z0011'),'適用対象外');if(id==='D')assert.equal(await trialState('B51'),'情報不足');}
+ for(const [id,p] of Object.entries(complete)){
+  await fillCase(p);await submit();assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  if(id==='A'){assert.equal(await page.locator('#cn').inputValue(),'c0');assert.equal(await trialState('AMAROS'),'主要条件に合致');assert.equal(await page.locator('[data-plan-status]').getAttribute('data-plan-status'),'combined');assert.match(await fieldClass('axilla'),/strong/);}
+  if(id==='B'){assert.equal(await trialState('Z0011'),'主要条件に合致');assert.match(await fieldClass('axilla'),/consider/);assert.match(await page.locator('[data-field="axilla"]').innerText(),/郭清省略≠/);await page.locator('#cards').screenshot({path:`/tmp/rt3-${mobile?'iphone':'pc'}-fields.png`});}
+  if(id==='C'){assert.equal(await trialState('Z0011'),'適用対象外');assert.equal(await trialState('SENOMAC'),'主要条件に合致');assert.match(await fieldClass('axilla'),/review/);}
+  if(id==='D'){assert.equal(await trialState('B51'),'主要条件に合致');assert.match(await fieldClass('chest'),/consider/);await page.locator('[data-trial="B51"]').screenshot({path:`/tmp/rt3-${mobile?'iphone':'pc'}-b51.png`});}
+  if(id==='E')assert.match(await fieldClass('chest'),/omit/);
+  if(id==='F'){assert.match(await fieldClass('chest'),/strong/);assert.match(await fieldClass('axilla'),/omit/);}
  }
- fs.writeFileSync('/tmp/rt-breast-ui-results.json',JSON.stringify(reports,null,2));console.log(JSON.stringify(reports,null,2));
- }finally{await browser.close()}
-})().catch(e=>{console.error(e);process.exitCode=1});
+ await fillCase(complete.B);await submit();const links=await page.locator('#output a').evaluateAll(els=>els.map(e=>e.href));assert(links.includes('https://pmc.ncbi.nlm.nih.gov/articles/PMC5672806/'));assert(links.some(x=>x.includes('/guideline/2022/')));await page.locator('#copy').click();const copied=await page.evaluate(()=>navigator.clipboard.readText());assert.match(copied,/不足：/);assert.match(copied,/https:\/\/pmc/);assert.match(copied,/AGO 2024/);
+ await page.locator('#wbi').selectOption('no');assert(await page.locator('#output').evaluate(e=>e.classList.contains('hidden')));await submit();assert.equal(await trialState('Z0011'),'適用対象外');
+ await fillCase({...complete.A,cnBiopsy:'pos'});let dialog='';page.once('dialog',async d=>{dialog=d.message();await d.accept()});await page.locator('button[type=submit]').click();assert.match(dialog,/自動変更せず/);assert.equal(await page.locator('#cn').inputValue(),'c0');
+ await fillCase({...complete.E,micro:'notdone',n:null});await submit();assert.doesNotMatch(await fieldClass('chest'),/omit/);
+ await page.locator('header a').click();assert.match(await page.locator('h1').innerText(),/乳癌/);await page.evaluate(()=>navigator.serviceWorker.ready);await page.reload();await context.setOffline(true);await page.locator('a[href="breast-field-planner.html"]').click();await fillCase(complete.D);await submit();assert.equal(await trialState('B51'),'主要条件に合致');await page.locator('header a').click();await context.setOffline(false);
+ assert.equal(await page.evaluate(()=>localStorage.getItem('rt_reference_beta_v01')),saved);assert.deepEqual(errors,[]);assert.deepEqual(http,[]);assert.deepEqual(external,[]);
+ reports.push({device:mobile?'iPhone 13 Chromium emulation':'PC Chromium',cases:'A–F raw + explicitly supplemented',jsErrors:0,httpErrors:0,externalRequests:0,result:'PASS'});await context.close();
+}
+fs.writeFileSync('/tmp/rt3-ui-results.json',JSON.stringify(reports,null,2));console.log(JSON.stringify(reports,null,2));}finally{await browser.close()}})().catch(e=>{console.error(e);process.exitCode=1});
