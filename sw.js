@@ -1,5 +1,5 @@
-const CACHE_NAME='rt-reference-beta-v04';
-const ASSETS=['./','./index.html','./data.js','./evidence.js','./manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png','./icon.svg'];
+const CACHE_NAME='rt-reference-beta-v05-planner5';
+const ASSETS=['./','./index.html','./data.js','./evidence.js','./breast-field-planner.html','./breast-field-logic.js','./manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png','./icon.svg'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()));
 });
