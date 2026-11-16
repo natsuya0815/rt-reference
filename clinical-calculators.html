@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#102d46">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="RT Reference">
+<title>臨床計算ツール | RT Reference β</title>
+<style>
+:root{--navy:#102d46;--teal:#087b77;--bg:#f5f7fa;--surface:#fff;--surface2:#f7f9fb;--stroke:#dae3eb;--ink:#1a3042;--muted:#64798a;--amberbg:#fff7e9;--orange:#9a601b}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 -apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif}
+a{color:var(--teal);text-decoration:none}a:hover{text-decoration:underline}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #48aba3;outline-offset:3px}
+.topbar{background:#102d46;color:#fff;padding:14px clamp(16px,4vw,42px);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{font-weight:850;letter-spacing:-.3px}.brand small{display:block;color:#afc6d3;font-weight:500;font-size:11px;letter-spacing:.3px}
+.back{color:#dff6f4;border:1px solid #6a97a5;border-radius:9px;padding:8px 12px;font-size:12px;white-space:nowrap}
+main{max-width:960px;margin:0 auto;padding:29px 18px 70px}
+.kicker{font-size:11px;letter-spacing:1.3px;font-weight:800;color:var(--teal)}
+h1{font-size:clamp(25px,3.8vw,34px);line-height:1.3;letter-spacing:-.6px;margin:5px 0 8px}
+.lead{color:var(--muted);font-size:13px;margin:0 0 20px}
+.tabbar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:20px 0}
+.tab{border:1px solid var(--stroke);background:var(--surface);border-radius:11px;padding:13px 7px;color:var(--muted);font-size:13px;font-weight:800}
+.tab.active,.tab[aria-selected=true]{background:var(--teal);border-color:var(--teal);color:#fff}
+.panel{background:var(--surface);border:1px solid var(--stroke);border-radius:16px;padding:24px;box-shadow:0 2px 7px #1233440e}
+.panel h2{margin:0 0 5px;font-size:22px;letter-spacing:-.3px}
+.sub{font-size:13px;color:var(--muted);margin:0 0 18px}
+.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field label{font-size:13px;font-weight:750}
+.field input,.field select{background:var(--surface2);border:1px solid var(--stroke);color:var(--ink);width:100%;min-height:47px;padding:10px 12px;border-radius:10px}
+.field input:focus,.field select:focus{border-color:var(--teal)}
+.input-unit{position:relative}.input-unit input{padding-right:68px}.input-unit span{position:absolute;right:11px;top:10px;color:var(--muted);font-size:12px;pointer-events:none}
+.field-help{font-size:11px;color:var(--muted)}
+.full{grid-column:1/-1}
+.coag-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.result{margin-top:22px;border-top:1px solid var(--stroke);padding:18px 4px 4px;min-height:90px;font-variant-numeric:tabular-nums}
+.result-label{font-size:12px;color:var(--muted);font-weight:750;margin-bottom:5px}
+.result strong{font-size:clamp(26px,4vw,34px);line-height:1.25;color:var(--teal)}
+.result .unit{font-weight:750;font-size:15px}
+.result-sub{font-size:12px;color:var(--muted);margin-top:7px}
+.placeholder{font-size:13px;color:var(--muted)}
+.score-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:15px 0}
+.score-grid>div{background:var(--surface2);border:1px solid var(--stroke);border-radius:10px;padding:8px;text-align:center}
+.score-grid span{display:block;font-size:11px;color:var(--muted)}
+.score-grid b{font-size:18px;color:var(--ink)}
+.note{border:1px solid #ebdabb;background:var(--amberbg);border-radius:10px;padding:12px 14px;font-size:12px;color:var(--orange);margin-top:20px;line-height:1.8}
+.details{font-size:12px;color:var(--muted);line-height:1.9;margin-top:18px}
+.details p{margin:7px 0}
+.actions{display:flex;justify-content:flex-end;margin-top:15px}
+.reset{background:var(--surface);color:var(--ink);border:1px solid var(--stroke);border-radius:9px;padding:8px 15px;font-size:12px;font-weight:750}
+.sources{margin-top:26px;padding-top:16px;border-top:1px solid var(--stroke);font-size:12px;color:var(--muted)}
+.sources a{display:block;overflow-wrap:anywhere;padding:2px 0}
+.privacy{font-size:12px;color:var(--muted);margin-top:16px}
+[hidden]{display:none!important}
+body.dark{--navy:#d0e3ec;--teal:#62d1c2;--bg:#0e1d2b;--surface:#172838;--surface2:#213345;--stroke:#314a5c;--ink:#e2edf5;--muted:#a6bbcb;--amberbg:#382f23;--orange:#eacb97}
+@media(max-width:650px){main{padding:20px 13px 55px}.panel{padding:17px}.field-grid,.coag-row{grid-template-columns:1fr}.tab{font-size:12px;padding:11px 5px}.score-grid{grid-template-columns:repeat(2,1fr)}}
+@media print{.topbar,.tabbar,.actions,.privacy{display:none!important}.panel{box-shadow:none}.panel[hidden]{display:block!important;page-break-before:always}main{max-width:none;padding:0}body{background:#fff;color:#000}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">RT Reference β<small>CLINICAL CALCULATORS · 2026.11</small></div>
+  <a class="back" href="./index.html">← リファレンスへ戻る</a>
+</header>
+<main>
+  <div class="kicker">CLINICAL TOOLBOX / BETA</div>
+  <h1>臨床計算ツール</h1>
+  <p class="lead">推定CCr・体表面積・Child–Pughを即時計算。入力内容は保存せず、外部へ送信しません。</p>
+  <nav class="tabbar" role="tablist" aria-label="計算機を選択">
+    <button type="button" class="tab active" role="tab" data-tab-target="ccr" aria-selected="true" aria-controls="ccr">推定CCr</button>
+    <button type="button" class="tab" role="tab" data-tab-target="bsa" aria-selected="false" aria-controls="bsa">体表面積</button>
+    <button type="button" class="tab" role="tab" data-tab-target="child" aria-selected="false" aria-controls="child">Child–Pugh</button>
+  </nav>
+  <section id="ccr" class="panel" role="tabpanel" data-calc-panel>
+    <h2>推定クレアチニンクリアランス</h2>
+    <p class="sub">Cockcroft–Gault式。成人用、非体表面積補正値（mL/min）。</p>
+    <div class="field-grid">
+      <div class="field"><label for="ccrSex">性別（式の係数）</label>
+        <select class="calc-input" id="ccrSex"><option value="">選択してください</option><option value="male">男性</option><option value="female">女性（×0.85）</option></select>
+      </div>
+      <div class="field"><label for="ccrAge">年齢</label><div class="input-unit"><input class="calc-input" id="ccrAge" type="number" inputmode="numeric" min="18" max="120" step="1" autocomplete="off" placeholder="例：70"><span>歳</span></div></div>
+      <div class="field"><label for="ccrWeight">体重</label><div class="input-unit"><input class="calc-input" id="ccrWeight" type="number" inputmode="decimal" min="1" max="500" step="any" autocomplete="off" placeholder="例：65"><span>kg</span></div></div>
+      <div class="field"><label for="ccrScr">血清クレアチニン（Scr）</label><div class="input-unit"><input class="calc-input" id="ccrScr" type="number" inputmode="decimal" min="0.1" max="30" step="any" autocomplete="off" placeholder="例：1.0"><span>mg/dL</span></div></div>
+    </div>
+    <div class="result" aria-live="polite"><div class="result-label">推定CCr</div><div id="ccrResult"></div></div>
+    <div class="actions"><button type="button" class="reset" data-reset="ccr">入力をクリア</button></div>
+    <div class="details">
+      <p><b>計算式：</b> (140 − 年齢) × 体重(kg) ÷ [72 × Scr(mg/dL)] × (女性は0.85)</p>
+      <p>入力した実体重をそのまま計算に用います。肥満・低体重・浮腫では適切な体重の選択が必要です。低筋肉量、高齢、急性腎障害などでは推定誤差が大きくなります。低Scrを自動的に1.0へ切り上げる処理は行いません。</p>
+    </div>
+    <div class="note">推定CCrはeGFR（mL/min/1.73 m²）と同じ値ではありません。抗癌剤などの腎機能別投与量は、製剤・レジメンの規定と施設基準を確認してください。</div>
+  </section>
+  <section id="bsa" class="panel" role="tabpanel" data-calc-panel hidden>
+    <h2>体表面積（BSA）</h2>
+    <p class="sub">Mosteller式。身長と実体重から計算します。</p>
+    <div class="field-grid">
+      <div class="field"><label for="bsaHeight">身長</label><div class="input-unit"><input class="calc-input" id="bsaHeight" type="number" inputmode="decimal" min="50" max="250" step="any" autocomplete="off" placeholder="例：170"><span>cm</span></div></div>
+      <div class="field"><label for="bsaWeight">体重</label><div class="input-unit"><input class="calc-input" id="bsaWeight" type="number" inputmode="decimal" min="1" max="500" step="any" autocomplete="off" placeholder="例：65"><span>kg</span></div></div>
+    </div>
+    <div class="result" aria-live="polite"><div class="result-label">体表面積</div><div id="bsaResult"></div></div>
+    <div class="actions"><button type="button" class="reset" data-reset="bsa">入力をクリア</button></div>
+    <div class="details">
+      <p><b>計算式：</b> BSA (m²) = √[身長(cm) × 体重(kg) ÷ 3600]</p>
+      <p>結果は小数第2位まで表示します。抗癌剤の投与量計算時は、指定レジメンのBSA算出法・小数処理・投与量上限を優先してください。</p>
+    </div>
+  </section>
+  <section id="child" class="panel" role="tabpanel" data-calc-panel hidden>
+    <h2>Child–Pughスコア</h2>
+    <p class="sub">肝予備能評価。5項目を各1〜3点で評価し、A/B/Cに分類します。</p>
+    <div class="field-grid">
+      <div class="field"><label for="cpBili">総ビリルビン</label><div class="input-unit"><input class="calc-input" id="cpBili" type="number" inputmode="decimal" min="0" max="100" step="any" autocomplete="off" placeholder="例：1.1"><span>mg/dL</span></div></div>
+      <div class="field"><label for="cpAlb">アルブミン</label><div class="input-unit"><input class="calc-input" id="cpAlb" type="number" inputmode="decimal" min="0.1" max="10" step="any" autocomplete="off" placeholder="例：3.7"><span>g/dL</span></div></div>
+      <div class="field full">
+        <div class="coag-row">
+          <div class="field"><label for="cpCoagMode">凝固能の指標</label><select id="cpCoagMode"><option value="pt">PT活性（%）</option><option value="inr">PT-INR</option></select></div>
+          <div class="field"><label id="cpCoagLabel" for="cpCoag">PT活性（%）</label><div class="input-unit"><input class="calc-input" id="cpCoag" type="number" inputmode="decimal" min="0" max="150" step="any" autocomplete="off" placeholder="例：92"><span id="cpCoagUnit">%</span></div></div>
+        </div>
+        <div class="field-help" id="coagCriteria">PT活性：&gt;70% = 1点、40–70% = 2点、&lt;40% = 3点</div>
+      </div>
+      <div class="field"><label for="cpAscites">腹水</label><select class="calc-input" id="cpAscites"><option value="">選択してください</option><option value="1">なし（1点）</option><option value="2">軽度・コントロール可能（2点）</option><option value="3">中等度以上・コントロール困難（3点）</option></select></div>
+      <div class="field"><label for="cpEnceph">肝性脳症</label><select class="calc-input" id="cpEnceph"><option value="">選択してください</option><option value="1">なし（1点）</option><option value="2">Grade I–II（2点）</option><option value="3">Grade III–IV（3点）</option></select></div>
+    </div>
+    <div class="result" aria-live="polite"><div class="result-label">Child–Pugh分類</div><div id="cpResult"></div></div>
+    <div id="cpDetails" aria-label="各項目の点数"></div>
+    <div class="actions"><button type="button" class="reset" data-reset="child">入力をクリア</button></div>
+    <div class="details">
+      <p><b>総ビリルビン：</b> &lt;2.0／2.0〜3.0／&gt;3.0 mg/dL → 1／2／3点</p>
+      <p><b>アルブミン：</b> &gt;3.5／2.8〜3.5／&lt;2.8 g/dL → 1／2／3点</p>
+      <p><b>PT活性：</b> &gt;70／40〜70／&lt;40% → 1／2／3点（INRの場合は &lt;1.7／1.7〜2.3／&gt;2.3）</p>
+      <p><b>区分：</b> Class A：5〜6点、B：7〜9点、C：10〜15点</p>
+    </div>
+    <div class="note">腹水・肝性脳症は臨床評価に基づき選択してください。PT活性とPT-INRはどちらか一方のみを使用します。肝癌照射可否はChild–Pughだけで決めず、非腫瘍肝の容積・DVH、ALBI、肝機能の推移なども考慮してください。</div>
+  </section>
+  <div class="sources">
+    <b>算出基準・参照先</b>
+    <a href="https://www.kidney.org/professionals/kdoqi/cockcroft-gault-equation-estimating-creatinine-clearance" target="_blank" rel="noopener noreferrer">National Kidney Foundation — Cockcroft–Gault式と限界</a>
+    <a href="https://www.eviq.org.au/clinical-resources/eviq-calculators/3198-body-surface-area-calculator" target="_blank" rel="noopener noreferrer">eviQ — 体表面積（Mosteller式）</a>
+    <a href="https://www.kanen.jihs.go.jp/sick/kinds/kankouhen.html" target="_blank" rel="noopener noreferrer">肝炎情報センター — Child–Pugh分類（PT活性%を含む）</a>
+    <a href="https://www.merckmanuals.com/professional/multimedia/table/child-turcotte-pugh-scoring-system" target="_blank" rel="noopener noreferrer">Merck Manual — Child–Pugh分類（PT-INR）</a>
+  </div>
+  <p class="privacy">計算値は臨床判断を支援する目安です。入力値・計算結果はローカルストレージへ記録せず、再表示時には空欄に戻ります。患者識別情報は入力しないでください。</p>
+</main>
+<script src="./clinical-calculators.js"></script>
+</body>
+</html>
