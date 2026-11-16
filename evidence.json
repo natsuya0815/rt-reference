@@ -1,5 +1,5 @@
 {
-  "version": "0.5.1",
+  "version": "0.5.2",
   "asof": "2026-11-16",
   "pathways": [
     {
@@ -321,7 +321,7 @@
       "dose": "45–50.4 Gy/25–28回",
       "fx": 28,
       "intent": "術前/TNT",
-      "target": "原発・間膜/mesorectum・仙骨前・内腸骨等。外腸骨・鼠径は進展様式で選択。",
+      "target": "GTVp：原発（壁外病変/EMVI含む）、GTVn：画像上転移LN。RCR方式：ICTVp_Boost＝GTVp_Boost＋10 mm（前方15 mmを考慮）、ICTVn_Boost＝GTVn_Boost＋5 mm。ICTV_High＝合成、ICTV_Final＝ICTVp＋ICTVn＋ICTV_Elec（直腸間膜/仙骨前/内腸骨/閉鎖）。毎回オンラインCBCTではPTV_High/Low＝各ICTV＋5 mmを参考。",
       "systemic": "術前CRT同時：カペシタビン825mg/m²/回BID相当（国内D法：BSA別900/1200/1500mg/回、5日投与2日休薬）または持続静注5-FU。TNT全身薬剤とは区別。",
       "adverse": "下痢、直腸炎、排尿症状、皮膚炎、血球減少",
       "care": "脱水、感染、腸閉塞の鑑別。下痢には支持療法・必要時治療休止判断。",
@@ -331,11 +331,13 @@
         "asco-rectal2024",
         "cape-jp-d",
         "cape-eviq",
-        "cape-rcr2021"
+        "cape-rcr2021",
+        "eviq-rectal-rt-v8",
+        "estro-rectal-imrt2026"
       ],
       "certainty": "高",
       "kind": "ガイドライン/原著",
-      "context": "例：骨盤45Gy/25回＋原発巣50Gy/25回SIB。小腸などOAR制約を確認。",
+      "context": "SIB 45 Gy/25回＋50 Gy/25回。eviQは別にCTV_boost→PTV＋10 mm方式。RCR方式との重複マージンを避ける。25回用OAR（小腸・膀胱・大腿骨・Bowel cavity）と臨床解説n053を参照。",
       "checked": "2026-11-16",
       "reviewDue": "2027-02-16",
       "history": [
@@ -348,6 +350,11 @@
           "date": "2026-11-16",
           "action": "カペシタビンD法情報追加",
           "note": "国内電子添文とeviQ/RCRの投与・照射情報を照合。"
+        },
+        {
+          "date": "2026-11-16",
+          "action": "SIB標的・OAR詳細追加",
+          "note": "RCR 2021とeviQ ID1863 v8を照合。25回SIBのOARを28回参考値と分離。Bowel cavity輪郭方式の違いを明記。"
         }
       ]
     },
@@ -1430,6 +1437,402 @@
       "checked": "2026-11-12",
       "reviewDue": "2026-12-12",
       "comment": "数値は原文で照合できるまで登録しない。"
+    },
+    {
+      "id": "o027",
+      "cancer": "rectal",
+      "organ": "小腸ループ（RCR）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "D180cc",
+      "limit": "＜35 Gy（目標）",
+      "definition": "RCR 2021 p13／個別小腸ループ（Bowel_Small）。両PTV上端から少なくとも20 mm頭側まで輪郭化。25回のLCRT用。Dxccは最も高線量を受けるx ccの線量を指す。",
+      "refs": [
+        "cape-rcr2021"
+      ],
+      "kind": "RCR：最適化目標",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": ""
+    },
+    {
+      "id": "o028",
+      "cancer": "rectal",
+      "organ": "小腸ループ（RCR）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "D100cc",
+      "limit": "＜40 Gy（目標）",
+      "definition": "RCR 2021 p13／個別小腸ループ（Bowel_Small）。両PTV上端から少なくとも20 mm頭側まで輪郭化。25回のLCRT用。Dxccは最も高線量を受けるx ccの線量を指す。",
+      "refs": [
+        "cape-rcr2021"
+      ],
+      "kind": "RCR：最適化目標",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": ""
+    },
+    {
+      "id": "o029",
+      "cancer": "rectal",
+      "organ": "小腸ループ（RCR）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "D65cc",
+      "limit": "＜45 Gy（目標）",
+      "definition": "RCR 2021 p13／個別小腸ループ（Bowel_Small）。両PTV上端から少なくとも20 mm頭側まで輪郭化。25回のLCRT用。Dxccは最も高線量を受けるx ccの線量を指す。",
+      "refs": [
+        "cape-rcr2021"
+      ],
+      "kind": "RCR：最適化目標",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": ""
+    },
+    {
+      "id": "o030",
+      "cancer": "rectal",
+      "organ": "小腸ループ（RCR）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "D0.5cc",
+      "limit": "＜52.5 Gy（目標・必須上限）",
+      "definition": "RCR 2021 p13／個別小腸ループ（Bowel_Small）。両PTV上端から少なくとも20 mm頭側まで輪郭化。25回のLCRT用。Dxccは最も高線量を受けるx ccの線量を指す。",
+      "refs": [
+        "cape-rcr2021"
+      ],
+      "kind": "RCR：必須上限",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": "PTVとの近接・重複を別途確認。RCRの数値をeviQのBowel cavityには適用しない。"
+    },
+    {
+      "id": "o031",
+      "cancer": "rectal",
+      "organ": "膀胱（RCR）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "D50%",
+      "limit": "＜35 Gy（目標）／＜45 Gy（必須）",
+      "definition": "RCR 2021 p13／膀胱全体を底部から頂部まで輪郭化。D50%などは臓器体積割合に対する線量。",
+      "refs": [
+        "cape-rcr2021"
+      ],
+      "kind": "RCR：目標＋必須",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": ""
+    },
+    {
+      "id": "o032",
+      "cancer": "rectal",
+      "organ": "膀胱（RCR）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "D35%",
+      "limit": "＜40 Gy（目標）／＜50 Gy（必須）",
+      "definition": "RCR 2021 p13／膀胱全体を底部から頂部まで輪郭化。D50%などは臓器体積割合に対する線量。",
+      "refs": [
+        "cape-rcr2021"
+      ],
+      "kind": "RCR：目標＋必須",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": ""
+    },
+    {
+      "id": "o033",
+      "cancer": "rectal",
+      "organ": "膀胱（RCR）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "D5%",
+      "limit": "＜50 Gy（目標）／＜52.5 Gy（必須）",
+      "definition": "RCR 2021 p13／膀胱全体を底部から頂部まで輪郭化。D50%などは臓器体積割合に対する線量。",
+      "refs": [
+        "cape-rcr2021"
+      ],
+      "kind": "RCR：目標＋必須",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": ""
+    },
+    {
+      "id": "o034",
+      "cancer": "rectal",
+      "organ": "左右大腿骨頭・近位大腿骨（RCR）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "D50%",
+      "limit": "＜30 Gy（目標）／＜45 Gy（必須）",
+      "definition": "RCR 2021 p13／左右それぞれの大腿骨頭～近位大腿骨（頭・頸・転子部を含む）を評価。",
+      "refs": [
+        "cape-rcr2021"
+      ],
+      "kind": "RCR：目標＋必須",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": ""
+    },
+    {
+      "id": "o035",
+      "cancer": "rectal",
+      "organ": "左右大腿骨頭・近位大腿骨（RCR）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "D35%",
+      "limit": "＜40 Gy（目標）／＜50 Gy（必須）",
+      "definition": "RCR 2021 p13／左右それぞれの大腿骨頭～近位大腿骨（頭・頸・転子部を含む）を評価。",
+      "refs": [
+        "cape-rcr2021"
+      ],
+      "kind": "RCR：目標＋必須",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": ""
+    },
+    {
+      "id": "o036",
+      "cancer": "rectal",
+      "organ": "左右大腿骨頭・近位大腿骨（RCR）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "D5%",
+      "limit": "＜50 Gy（目標）／＜52.5 Gy（必須）",
+      "definition": "RCR 2021 p13／左右それぞれの大腿骨頭～近位大腿骨（頭・頸・転子部を含む）を評価。",
+      "refs": [
+        "cape-rcr2021"
+      ],
+      "kind": "RCR：目標＋必須",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": ""
+    },
+    {
+      "id": "o037",
+      "cancer": "rectal",
+      "organ": "外陰部・外性器（RCR）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "D50%",
+      "limit": "＜20 Gy（目標）／＜35 Gy（必須）",
+      "definition": "RCR 2021 p13／外性器の描出。主として肛門浸潤など下部直腸癌で評価し、臨床的に不要なら必須の輪郭ではない。",
+      "refs": [
+        "cape-rcr2021"
+      ],
+      "kind": "RCR：目標＋必須",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": ""
+    },
+    {
+      "id": "o038",
+      "cancer": "rectal",
+      "organ": "外陰部・外性器（RCR）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "D35%",
+      "limit": "＜30 Gy（目標）／＜40 Gy（必須）",
+      "definition": "RCR 2021 p13／外性器の描出。主として肛門浸潤など下部直腸癌で評価し、臨床的に不要なら必須の輪郭ではない。",
+      "refs": [
+        "cape-rcr2021"
+      ],
+      "kind": "RCR：目標＋必須",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": ""
+    },
+    {
+      "id": "o039",
+      "cancer": "rectal",
+      "organ": "外陰部・外性器（RCR）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "D5%",
+      "limit": "＜40 Gy（目標）／＜52.5 Gy（必須）",
+      "definition": "RCR 2021 p13／外性器の描出。主として肛門浸潤など下部直腸癌で評価し、臨床的に不要なら必須の輪郭ではない。",
+      "refs": [
+        "cape-rcr2021"
+      ],
+      "kind": "RCR：目標＋必須",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": ""
+    },
+    {
+      "id": "o040",
+      "cancer": "rectal",
+      "organ": "Bowel cavity（RCR方式）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "D400cc",
+      "limit": "＜20 Gy（目標）",
+      "definition": "RCR 2021 Appendix 5／Bowel cavity（Spc_Bowel）は腸管が存在し得る腹腔内容空間。最尾側の小腸または大腸ループ（直腸除外）からPTV上端＋2 cmまで。CTV、筋・主要血管を除き、膀胱・子宮を差し引く。Small bowel loopsと別輪郭。",
+      "refs": [
+        "cape-rcr2021"
+      ],
+      "kind": "RCR：Bowel cavity代替プロトコール",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": ""
+    },
+    {
+      "id": "o041",
+      "cancer": "rectal",
+      "organ": "Bowel cavity（RCR方式）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "D250cc",
+      "limit": "＜30 Gy（目標）",
+      "definition": "RCR 2021 Appendix 5／Bowel cavity（Spc_Bowel）は腸管が存在し得る腹腔内容空間。最尾側の小腸または大腸ループ（直腸除外）からPTV上端＋2 cmまで。CTV、筋・主要血管を除き、膀胱・子宮を差し引く。Small bowel loopsと別輪郭。",
+      "refs": [
+        "cape-rcr2021"
+      ],
+      "kind": "RCR：Bowel cavity代替プロトコール",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": ""
+    },
+    {
+      "id": "o042",
+      "cancer": "rectal",
+      "organ": "Bowel cavity（RCR方式）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "D200cc",
+      "limit": "＜43 Gy（目標）／＜47.5 Gy（必須）",
+      "definition": "RCR 2021 Appendix 5／Bowel cavity（Spc_Bowel）は腸管が存在し得る腹腔内容空間。最尾側の小腸または大腸ループ（直腸除外）からPTV上端＋2 cmまで。CTV、筋・主要血管を除き、膀胱・子宮を差し引く。Small bowel loopsと別輪郭。",
+      "refs": [
+        "cape-rcr2021"
+      ],
+      "kind": "RCR：目標＋必須",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": "RCR Appendix 5 Leeds施設プロトコール由来。"
+    },
+    {
+      "id": "o043",
+      "cancer": "rectal",
+      "organ": "Bowel cavity（eviQ方式）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "V45 Gy",
+      "limit": "＜195 cc（可能な限り）",
+      "definition": "eviQ ID1863 v8／Bowel cavity：腹壁筋後面・椎体/仙骨を境界、最尾側小腸の1スライス下からPTV頭側＋1 cm。小腸・大腸と移動可能空間を含め、膀胱・前立腺・子宮・卵巣は除外。RCR方式（＋2 cm）とは輪郭が異なる。",
+      "refs": [
+        "eviq-rectal-rt-v8"
+      ],
+      "kind": "eviQ：最適化目標",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": "QUANTEC由来の参考値。小腸ループV15ccと混同しない。"
+    },
+    {
+      "id": "o044",
+      "cancer": "rectal",
+      "organ": "小腸ループ（eviQ方式）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "V15 Gy",
+      "limit": "＜120 cc（可能な限り）",
+      "definition": "eviQ ID1863 v8／個別小腸ループを最尾側からPTV上端＋1 cmまで描出。Bowel cavityの容積に代用不可。",
+      "refs": [
+        "eviq-rectal-rt-v8"
+      ],
+      "kind": "eviQ：最適化目標",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": ""
+    },
+    {
+      "id": "o045",
+      "cancer": "rectal",
+      "organ": "膀胱（eviQ）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "V40 Gy",
+      "limit": "＜40%（目標）",
+      "definition": "eviQ ID1863 v8／膀胱。高線量側はPTVと重なると達成困難な場合あり。",
+      "refs": [
+        "eviq-rectal-rt-v8"
+      ],
+      "kind": "eviQ：最適化目標",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": ""
+    },
+    {
+      "id": "o046",
+      "cancer": "rectal",
+      "organ": "膀胱（eviQ）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "V45 Gy",
+      "limit": "＜15%（目標）",
+      "definition": "eviQ ID1863 v8／膀胱。",
+      "refs": [
+        "eviq-rectal-rt-v8"
+      ],
+      "kind": "eviQ：最適化目標",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": ""
+    },
+    {
+      "id": "o047",
+      "cancer": "rectal",
+      "organ": "大腿骨頭・頸部（eviQ）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "V40 Gy",
+      "limit": "＜40%（目標）",
+      "definition": "eviQ ID1863 v8／左右大腿骨頭・頸部を評価。",
+      "refs": [
+        "eviq-rectal-rt-v8"
+      ],
+      "kind": "eviQ：最適化目標",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": ""
+    },
+    {
+      "id": "o048",
+      "cancer": "rectal",
+      "organ": "大腿骨頭・頸部（eviQ）",
+      "intent": "術前CRT・45Gy/25＋50Gy/25 SIB",
+      "fx": 25,
+      "metric": "V45 Gy",
+      "limit": "＜25%（目標）",
+      "definition": "eviQ ID1863 v8／左右大腿骨頭・頸部を評価。",
+      "refs": [
+        "eviq-rectal-rt-v8"
+      ],
+      "kind": "eviQ：最適化目標",
+      "certainty": "原典照合済（患者適応・輪郭要確認）",
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16",
+      "comment": ""
     }
   ],
   "differences": [
