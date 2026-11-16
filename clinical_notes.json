@@ -1,6 +1,6 @@
 {
-  "version": "0.5.1",
-  "count": 51,
+  "version": "0.5.2",
+  "count": 52,
   "clinicalNotes": [
     {
       "id": "n001",
@@ -2584,6 +2584,142 @@
             "添付文書の承認文言は「直腸癌における補助化学療法で放射線照射と併用する場合のD法」。術前CRTの院内適用・休薬・減量・休日対応は薬剤部承認レジメンで確認する。公開アプリに患者識別情報は登録しない。"
           ],
           "bullets": []
+        }
+      ],
+      "checked": "2026-11-16",
+      "reviewDue": "2027-02-16"
+    },
+    {
+      "id": "n053",
+      "cancer": "rectal",
+      "section": "regimens",
+      "title": "直腸癌術前CRT：45 Gy/25回＋50 Gy/25回SIBのGTV・CTV・PTVとOAR制約",
+      "summary": "RCR 2021とeviQ ID1863 v8に基づく、原発巣・転移リンパ節SIBの輪郭（GTV/ICTV/PTV）と小腸・Bowel cavity・膀胱・大腿骨頭等のDVH目標。25回法専用に整理。",
+      "points": [
+        "PTV_Low：骨盤予防照射45 Gy/25回（1.8 Gy/fr）、PTV_High：原発巣・選択した転移LN 50 Gy/25回（2.0 Gy/fr）をSIBで同時照射。",
+        "RCR：GTVpは原発巣と画像上のEMVI、GTVnは肉眼的転移LN。Boost対象をGTVp_Boost/GTVn_Boostとして区別。",
+        "RCR：ICTVp_Boost=GTVp_Boost＋10 mm（前方移動が大きい病変は前方15 mm考慮）、ICTVn_Boost=GTVn_Boost＋5 mm。",
+        "RCR：ICTV_Final=原発巣・転移LNのICTV＋予防領域ICTV_Elec。毎回オンラインCBCTならPTV_High/Low=それぞれICTV＋5 mm、そうでなければ＋10 mmを参考。",
+        "小腸ループとBowel cavityは異なるOAR。RCR方式はPTV頭側＋2 cm、eviQ方式は＋1 cmまでBowel cavityを輪郭化。適用する制約を対応させる。",
+        "RCR小腸ループ：D180cc＜35、D100cc＜40、D65cc＜45、D0.5cc＜52.5 Gy（最後は必須上限）。",
+        "eviQ：Bowel cavity V45 Gy＜195 cc、小腸ループ V15 Gy＜120 cc（いずれも可能な限り）。"
+      ],
+      "refs": [
+        "cape-rcr2021",
+        "eviq-rectal-rt-v8",
+        "estro-rectal-imrt2026",
+        "astro-rectal2025"
+      ],
+      "kind": "臨床実装向け輪郭・DVH参照／RCR＋eviQ＋ESTRO",
+      "month": "2026-11",
+      "keywords": [
+        "直腸癌",
+        "GTV",
+        "GTVp",
+        "GTVn",
+        "CTV",
+        "ICTV",
+        "PTV",
+        "SIB",
+        "45Gy",
+        "50Gy",
+        "25fr",
+        "OAR",
+        "小腸ループ",
+        "Bowel cavity",
+        "Bowel bag",
+        "Spc_Bowel",
+        "D180cc",
+        "V45Gy",
+        "VMAT"
+      ],
+      "caution": "RCRとeviQの輪郭・マージン定義を混用しない。OARは輪郭定義・fxに一致する数値のみ適用。目標と必須制約を区別。患者条件・施設IGRT精度・MRI病期・毒性リスクを確認。",
+      "strength": "RCR 2021の表・eviQ ID1863 v8の原文数値を照合",
+      "details": [
+        {
+          "heading": "線量処方・治療計画前提",
+          "paragraphs": [
+            "術前LC-CRTのIMRT/VMAT SIB：予防的骨盤PTV_Low 45 Gy/25 fr（1.8 Gy/fr）、原発巣・選択した転移リンパ節PTV_High 50 Gy/25 fr（2 Gy/fr）。標的の線量カバーを重視し、特に小腸の高線量を抑制する。"
+          ],
+          "bullets": [
+            "RCRはICRU 83のPTV D50%への処方を使用。SIBの主処方はboost側。",
+            "50 Gyを超える増量は臓器温存など選択された状況に限定して検討。"
+          ]
+        },
+        {
+          "heading": "GTV：原発巣と転移リンパ節",
+          "paragraphs": [
+            "GTVp：MRI・CT・内視鏡で同定した肉眼的直腸原発巣、壁外病変・画像上のEMVIを含める。腫瘍と正常内腔を区別できる場合、ガス・便・正常内腔は含めない。境界が不確実なら直腸全周を含む場合もある。",
+            "GTVn：画像上転移と判断するリンパ節。すべてを50 Gyに一律boostするのではなく、治療戦略に基づきGTVn_Boostを定義する。原発巣のboost対象もGTVp_Boostとして区別する。"
+          ],
+          "bullets": [
+            "骨盤MRIと計画CTを照合し、部位・壁外浸潤・CRM・EMVI・側方LN・TNT前の病変範囲を確認。"
+          ]
+        },
+        {
+          "heading": "RCR方式：ICTVの定義",
+          "paragraphs": [
+            "ICTVp_Boost＝GTVp_Boost＋10 mm全方向。上部直腸など前方移動の大きい病変では前方15 mmを考慮。ICTVn_Boost＝GTVn_Boost＋5 mm全方向。ICTV_High＝これらの合成。",
+            "予防領域 ICTV_Elecは直腸間膜（mesorectum）、仙骨前（presacral）、内腸骨（internal iliac）、閉鎖（obturator）を基本に、画像上転移のある全コンパートメントを含む。ICTV_Final＝ICTVp＋ICTVn＋ICTV_Elec（術前の通常例）。"
+          ],
+          "bullets": [
+            "ICTV_Elecの頭側は原則S1/S2境界または最頭側病変より2 cm頭側の高い方。術前化学療法で縮小したLNがあれば治療前のコンパートメントもカバー。",
+            "直腸間膜の前方に約10 mmの内部移動マージン。尾側は直腸間膜/挙筋付着と原発巣下端＋2 cmを考慮。",
+            "膀胱・前立腺・精嚢・腟浸潤や特殊リンパ節転移がある場合、外腸骨・鼠径などの照射をMDTで検討。骨・筋への機械的拡大は解剖学的にトリミング（浸潤部を除外しない）。"
+          ]
+        },
+        {
+          "heading": "PTV：IGRT方式によるマージンの違い",
+          "paragraphs": [
+            "RCR：毎回オンライン容積画像照合（CBCT）ではPTV_High＝ICTV_High＋5 mm、PTV_Low＝ICTV_Final＋5 mm。毎回オンライン照合がない場合はそれぞれ＋10 mm。施設のセットアップ誤差・輪郭誤差・臓器移動と適合することが前提。",
+            "eviQ方式はCTV_boost＝GTV＋頭尾側10 mmと同断面の直腸間膜・仙骨前領域、CTV_elective＝CTV_boost＋直腸間膜・仙骨前・内腸骨・閉鎖。PTV＝CTV＋10 mmを基本とし、施設のセットアップ実測で縮小可能。RCR方式とeviQ方式の各工程を重複して付加しない。"
+          ],
+          "bullets": [
+            "CBCTでは骨照合だけでなく軟部組織・直腸ガス・膀胱充満・腫瘍とLNの独立した移動を確認。"
+          ]
+        },
+        {
+          "heading": "OAR（RCR 2021）：小腸ループ",
+          "paragraphs": [
+            "RCR p13、個別小腸ループ（PTV頭側少なくとも20 mmまで）の制約：D180cc＜35 Gy、D100cc＜40 Gy、D65cc＜45 Gyが最適化目標。D0.5cc＜52.5 Gyは目標かつ必須上限。Dxccは線量の高い方からxccの体積に対する線量。"
+          ],
+          "bullets": [
+            "個別ループを描出する方式とBowel cavity方式では同じDVH指標を流用できない。",
+            "eviQは別に小腸ループV15 Gy＜120 cc（可能な限り）を示す。"
+          ]
+        },
+        {
+          "heading": "OAR（RCR 2021）：膀胱・大腿骨頭・外性器",
+          "paragraphs": [
+            "膀胱：D50%＜35 Gy（必須＜45 Gy）、D35%＜40 Gy（必須＜50 Gy）、D5%＜50 Gy（必須＜52.5 Gy）。",
+            "左右大腿骨頭・近位大腿骨：D50%＜30 Gy（必須＜45 Gy）、D35%＜40 Gy（必須＜50 Gy）、D5%＜50 Gy（必須＜52.5 Gy）。",
+            "外性器：D50%＜20 Gy（必須＜35 Gy）、D35%＜30 Gy（必須＜40 Gy）、D5%＜40 Gy（必須＜52.5 Gy）。主として下部病変などに適用。"
+          ],
+          "bullets": [
+            "eviQの参考目標：膀胱V40＜40%、V45＜15%；大腿骨頭・頸部V40＜40%、V45＜25%。PTVとの重なりで達成不可能な場合は優先順位・線量低減を検討。"
+          ]
+        },
+        {
+          "heading": "Bowel cavity：腸管移動を含む潜在的存在空間",
+          "paragraphs": [
+            "Bowel cavity（Bowel bag、Spc_Bowel）は腸管そのものではなく、治療期間中に小腸や大腸が移動し得る腹腔・骨盤内の空間をまとめたOAR。個別小腸ループとは別の構造である。",
+            "RCR Appendix 5：最尾側の小腸または大腸ループ（直腸は除く）からPTV頭側＋2 cmまで腹腔内容を輪郭化。CTV、筋、主要血管、膀胱・子宮などを除外。RCRの代替制約はD400cc＜20 Gy、D250cc＜30 Gy、D200cc＜43 Gy（必須＜47.5 Gy）。",
+            "eviQ：前・側方は腹壁筋後面、後方は椎体・仙骨等、尾側は最尾側の小腸より1スライス下、頭側はPTV＋1 cm。小腸・大腸を含む可能空間を取り、膀胱・前立腺・卵巣・子宮は除外。V45 Gy＜195 cc（可能な限り）を最適化目標とする。"
+          ],
+          "bullets": [
+            "RCRは直腸癌で個別小腸ループを優先し、Bowel cavityを代替選択肢として記載。両方描出する場合も、制約の適用にあたって輪郭定義と引用元を一致させる。",
+            "RCR方式の＋2 cmとeviQ方式の＋1 cmは同一の輪郭ではないため、DVHを無批判に比較しない。"
+          ]
+        },
+        {
+          "heading": "RCR PTV評価・計画優先順位",
+          "paragraphs": [
+            "PTV_High：D99%＞90%、D95%＞95%、D50%＝100%±2%、D2%＜105%。PTV_Low：D99%＞90%、D95%＞95%、D50%＝100%±2%。PTV_LowからPTV_High＋5 mmを除外した領域のV107%＜15%。すべて各処方線量の％に対する目標。",
+            "RCRの最適化優先順位はPTV_Low、PTV_High、小腸、膀胱、大腿骨頭、外性器。腫瘍のカバーとOAR危険度は実際の重複・有害事象リスクに応じて臨床判断する。"
+          ],
+          "bullets": [
+            "骨盤骨髄のV10/V20は本処方のRCR必須制約として規定されていないため、施設独自基準や試験値を無条件で追加しない。"
+          ]
         }
       ],
       "checked": "2026-11-16",
