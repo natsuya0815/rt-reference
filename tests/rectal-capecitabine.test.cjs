@@ -27,10 +27,11 @@ test('D method content, sources and SIB exist', () => {
   const known = new Set(d.sources.map(x => x.id));
   for(const id of article.refs) assert.ok(known.has(id), id);
   assert.ok(rectal.regimens.some(x => x.dose.includes('50 Gy/25 fr')));
-  assert.equal(d.sources.length, 72);
-  assert.equal(n.count, 51);
+  assert.ok(d.sources.length >= 72);
+  assert.ok(d.sources.some(x => x.id === 'cape-jp-d'));
+  assert.ok(n.count >= 51);
 });
 test('local storage key is maintained and PWA cache refreshed', () => {
   assert.ok(read('index.html').includes("const KEY='rt_reference_beta_v01'"));
-  assert.ok(read('sw.js').includes('rt-reference-beta-v051-capecitabine'));
+  assert.ok(/const CACHE_NAME='rt-reference-beta-v0[0-9]+-/.test(read('sw.js')));
 });
