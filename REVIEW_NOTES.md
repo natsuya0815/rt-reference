@@ -149,3 +149,11 @@
 - 医師の見直し・追記事項はブラウザ端末側に保存。公開リポジトリへ同期しない。
 - 重点的に再確認すべき領域：HCC 15分割での正常肝制約（Child-Pugh別）、脳幹/視神経の5分割制約、PMRT 16回法の心肺DVH、膠芽腫と髄膜腫の近接神経OAR。
 - 今回の明示的なソースにはJASTRO 2024、JSH HCC 2025、EASL 2025、ASTRO 2026 prostate、ASTRO 2025 rectal、ASTRO 2025 PMRT、ASTRO 2025 grade-4 glioma、RT CHARM 2026、PACIFIC 5年成績、NRG RTOG 0539の2026年長期成績、QUANTECなどを使用。
+
+---
+## v0.5.2：直腸癌術前45/25＋50/25 SIB 輪郭・OAR（2026-11-16）
+
+- 新規臨床記事：n053「GTV・CTV・PTVとOAR制約」。RCRのICTV方式（原発＋10mm、LN＋5mm、PTV＋5mm/10mm）とeviQのCTV＋10mm方式を区別。
+- 25回SIB用OARを22件追加。RCR小腸ループD180cc/D100cc/D65cc/D0.5cc、膀胱・大腿骨頭・外性器、Bowel cavity（RCR Dcc方式・eviQ V45）の詳細を収載。
+- 個別小腸ループとBowel cavityを別構造として検索可能にし、RCR＋2cmとeviQ＋1cmの輪郭差を明示。
+- 28回OAR参考値は変更せず。臨床の採用前に放射線治療医・医学物理士が標的とDVHを症例別に評価。
