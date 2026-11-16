@@ -1,0 +1,33 @@
+// Run: node tests/clinical-calculators.test.js
+'use strict';
+const assert=require('node:assert/strict');
+const {calcCcr,calcBsa,calcChild}=require('../clinical-calculators.js');
+function approx(a,b){assert.ok(Math.abs(a-b)<1e-8,'expected '+a+' to equal '+b);}
+approx(calcCcr(60,70,1,'male'),5600/72);
+approx(calcCcr(60,70,1,'female'),5600/72*0.85);
+approx(calcCcr(70,65,1.2,'male'),(140-70)*65/(72*1.2));
+assert.equal(calcCcr(60,70,0,'male'),null,'zero Scr rejected');
+assert.equal(calcCcr(17,70,1,'male'),null,'pediatric age rejected');
+assert.equal(calcCcr(60,70,1,''),null,'sex required');
+approx(calcBsa(170,70),Math.sqrt(170*70/3600));
+assert.equal(calcBsa(0,70),null);
+assert.equal(calcBsa(170,-70),null);
+const a=calcChild(1.1,4.4,92,'pt',1,1);
+assert.deepEqual([a.total,a.className],[5,'A']);
+const b=calcChild(2.5,3.0,55,'pt',1,1);
+assert.deepEqual([b.total,b.className],[8,'B']);
+const c=calcChild(4,2.5,30,'pt',3,3);
+assert.deepEqual([c.total,c.className],[15,'C']);
+assert.deepEqual([calcChild(2,3.5,70,'pt',1,1).total,calcChild(3,2.8,40,'pt',1,1).total],[8,8],'boundaries bilirubin albumin PT');
+assert.equal(calcChild(1,4,1.69,'inr',1,1).total,5);
+assert.equal(calcChild(1,4,1.7,'inr',1,1).total,6);
+assert.equal(calcChild(1,4,2.3,'inr',1,1).total,6);
+assert.equal(calcChild(1,4,2.31,'inr',1,1).total,7);
+assert.equal(calcChild(1,4,70.1,'pt',1,1).total,5);
+assert.equal(calcChild(1,4,70,'pt',1,1).total,6);
+assert.equal(calcChild(1,4,39.9,'pt',1,1).total,7);
+assert.equal(calcChild(1,4,92,'pt',null,1),null,'ascites must be explicitly selected');
+assert.equal(calcChild(1,4,92,'pt',1,null),null,'encephalopathy must be explicitly selected');
+assert.equal(calcChild(1,4,null,'pt',1,1),null);
+assert.equal(calcChild(1,4,92,'invalid',1,1),null);
+console.log('Clinical calculator tests passed');
