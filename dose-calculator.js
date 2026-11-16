@@ -89,7 +89,8 @@ var states={
 };
 function byId(id){return document.getElementById(id);}
 function fmt(value,key){
-  if(!positive(value))return '';
+  if(typeof value!=='number'||!Number.isFinite(value))return '';
+  if(value===0)return '0';
   if(key==='n'&&isIntegerLike(value))return String(Math.round(value));
   if(value<0.001||value>=1000000)return value.toPrecision(6);
   return String(Number(value.toFixed(key==='n'?4:3)));
