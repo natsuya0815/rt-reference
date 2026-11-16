@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="RT Reference">
+<meta name="theme-color" content="#102d46">
+<title>線量・BED・EQD2計算 | RT Reference β</title>
+<style>
+:root{--navy:#102d46;--teal:#087b77;--teal-light:#e9f6f3;--bg:#f5f7fa;--surface:#fff;--surface2:#f7f9fb;--stroke:#dae3eb;--ink:#1a3042;--muted:#64798a;--warn:#9c5b21;--warn-bg:#fff8ee}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",Meiryo,sans-serif}
+a{color:var(--teal);text-decoration:none}a:hover{text-decoration:underline}button,input{font:inherit}button{cursor:pointer}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #4bb9b0;outline-offset:2px}
+.topbar{background:#102d46;color:#fff;padding:14px clamp(16px,4vw,45px);display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brand{font-weight:850;letter-spacing:-.3px}.brand small{display:block;font-size:10px;color:#b6cbd6;font-weight:500;letter-spacing:.5px}
+.back{border:1px solid #7096a7;color:#e1f6f2;padding:8px 13px;border-radius:10px;font-size:12px;white-space:nowrap}
+main{max-width:1420px;margin:0 auto;padding:27px clamp(14px,2.5vw,35px) 80px}
+.eyebrow{color:var(--teal);text-transform:uppercase;font-weight:850;letter-spacing:1px;font-size:11px}
+h1{font-size:clamp(25px,3vw,35px);line-height:1.3;margin:7px 0 9px;color:var(--navy)}
+.intro{max-width:850px;color:var(--muted);font-size:13px;margin:0 0 22px}
+.settings{border:1px solid var(--stroke);background:var(--surface);border-radius:15px;padding:17px 22px;margin:16px 0 20px}
+.settings-title{font-weight:850;font-size:15px;color:var(--navy);margin:0 0 8px}
+.settings-help{font-size:12px;color:var(--muted);margin:0 0 14px}
+.alpha-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:650px}
+.alpha-field{display:flex;flex-direction:column;gap:5px}
+.alpha-field label{font-size:12px;font-weight:800}
+.unit-input{position:relative;max-width:290px}
+.unit-input input{width:100%;height:43px;background:var(--surface2);border:1px solid var(--stroke);border-radius:10px;color:var(--ink);padding:8px 44px 8px 13px;font-variant-numeric:tabular-nums}
+.unit-input span{position:absolute;right:13px;top:10px;color:var(--muted);font-size:12px}
+.plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+.plan-card{border:1px solid var(--stroke);border-radius:16px;background:var(--surface);padding:19px 21px 16px;min-width:0;box-shadow:0 2px 8px #193a4c0e}
+.plan-head{display:flex;justify-content:space-between;align-items:center;gap:9px}
+.plan-head h2{font-size:21px;color:var(--navy);margin:3px 0}
+.reset,.secondary{color:var(--ink);border:1px solid var(--stroke);background:var(--surface2);padding:7px 12px;border-radius:9px;font-size:12px;font-weight:750}
+.reset:hover,.secondary:hover{border-color:var(--teal);color:var(--teal)}
+.plan-help{font-size:11px;color:var(--muted);margin:7px 0 14px}
+.dose-table{display:grid;gap:7px}
+.dose-row{display:grid;grid-template-columns:minmax(120px,1fr) minmax(105px,170px) 45px;align-items:center;gap:8px;min-width:0}
+.dose-row label{font-size:12px;font-weight:700;line-height:1.3}
+.dose-entry{position:relative;min-width:0}
+.dose-entry input{width:100%;height:44px;min-width:0;background:var(--surface2);color:var(--ink);border:1px solid var(--stroke);border-radius:9px;padding:7px 29px 7px 10px;text-align:right;font-size:17px;font-weight:750;font-variant-numeric:tabular-nums}
+.dose-entry input.is-driver{border-color:var(--teal);background:var(--teal-light)}
+.dose-entry input:focus{border-color:var(--teal)}
+.dose-entry .unit{position:absolute;right:6px;top:13px;font-size:10px;color:var(--muted);pointer-events:none}
+.marker{font-size:10px;color:var(--muted);text-align:center;white-space:nowrap}
+.marker.active{font-weight:850;color:var(--teal)}
+.section-heading{font-size:11px;font-weight:850;color:var(--teal);border-top:1px solid var(--stroke);margin-top:8px;padding-top:11px}
+.driver-summary{font-size:11px;line-height:1.6;color:var(--teal);margin-top:13px;padding:7px 11px;background:var(--teal-light);border-radius:9px;min-height:33px}
+.plan-notice{font-size:12px;margin:8px 0 0;min-height:0;line-height:1.7}
+.plan-notice.warning{color:var(--warn);padding:8px 10px;background:var(--warn-bg);border:1px solid #f0d9b4;border-radius:9px}
+.plan-notice:empty{display:none}
+.plan-actions{display:flex;justify-content:flex-end;margin-top:13px}
+.compare-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:25px 0 10px;flex-wrap:wrap}
+.compare-head h2{margin:0;color:var(--navy);font-size:20px}
+.primary{background:var(--teal);color:#fff;border:0;border-radius:10px;padding:9px 13px;font-weight:800;font-size:12px}
+.primary:hover{filter:brightness(.9)}
+.compare{background:var(--surface);border:1px solid var(--stroke);border-radius:15px;padding:16px 20px}
+.compare p{color:var(--muted);font-size:12px;margin:0 0 10px}
+.table-scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:465px;font-variant-numeric:tabular-nums}
+th,td{padding:8px 10px;border-bottom:1px solid var(--stroke);text-align:right;font-size:12px}
+thead th{background:var(--surface2);font-size:11px;font-weight:800}
+th:first-child{text-align:left}tbody th{font-weight:750}
+.explanation{margin-top:20px;background:var(--surface);border:1px solid var(--stroke);border-radius:15px;padding:19px 22px;font-size:12px;line-height:1.9}
+.explanation h2{margin:0 0 6px;font-size:16px;color:var(--navy)}
+.math{font-size:14px;font-weight:750;color:var(--teal)}
+.caution{margin:12px 0 0;padding:11px 13px;background:var(--warn-bg);color:var(--warn);border:1px solid #edd6ae;border-radius:9px}
+.references{border-top:1px solid var(--stroke);padding-top:8px;margin-top:15px;color:var(--muted);font-size:11px}
+.references a{overflow-wrap:anywhere}
+.privacy{font-size:11px;color:var(--muted);margin-top:14px}
+body.dark{--navy:#c8dee9;--teal:#62d1c2;--teal-light:#143f43;--bg:#0e1d2b;--surface:#172838;--surface2:#213345;--stroke:#314a5c;--ink:#e2edf5;--muted:#a6bbcb;--warn:#f2c489;--warn-bg:#392d22}
+body.dark .topbar{background:#102638}
+@media(max-width:1050px){.plans{grid-template-columns:1fr}.plan-card{max-width:800px}.compare{max-width:800px}}
+@media(max-width:610px){main{padding:20px 12px 60px}.settings{padding:15px}.plan-card{padding:16px 12px}.dose-row{grid-template-columns:minmax(112px,1fr) minmax(100px,160px) 37px;gap:5px}.dose-row label{font-size:11px}.marker{font-size:9px}.dose-entry input{font-size:16px}.alpha-row{gap:12px}.alpha-field label{font-size:11px}.compare{padding:12px}.back{font-size:11px}}
+@media print{.topbar,.reset,.plan-actions,.primary,.privacy{display:none!important}body{background:#fff;color:#000}.plans{grid-template-columns:1fr}.plan-card,.compare,.settings{break-inside:avoid;box-shadow:none}main{padding:0}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="brand">RT Reference β<small>RADIATION BIOLOGY · DOSE CALCULATOR</small></div><a class="back" href="./index.html">← リファレンスへ戻る</a></header>
+<main>
+<div class="eyebrow">INTERACTIVE DOSE CONVERSION / BETA</div>
+<h1>線量・BED・EQD2計算</h1>
+<p class="intro">2つの治療条件を並列比較。各条件の<strong>任意の2項目</strong>を入力すると、残りの項目を即時に計算します。計算済みの数値を直接書き換えると、その値を新たな入力条件として逆算します。</p>
+<section class="settings" aria-label="共通αβ設定">
+<p class="settings-title">α/β値（治療条件A・Bで共通）</p>
+<p class="settings-help">初期値は遅発性3 Gy・急性10 Gy。<b>どちらも任意の正の数値に変更可能</b>です。</p>
+<div class="alpha-row">
+<div class="alpha-field"><label for="abLate">遅発性障害・Late（α/β）</label><div class="unit-input"><input id="abLate" value="3" type="text" inputmode="decimal" autocomplete="off" aria-label="遅発性障害のαβ値"><span>Gy</span></div></div>
+<div class="alpha-field"><label for="abAcute">急性障害・Early（α/β）</label><div class="unit-input"><input id="abAcute" value="10" type="text" inputmode="decimal" autocomplete="off" aria-label="急性障害のαβ値"><span>Gy</span></div></div>
+</div>
+</section>
+<div class="plans">
+<section class="plan-card" id="planA" aria-labelledby="planTitleA">
+<div class="plan-head"><div><div class="eyebrow">RADIATION SCHEDULE A</div><h2 id="planTitleA">治療条件 A</h2></div><button type="button" class="reset" data-reset-plan="A">クリア</button></div>
+<p class="plan-help">任意の2項目を入力・変更できます。<b>「入力」</b>の表示が付いた値を固定し、他を逆算します。</p>
+<div class="dose-table" role="group" aria-label="治療条件Aの計算入力">
+
+<div class="dose-row"><label for="inputA_d">1回線量（d）</label><div class="dose-entry"><input id="inputA_d" data-plan="A" data-field="d" inputmode="decimal" type="text" autocomplete="off" spellcheck="false" placeholder="—" aria-label="1回線量（d）・入力または計算"><span class="unit">Gy</span></div><span class="marker" data-marker="d">入力可</span></div>
+<div class="dose-row"><label for="inputA_n">分割回数（n）</label><div class="dose-entry"><input id="inputA_n" data-plan="A" data-field="n" inputmode="decimal" type="text" autocomplete="off" spellcheck="false" placeholder="—" aria-label="分割回数（n）・入力または計算"><span class="unit">回</span></div><span class="marker" data-marker="n">入力可</span></div>
+<div class="dose-row"><label for="inputA_total">総線量（D）</label><div class="dose-entry"><input id="inputA_total" data-plan="A" data-field="total" inputmode="decimal" type="text" autocomplete="off" spellcheck="false" placeholder="—" aria-label="総線量（D）・入力または計算"><span class="unit">Gy</span></div><span class="marker" data-marker="total">入力可</span></div><div class="section-heading">遅発性障害（Late）</div>
+<div class="dose-row"><label for="inputA_bedLate">BED（遅発性）</label><div class="dose-entry"><input id="inputA_bedLate" data-plan="A" data-field="bedLate" inputmode="decimal" type="text" autocomplete="off" spellcheck="false" placeholder="—" aria-label="BED（遅発性）・入力または計算"><span class="unit">Gy</span></div><span class="marker" data-marker="bedLate">入力可</span></div>
+<div class="dose-row"><label for="inputA_eqd2Late">EQD2（遅発性）</label><div class="dose-entry"><input id="inputA_eqd2Late" data-plan="A" data-field="eqd2Late" inputmode="decimal" type="text" autocomplete="off" spellcheck="false" placeholder="—" aria-label="EQD2（遅発性）・入力または計算"><span class="unit">Gy</span></div><span class="marker" data-marker="eqd2Late">入力可</span></div><div class="section-heading">急性障害（Early）</div>
+<div class="dose-row"><label for="inputA_bedAcute">BED（急性）</label><div class="dose-entry"><input id="inputA_bedAcute" data-plan="A" data-field="bedAcute" inputmode="decimal" type="text" autocomplete="off" spellcheck="false" placeholder="—" aria-label="BED（急性）・入力または計算"><span class="unit">Gy</span></div><span class="marker" data-marker="bedAcute">入力可</span></div>
+<div class="dose-row"><label for="inputA_eqd2Acute">EQD2（急性）</label><div class="dose-entry"><input id="inputA_eqd2Acute" data-plan="A" data-field="eqd2Acute" inputmode="decimal" type="text" autocomplete="off" spellcheck="false" placeholder="—" aria-label="EQD2（急性）・入力または計算"><span class="unit">Gy</span></div><span class="marker" data-marker="eqd2Acute">入力可</span></div>
+</div>
+<div class="driver-summary" id="driversA">編集した2項目を計算条件にします。</div>
+<p class="plan-notice" id="planNoticeA" role="status" aria-live="polite"></p>
+<div class="plan-actions"><button type="button" class="secondary" data-example-plan="A">4 Gy × 5回を入力</button></div>
+</section>
+<section class="plan-card" id="planB" aria-labelledby="planTitleB">
+<div class="plan-head"><div><div class="eyebrow">RADIATION SCHEDULE B</div><h2 id="planTitleB">治療条件 B</h2></div><button type="button" class="reset" data-reset-plan="B">クリア</button></div>
+<p class="plan-help">任意の2項目を入力・変更できます。<b>「入力」</b>の表示が付いた値を固定し、他を逆算します。</p>
+<div class="dose-table" role="group" aria-label="治療条件Bの計算入力">
+
+<div class="dose-row"><label for="inputB_d">1回線量（d）</label><div class="dose-entry"><input id="inputB_d" data-plan="B" data-field="d" inputmode="decimal" type="text" autocomplete="off" spellcheck="false" placeholder="—" aria-label="1回線量（d）・入力または計算"><span class="unit">Gy</span></div><span class="marker" data-marker="d">入力可</span></div>
+<div class="dose-row"><label for="inputB_n">分割回数（n）</label><div class="dose-entry"><input id="inputB_n" data-plan="B" data-field="n" inputmode="decimal" type="text" autocomplete="off" spellcheck="false" placeholder="—" aria-label="分割回数（n）・入力または計算"><span class="unit">回</span></div><span class="marker" data-marker="n">入力可</span></div>
+<div class="dose-row"><label for="inputB_total">総線量（D）</label><div class="dose-entry"><input id="inputB_total" data-plan="B" data-field="total" inputmode="decimal" type="text" autocomplete="off" spellcheck="false" placeholder="—" aria-label="総線量（D）・入力または計算"><span class="unit">Gy</span></div><span class="marker" data-marker="total">入力可</span></div><div class="section-heading">遅発性障害（Late）</div>
+<div class="dose-row"><label for="inputB_bedLate">BED（遅発性）</label><div class="dose-entry"><input id="inputB_bedLate" data-plan="B" data-field="bedLate" inputmode="decimal" type="text" autocomplete="off" spellcheck="false" placeholder="—" aria-label="BED（遅発性）・入力または計算"><span class="unit">Gy</span></div><span class="marker" data-marker="bedLate">入力可</span></div>
+<div class="dose-row"><label for="inputB_eqd2Late">EQD2（遅発性）</label><div class="dose-entry"><input id="inputB_eqd2Late" data-plan="B" data-field="eqd2Late" inputmode="decimal" type="text" autocomplete="off" spellcheck="false" placeholder="—" aria-label="EQD2（遅発性）・入力または計算"><span class="unit">Gy</span></div><span class="marker" data-marker="eqd2Late">入力可</span></div><div class="section-heading">急性障害（Early）</div>
+<div class="dose-row"><label for="inputB_bedAcute">BED（急性）</label><div class="dose-entry"><input id="inputB_bedAcute" data-plan="B" data-field="bedAcute" inputmode="decimal" type="text" autocomplete="off" spellcheck="false" placeholder="—" aria-label="BED（急性）・入力または計算"><span class="unit">Gy</span></div><span class="marker" data-marker="bedAcute">入力可</span></div>
+<div class="dose-row"><label for="inputB_eqd2Acute">EQD2（急性）</label><div class="dose-entry"><input id="inputB_eqd2Acute" data-plan="B" data-field="eqd2Acute" inputmode="decimal" type="text" autocomplete="off" spellcheck="false" placeholder="—" aria-label="EQD2（急性）・入力または計算"><span class="unit">Gy</span></div><span class="marker" data-marker="eqd2Acute">入力可</span></div>
+</div>
+<div class="driver-summary" id="driversB">編集した2項目を計算条件にします。</div>
+<p class="plan-notice" id="planNoticeB" role="status" aria-live="polite"></p>
+<div class="plan-actions"><button type="button" class="secondary" data-example-plan="B">4 Gy × 5回を入力</button></div>
+</section>
+</div>
+<div class="compare-head"><h2>治療条件の比較</h2><button type="button" class="primary" id="copyAtoB">Aの入力条件をBにコピー</button></div>
+<section class="compare"><p id="comparisonStatus">AとBそれぞれに2項目ずつ入力すると、差分を表示します。</p><div class="table-scroll"><table><thead><tr><th scope="col">指標</th><th scope="col">条件A</th><th scope="col">条件B</th><th scope="col">差分（B−A）</th></tr></thead><tbody id="comparisonBody"></tbody></table></div></section>
+<section class="explanation">
+<h2>計算式と逆算の取り扱い</h2>
+<p class="math">BED = n × d × (1 + d / (α/β))</p>
+<p class="math">EQD2 = BED / (1 + 2 / (α/β))</p>
+<p>n：回数、d：1回線量（Gy）、総線量D = n × d。BEDとEQD2は遅発性・急性の各α/β値で別々に算出します。BEDとEQD2だけを入力しても<strong>同じα/β値では独立した2条件にならない</strong>ため、他の条件を追加してください。</p>
+<p>逆算で回数が整数にならない場合は数学的な連続値を表示して注意喚起します。分割回数は自動で丸めません。</p>
+<p class="caution"><b>注意：</b>等線量分割を前提とする基本LQ式です。総治療期間、再増殖、分割間修復、線量率、体積効果、既照射からの回復は含みません。特に高い1回線量や再照射時のBED/EQD2の臨床的解釈には慎重な判断が必要です。急性・遅発性のα/β値は固定した生体定数ではなく、評価する組織・エンドポイントに応じて設定してください。</p>
+<div class="references">参考：
+<a href="https://www.eviq.org.au/clinical-resources/eviq-calculators/3197-biologically-effective-dose-bed-and-equival" target="_blank" rel="noopener noreferrer">eviQ — BED and EQD2 calculators</a> ／
+<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6435084/" target="_blank" rel="noopener noreferrer">The evolution of practical radiobiological modelling</a>
+</div>
+</section>
+<div class="privacy">患者識別情報は入力しないでください。入力値・計算結果は保存せず、外部送信しません。</div>
+</main>
+<script src="./dose-calculator.js"></script>
+</body></html>
