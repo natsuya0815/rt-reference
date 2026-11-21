@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja" data-ui-release="20261121-font">
+<html lang="ja" data-ui-release="20261121-jastro">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#102d46"><meta name="apple-mobile-web-app-capable" content="yes">
@@ -73,41 +73,43 @@ body{font-size:1.125rem;line-height:1.7;-webkit-text-size-adjust:100%;text-size-
 @media(max-width:630px){.content{padding-inline:12px}.panel,.regimen,.evid-card{padding:13px}.tab{padding-inline:10px}.app,.stats,.info-grid{min-width:0}.stat{min-width:0;padding:11px}.head-actions .btn{flex:1 1 120px}.sidebar{max-width:90vw}.topbar .search-wrap{min-width:0}}
 @media print{body,.description,.notice,.panel-sub,.clean-list.minor,.regimen .detail,.info-banner,.note-summary,.article-lead,.article-chapter p,.article-chapter li,.evid-details p{font-size:11pt}.rt-clinical,.rt60{break-inside:avoid}}
 
-/* First-screen reading and navigation: set explicit sizes for legacy fixed-size selectors. */
-body{font-size:1.125rem;line-height:1.7}
+/* Enlarge the first-screen reading hierarchy, not citation metadata. */
 .page-title{font-size:clamp(1.875rem,4vw,2.5rem);line-height:1.25}
 .brand-name{font-size:1.25rem;line-height:1.3}
 .side-item,.side-add,.quick-nav button,.tab,.btn:not(.small),.search{font-size:1.125rem;line-height:1.35}
 .side-item,.side-add,.quick-nav button,.tab,.btn,.icon-btn,.search,.filters select,.filters input{min-height:44px}
 .sidebar,.side-item,.brand{min-width:0}.side-item,.side-add,.brand-name{overflow-wrap:anywhere}
-.brand-sub,.section-label,.side-footer,.crumb,.kicker,.stat span,.minor,.foot,.source-meta,.article-link-date,.article-breadcrumb,.article-reference,.article-ref-number,.note-meta,.review-row,.review-row span,.evid-meta,.evid-card .muted,.evid-card .minor,.oar-grid .evid-meta,.field label,.search-row small{font-size:.9375rem;line-height:1.5}
+.kicker,.section-label,.crumb,.stat span,.evid-card .muted.minor{font-size:.9375rem;line-height:1.5}
 .tab{padding-inline:.75rem}.kicker,.section-label{letter-spacing:.06em}
-.filters select,.filters input,.note-filter select,.field input,.field select,.field textarea,.btn.small{font-size:1rem;line-height:1.45}
-.evid-card h3,.panel-title,.article-link-title,.article-chapter h2{font-size:1.3125rem;line-height:1.4}
+.filters select,.filters input,.note-filter select,.field input,.field select,.field textarea{font-size:1rem;line-height:1.45}
+.evid-card h3,.panel-title{font-size:1.3125rem;line-height:1.4}
 .evid-dose,.regimen .value{font-size:1.375rem;line-height:1.35;overflow-wrap:anywhere}
-.clean-list.minor,.regimen .detail,.regimen .dose-note,.description,.panel-sub,.evid-details p,.brief-evidence p,.brief-evidence p.minor,.article-link-summary,.article-lead,.article-chapter p,.article-chapter li{font-size:1.125rem;line-height:1.65}
-.pill,.pill.mini,.ref{font-size:.9375rem;line-height:1.35;max-width:100%;white-space:normal;overflow-wrap:anywhere}
-.ref{min-height:44px;padding:.25rem .45rem}
-.rt60 .rt60-label,.rt60 .rt60-caption,.rt60 .rt60-open,.rt60 .rt60-close,.rt60 .rt60-small,.rt60 .rt60-section-label,.rt60 .rt60-tag{font-size:1rem}
-.rt-clinical-scope{font-size:1rem!important}
 .rt60 .rt60-label{font-size:1.125rem}.rt60 .rt60-dose{overflow-wrap:anywhere}
-.table-scroll table,.table-scroll th,.rt60 table th{font-size:.9375rem}
-.evid-card:not(.oar-grid)>details>summary,.rt-clinical>summary,.modal .btn,.quick-nav button{min-height:44px}
+.rt60 .rt60-caption,.rt60 .rt60-open,.rt60 .rt60-close{font-size:1rem}
+.evid-card:not(.oar-grid)>details>summary,.rt-clinical>summary,.modal .btn{min-height:44px}
 .evid-card:not(.oar-grid)>details>summary{padding:.35rem 0}
-.evid-top>div,.head>div,.search-wrap,.icon-btn,.regimen .bottom,.note-meta,.evid-meta{min-width:0}
-.panel-title .pill,.evid-meta .pill{flex-shrink:0}
+.evid-top>div,.head>div,.search-wrap,.regimen .bottom,.evid-meta{min-width:0}
 @media(max-width:630px){
  .topbar{gap:7px;padding-inline:10px}.search{padding-left:32px}.search-wrap:before{left:8px;top:4px}
  .icon-btn{flex:0 0 auto;padding-inline:7px}
  .tab{padding-inline:.65rem}.content{padding-inline:12px}
  .evid-card,.panel,.dialog{overflow-wrap:anywhere}.field,.filters select,.filters input{min-width:0}
  .head-actions .btn{padding-inline:.55rem}.evid-card:not(.oar-grid)>details>summary{line-height:1.5}
- .evid-meta{gap:.4rem .55rem}
 }
-@media print{
- body,.description,.panel-sub,.regimen .detail,.evid-details p,.article-lead,.article-chapter p,.article-chapter li{font-size:11pt}
- .kicker,.evid-meta,.evid-card .minor,.ref,.pill,.pill.mini{font-size:9pt}
-}
+.jastro-clinical{margin:0 0 1rem;border:1px solid var(--stroke);border-left:4px solid var(--teal);border-radius:10px;background:var(--surface);overflow-wrap:anywhere}
+.jastro-clinical>summary{color:var(--navy);background:var(--teal-light);border-radius:6px 9px 9px 6px;cursor:pointer;padding:.65rem .8rem;min-height:44px;font-size:1.125rem;font-weight:790}
+.jastro-clinical>summary:focus-visible{outline:3px solid #49adad;outline-offset:3px}
+.jastro-clinical[open]>summary{border-radius:6px 9px 0 0;border-bottom:1px solid var(--stroke)}
+.jastro-clinical .jastro-count{color:var(--muted);font-size:.875rem;font-weight:650;margin-inline-start:.5rem}
+.jastro-body{padding:.6rem .8rem}.jastro-body>p{margin:.2rem 0 .5rem}
+.jastro-plan{border:1px solid var(--stroke);border-radius:8px;background:var(--surface2);margin:.65rem 0;padding:.65rem .75rem;min-width:0}
+.jastro-plan h3{font-size:1.125rem;margin:0;color:var(--navy)}
+.jastro-plan dl{margin:.4rem 0 0}.jastro-plan dl>div{display:grid;grid-template-columns:minmax(5.125rem,max-content) minmax(0,1fr);gap:.6rem;border-top:1px solid var(--stroke);padding:.4rem 0}
+.jastro-plan dt{font-weight:750}.jastro-plan dd{margin:0;white-space:pre-line}
+.jastro-links{display:flex;list-style:none;flex-wrap:wrap;gap:.25rem .65rem;margin:.5rem 0 0;padding:0;font-size:.8125rem}
+.jastro-links a{text-decoration:underline;text-underline-offset:.12em}
+@media(max-width:520px){.jastro-plan dl>div{grid-template-columns:1fr;gap:.12rem}}
+@media print{.page-title{font-size:21pt}.jastro-clinical,.jastro-plan{break-inside:avoid}}
 </style>
 </head>
 <body>
@@ -118,6 +120,7 @@ body{font-size:1.125rem;line-height:1.7}
 <script src="data.js?v=0.5.4"></script>
 <script src="evidence.js?v=0.5.4"></script>
 <script src="rt-clinical-content.js?v=0.5.4"></script>
+<script src="rt-jastro-content.js?v=1"></script>
 <script>
 'use strict';
 const SEED = window.RT_SEED;
@@ -148,7 +151,7 @@ function changeTab(t){tab=t;renderContent();window.scrollTo({top:0,behavior:'smo
 function toggleFav(){let i=store.favorites.indexOf(current);if(i>=0)store.favorites.splice(i,1);else store.favorites.push(current);persist();render()}
 function renderSidebar(){const g=Object.groupBy?Object.groupBy(cancers(),x=>x.group):cancers().reduce((a,x)=>((a[x.group]??=[]).push(x),a),{});const order=['胸部','泌尿器','乳腺','中枢神経','消化器','頭頸部','婦人科','血液','転移・緩和','その他'];let html='<div class="section-label">QUICK ACCESS</div>'+`<button class="side-item ${current==='_library'?'active':''}" data-nav="_library">▦　全癌種・文献一覧</button>`+`<button class="side-item ${current==='_oarall'?'active':''}" data-nav="_oarall">◎　横断OAR制約</button>`+`<button class="side-item ${current==='_cases'?'active':''}" data-nav="_cases">▣　症例検討メモ</button>`+`<button class="side-item ${current==='_reviews'?'active':''}" data-nav="_reviews">↻　更新履歴・見直し</button>`+`<button class="side-item ${current==='_clinical'?'active':''}" data-nav="_clinical">▤　診療プロジェクト知見 <span class="tiny-dot expanded"></span></button>`+`<a class="side-item" href="./clinical-calculators.html" style="text-decoration:none">∑　臨床計算ツール <span class="tiny-dot expanded"></span></a><a class="side-item" href="./dose-calculator.html" style="text-decoration:none">◉　線量・BED・EQD2計算 <span class="tiny-dot expanded"></span></a>`;let favs=cancers().filter(x=>store.favorites.includes(x.id));if(favs.length){html+='<div class="section-label">お気に入り</div>';html+=favs.map(x=>`<button class="side-item ${x.id===current?'active':''}" data-nav="${escapeH(x.id)}"><span>☆　${escapeH(x.name)}</span><span class="tiny-dot ${x.status}"></span></button>`).join('')};for(const group of order){if(!g[group]?.length)continue;html+=`<div class="section-label">${escapeH(group)}</div>`;html+=g[group].map(x=>`<button class="side-item ${x.id===current?'active':''}" data-nav="${escapeH(x.id)}"><span>${escapeH(x.name)}</span><span class="tiny-dot ${escapeH(x.status)}"></span></button>`).join('')}document.getElementById('sidenav').innerHTML=html}
 function render(){renderSidebar();renderContent()}
-function renderContent(){const area=document.getElementById('content');if(current==='_library'){area.innerHTML=renderLibrary();return}if(current==='_clinical'){area.innerHTML=renderClinicalIndex();return}if(current==='_article'){area.innerHTML=renderArticleDetail();return}if(current==='_oarall'){area.innerHTML=renderOARGlobal();return}if(current==='_cases'){area.innerHTML=renderCases();return}if(current==='_reviews'){area.innerHTML=renderReviews();return}const x=getCancer();let fav=store.favorites.includes(x.id);let inner=`<div class="kicker">RADIATION ONCOLOGY · ${escapeH(x.group)}</div><div class="head"><div><h1 class="page-title">${escapeH(x.name)}</h1><p class="description">${escapeH(x.summary)}</p></div><div class="head-actions">${button(fav?'★ お気に入り':'☆ お気に入り','favorite')}${button('＋ 検討メモ','addMemo','btn primary')}</div></div><div class="badges">${statusPill(x.status)}${x.topics.map(y=>`<span class="pill blue">${escapeH(y)}</span>`).join('')}</div><div class="notice">⚠️ <b>診療の最終判断には使用条件と原典確認が必要です。</b> 数値は分割・輪郭定義・照射条件に依存します。「施設検討」はガイドライン推奨ではありません。収録データ最終点検：2026-11-12（個別項目の確認日も表示）。</div>`;if(x.id==='breast')inner+=`<section class="panel" style="border:1px solid #a1d6ce;background:var(--teal-light);margin:12px 0 18px"><div class="kicker">INTERACTIVE CLINICAL TOOL / BETA</div><h2 class="panel-title" style="margin-bottom:6px">乳癌術後照射範囲プランナー</h2><p class="minor">術式・cN/ypN・転移個数・郭清・断端・腫瘍部位などから、乳房／胸壁、鎖骨上、内胸、腋窩、ブーストを別々に評価します。医師の最終確認が必要です。</p><a class="btn primary" href="breast-field-planner.html" style="text-decoration:none;display:inline-flex">判定支援ツールを開く ↗</a><p class="minor muted" style="margin:7px 0 0">日本2022公開推奨・米国2025・RCTを参考。日本2026版の本文照合は未完了。</p></section>`;inner+=`<nav class="tabs" aria-label="項目">${TABS.map(([k,v])=>`<button class="tab ${tab===k?'active':''}" data-tab="${k}">${v}</button>`).join('')}</nav>`;if(tab==='pathways')inner+=viewPathways(x);if(tab==='overview')inner+=viewOverview(x);if(tab==='regimens')inner+=viewRegimens(x);if(tab==='oar')inner+=viewOAR(x);if(tab==='systemic')inner+=viewFromPaths(x,'systemic','病期別の併用薬物療法');if(tab==='toxicity')inner+=viewFromPaths(x,'adverse','病期別の有害事象・対処');if(tab==='outcomes')inner+=viewFromPaths(x,'outcome','原典付きの予後・治療成績')+viewOutcomes(x);if(tab==='refs')inner+=viewRefs(x);if(tab==='notes')inner+=viewNotes(x);if(tab==='differences')inner+=viewDifferences(x);if(tab==='knowledge')inner+=viewKnowledge(x);inner+=viewClinicalNotes(x.id,(tab==='notes'||tab==='overview')?'all':tab);area.innerHTML=inner+`<div class="foot">RT Reference β v0.5.4 · 参考情報・臨床判断補助。患者情報・個人識別情報は入力しないでください。<br>検索とメモは端末内で動作し、外部AI・病院システムとの同期はありません。原典の著作権に配慮し、要約とリンクを掲載しています。</div>`}
+function renderContent(){const area=document.getElementById('content');if(current==='_library'){area.innerHTML=renderLibrary();return}if(current==='_clinical'){area.innerHTML=renderClinicalIndex();return}if(current==='_article'){area.innerHTML=renderArticleDetail();return}if(current==='_oarall'){area.innerHTML=renderOARGlobal();return}if(current==='_cases'){area.innerHTML=renderCases();return}if(current==='_reviews'){area.innerHTML=renderReviews();return}const x=getCancer();let fav=store.favorites.includes(x.id);let inner=`<div class="kicker">RADIATION ONCOLOGY · ${escapeH(x.group)}</div><div class="head"><div><h1 class="page-title">${escapeH(x.name)}</h1><p class="description">${escapeH(x.summary)}</p></div><div class="head-actions">${button(fav?'★ お気に入り':'☆ お気に入り','favorite')}${button('＋ 検討メモ','addMemo','btn primary')}</div></div><div class="badges">${statusPill(x.status)}${x.topics.map(y=>`<span class="pill blue">${escapeH(y)}</span>`).join('')}</div><div class="notice">⚠️ <b>診療の最終判断には使用条件と原典確認が必要です。</b> 数値は分割・輪郭定義・照射条件に依存します。「施設検討」はガイドライン推奨ではありません。収録データ最終点検：2026-11-12（個別項目の確認日も表示）。</div>`;if(x.id==='breast')inner+=`<section class="panel" style="border:1px solid #a1d6ce;background:var(--teal-light);margin:12px 0 18px"><div class="kicker">INTERACTIVE CLINICAL TOOL / BETA</div><h2 class="panel-title" style="margin-bottom:6px">乳癌術後照射範囲プランナー</h2><p class="minor">術式・cN/ypN・転移個数・郭清・断端・腫瘍部位などから、乳房／胸壁、鎖骨上、内胸、腋窩、ブーストを別々に評価します。医師の最終確認が必要です。</p><a class="btn primary" href="breast-field-planner.html" style="text-decoration:none;display:inline-flex">判定支援ツールを開く ↗</a><p class="minor muted" style="margin:7px 0 0">日本2022公開推奨・米国2025・RCTを参考。日本2026版の本文照合は未完了。</p></section>`;inner+=`<nav class="tabs" aria-label="項目">${TABS.map(([k,v])=>`<button class="tab ${tab===k?'active':''}" data-tab="${k}">${v}</button>`).join('')}</nav>`;if(tab==='pathways')inner+=renderRtJastro(x)+viewPathways(x);if(tab==='overview')inner+=viewOverview(x);if(tab==='regimens')inner+=viewRegimens(x);if(tab==='oar')inner+=viewOAR(x);if(tab==='systemic')inner+=viewFromPaths(x,'systemic','病期別の併用薬物療法');if(tab==='toxicity')inner+=viewFromPaths(x,'adverse','病期別の有害事象・対処');if(tab==='outcomes')inner+=viewFromPaths(x,'outcome','原典付きの予後・治療成績')+viewOutcomes(x);if(tab==='refs')inner+=viewRefs(x);if(tab==='notes')inner+=viewNotes(x);if(tab==='differences')inner+=viewDifferences(x);if(tab==='knowledge')inner+=viewKnowledge(x);inner+=viewClinicalNotes(x.id,(tab==='notes'||tab==='overview')?'all':tab);area.innerHTML=inner+`<div class="foot">RT Reference β v0.5.4 · 参考情報・臨床判断補助。患者情報・個人識別情報は入力しないでください。<br>検索とメモは端末内で動作し、外部AI・病院システムとの同期はありません。原典の著作権に配慮し、要約とリンクを掲載しています。</div>`}
 function viewOverview(x){let more=store.memos.filter(m=>m.cancer===x.id).length;return `<div class="stats"><div class="stat"><span>処方・分割</span><strong>${x.regimens.length}</strong></div><div class="stat"><span>OAR制約</span><strong>${x.oar.length}</strong></div><div class="stat"><span>出典（紐付け）</span><strong>${new Set([...x.regimens.flatMap(r=>r.refs),...x.oar.flatMap(r=>r.refs),...x.outcomes.flatMap(r=>r.refs),...CLINICAL.filter(n=>n.cancer===x.id).flatMap(n=>n.refs||[])]).size}</strong></div><div class="stat"><span>個人メモ</span><strong>${more}</strong></div></div><div class="info-grid"><section class="panel"><h2 class="panel-title">☷　クイック参照</h2><p class="panel-sub">よく使う領域を直接開く</p><div class="quick-nav"><button data-tab="pathways">病期別参照</button><button data-tab="regimens">処方線量 ${x.regimens.length}</button><button data-tab="oar">OAR ${x.oar.length}</button><button data-tab="refs">文献</button></div>${x.regimens.slice(0,3).map(r=>`<div style="padding:9px 0;border-bottom:1px solid var(--stroke)"><div class="minor muted">${escapeH(r.label)}</div><b>${escapeH(r.dose)}</b>${isRtSibRegimen(x,r)?' <span class="pill blue mini">院内運用（担当医確認）</span>':r.kind?.startsWith('院内')?' <span class="pill warn mini">施設検討</span>':''}</div>`).join('')||'<div class="empty">処方線量を準備中</div>'}</section><section class="panel"><h2 class="panel-title">⛨　適用時の注意</h2>${x.guidance?.length?`<ul class="clean-list minor">${x.guidance.map(v=>`<li>${escapeH(v)}</li>`).join('')}</ul>`:'<div class="empty">適用条件・注意点を順次追加します</div>'}</section></div>${renderRtClinical(x)}<section class="panel"><h2 class="panel-title">更新状況</h2><div class="info-banner">この版の医学データは静的なスナップショットです。自動で最新ガイドラインを取り込む機能は<b>まだありません</b>。アプリの更新時には原典を再確認してください。</div><p class="minor muted">初期文献：日本（JASTRO・国内論文）、欧州（ESTRO・臨床試験・医学雑誌）、米国（ASTRO・QUANTEC・RCT）。</p></section>`}
 
 /* Bind only to the curated local 60/20 item and its named quick-reference pathway. */
@@ -241,6 +244,33 @@ function rtClinicalBody(content){
  }).join('');
  return (str(content?.summary)?`<p>${str(content.summary)}</p>`:'')+sections;
 }
+
+/* Published guideline summaries; exact section links are required to render a plan. */
+function renderRtJastro(x){
+ if(!x?.id || x!==seedById[x.id])return '';
+ const data=window.RT_JASTRO;
+ const raw=data&&Object.hasOwn(data,x.id)?data[x.id]:null;
+ if(!Array.isArray(raw))return '';
+ const fields=[['indication','適応'],['dose','線量・分割'],['gtv','GTV'],['ctv','CTV'],['ptv','PTV'],['oar','OAR'],['notes','適用上の注意']];
+ const clean=v=>typeof v==='string'?v.trim():'';
+ const plans=raw.flatMap(plan=>{
+  const setting=clean(plan?.setting);
+  const sources=(Array.isArray(plan?.sources)?plan.sources:[]).map(ref=>{
+   if(typeof ref?.url!=='string')return '';
+   try{if(!['jastro.or.jp','www.jastro.or.jp'].includes(new URL(ref.url).hostname))return ''}catch{return ''}
+   return rtClinicalRef(ref);
+  }).filter(Boolean);
+  const extra=(Array.isArray(plan?.supplementSources)?plan.supplementSources:[]).map(rtClinicalRef).filter(Boolean);
+  const rows=fields.flatMap(([key,label])=>{
+   const value=clean(plan?.[key]);
+   return value?[`<div><dt>${label}</dt><dd>${en(value)}</dd></div>`]:[];
+  });
+  return setting&&sources.length&&rows.length?[`<article class="jastro-plan"><h3>${en(setting)}</h3><dl>${rows.join('')}</dl><ul class="jastro-links" aria-label="JASTRO 2024 原典">${sources.map(link=>`<li>${link}</li>`).join('')}</ul>${extra.length?`<ul class="jastro-links" aria-label="別資料による補足"><li><strong>別資料による補足</strong></li>${extra.map(link=>`<li>${link}</li>`).join('')}</ul>`:''}</article>`]:[];
+ });
+ if(!plans.length)return '';
+ return `<details class="jastro-clinical"><summary>診療要点｜JASTRO 2024 <span class="jastro-count">${plans.length}項目</span></summary><div class="jastro-body"><p class="minor muted">放射線治療計画ガイドライン2024年版をもとにした治療場面別の要約。各項目の対象・条件と原典を照合し、個別症例や別の分割に自動適用しません。</p>${plans.join('')}</div></details>`;
+}
+
 function renderRtClinical(x,r=null,kind='site'){
  const site=rtClinicalSite(x);
  const context=rtClinicalBody(site?.context);
