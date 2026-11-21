@@ -67,3 +67,11 @@ test('institutional 20-fraction pelvic SIB displays the three historical bowel o
  assert.match(sib,/腸管腔（bowel bag）や小腸ループ単独に同値を流用しません/);
  assert.doesNotMatch(local,/院内腸管線量制約|≤17 cc/);
 });
+
+test('small bowel and bowel cavity references are distinct and accessible in dedicated prostate OAR and prescription renderers',()=>{
+ const sib=box.renderRtSibDetail(), local=box.renderRt60Detail();
+ assert.match(sib,/小腸ループ（Small bowel loops）[\s\S]*Dmax ≤40 Gy[\s\S]*V37 Gy ≤90 cc[\s\S]*V33 Gy ≤130 cc/);
+ assert.match(sib,/腸管腔（Bowel cavity／bowel bag）[\s\S]*V45 Gy &lt;200 cc[\s\S]*D5 cc &lt;60 Gy[\s\S]*骨盤47 Gyや院内輪郭への一律適用は未確認/);
+ assert.doesNotMatch(local,/pelvic-bowel-refs/);
+ assert.match(s.slice(s.indexOf('function viewOAR(')),/x===seedById\.prostate\?[\s\S]*?骨盤SIB 20回のOAR[\s\S]*?renderPelvicBowelReferences/);
+});

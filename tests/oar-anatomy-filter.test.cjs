@@ -19,7 +19,7 @@ function getFunction(name,next){
  assert.ok(start>=0&&end>start);
  return html.slice(start,end);
 }
-vm.runInContext(getFunction('viewOAR','viewSimple')+getFunction('renderOARGlobal','viewKnowledge'),context);
+vm.runInContext(getFunction('renderPelvicBowelReferences','renderRtSibDetail')+getFunction('viewOAR','viewSimple')+getFunction('renderOARGlobal','viewKnowledge'),context);
 function tableRows(out){
  const tbody=out.match(/<tbody>([\s\S]*?)<\/tbody>/)[1];
  return [...tbody.matchAll(/<tr>([\s\S]*?)<\/tr>/g)].map(match=>match[1]);
