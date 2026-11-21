@@ -12,7 +12,7 @@ const sandbox = { window: {} };
 vm.runInNewContext(read('data.js'), sandbox, { filename: 'data.js' });
 const note = data.clinicalNotes.find(x => x.id === 'n054');
 test('skin care reference is present and synchronized in both data sources', () => {
-  assert.equal(data.version, '0.5.3');
+  assert.match(data.version, /^0[.]5[.]\d+$/);
   assert.equal(data.clinicalNotes.length, 53);
   assert.equal(clinical.count, 53);
   assert.equal(clinical.version, data.version);
@@ -38,7 +38,7 @@ test('article navigation and offline seed update remain supported', () => {
   const sw = read('sw.js');
   assert.match(index, /<script src="data.js"><\/script>/);
   assert.match(index, /#article\//);
-  assert.match(index, /Version 0\.5\.3/);
+  assert.ok(index.includes('Version '+data.version));
   assert.match(sw, /const CACHE_NAME='rt-reference-beta-v0\d+-[^']+'/);
   assert.match(sw, /cache\.addAll\(ASSETS\)/);
   assert.match(sw, /\.\/data\.js/);

@@ -75,6 +75,15 @@ body.dark .topbar{background:#102638}
 @media(max-width:1050px){.plans{grid-template-columns:1fr}.plan-card{max-width:800px}.compare{max-width:800px}}
 @media(max-width:610px){main{padding:20px 12px 60px}.settings{padding:15px}.plan-card{padding:16px 12px}.dose-row{grid-template-columns:minmax(112px,1fr) minmax(100px,160px) 37px;gap:5px}.dose-row label{font-size:11px}.marker{font-size:9px}.dose-entry input{font-size:16px}.alpha-row{gap:12px}.alpha-field label{font-size:11px}.compare{padding:12px}.back{font-size:11px}}
 @media print{.topbar,.reset,.plan-actions,.primary,.privacy{display:none!important}body{background:#fff;color:#000}.plans{grid-template-columns:1fr}.plan-card,.compare,.settings{break-inside:avoid;box-shadow:none}main{padding:0}}
+
+/* Clinical text and iOS touch sizing. */
+body{font-size:1.125rem;line-height:1.65;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+input,select,textarea{font-size:1rem;min-height:44px;max-width:100%}
+button.btn,summary{min-height:44px}
+summary{cursor:pointer;padding-block:.35rem}
+summary:focus-visible,button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #3e9f98;outline-offset:2px}
+.panel p,.info,.warn,.notice,.result p{font-size:1.125rem}.field label,.btn{font-size:1rem}
+.intro,.settings-help,.plan-help,.plan-notice,.caution,.explanation p{font-size:1.125rem}.driver-summary,.settings-title{font-size:1rem}.primary,.secondary,.back{font-size:1rem;min-height:44px}.topbar{flex-wrap:wrap}.plan-card{min-width:0;overflow-wrap:anywhere}
 </style>
 </head>
 <body>
