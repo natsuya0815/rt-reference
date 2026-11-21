@@ -39,6 +39,7 @@ test('article navigation and offline seed update remain supported', () => {
   assert.match(index, /<script src="data.js"><\/script>/);
   assert.match(index, /#article\//);
   assert.match(index, /Version 0\.5\.3/);
-  assert.match(sw, /rt-reference-beta-v053-skin-care-20261118/);
+  assert.match(sw, /const CACHE_NAME='rt-reference-beta-v0\d+-[^']+'/);
+  assert.match(sw, /cache\.addAll\(ASSETS\)/);
   assert.match(sw, /\.\/data\.js/);
 });

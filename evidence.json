@@ -67,30 +67,35 @@
     {
       "id": "p003",
       "cancer": "prostate",
-      "stage": "cN1／超高リスク",
-      "risk": "院内検討",
-      "title": "骨盤LN SIB：施設で検討した処方案",
-      "dose": "前立腺60 Gy/20回＋骨盤44–47 Gy/20回（陽性LN51 Gy/20回案）",
+      "stage": "cN1／高リスク・超高リスクの選択例",
+      "risk": "院内で個別判断",
+      "title": "骨盤リンパ節SIB：院内で臨床使用中",
+      "dose": "前立腺60 Gy／20回＋予防骨盤LN 44–47 Gy／20回（陽性LN増量の候補は51 Gy／20回）",
       "fx": 20,
-      "intent": "根治（施設検討）",
+      "intent": "根治（院内運用）",
       "target": "前立腺、精嚢、骨盤リンパ節、陽性LNを個別輪郭化。",
       "systemic": "長期ADTなどの集学的治療を個別検討。",
       "adverse": "腸管、膀胱、骨盤骨髄への追加負荷",
-      "care": "小腸・直腸等の適切な制約を施設検証するまで標準プロトコール扱いしない。",
+      "care": "小腸・大腸・膀胱・直腸等の輪郭と施設の制約を計画ごとに確認。局所60 Gy／20回の制約を自動流用しない。",
       "outcome": "この線量セット自体に直接裏付けるRCTを登録していない。",
       "refs": [
         "poprt2021"
       ],
-      "certainty": "未確認",
-      "kind": "施設検討・未承認",
-      "context": "既存プロジェクトの検討記録。N1に対する標準処方として提示しない。",
-      "checked": "2026-11-12",
+      "certainty": "臨床運用を担当医確認／線量セットを直接検証するRCT未収載",
+      "kind": "院内運用（担当医確認）",
+      "context": "院内で検討し臨床使用中。本施設の線量セットはガイドライン標準処方ではなく、POP-RTは骨盤照射の背景資料（当該線量セットの直接検証ではない）。",
+      "checked": "2026-11-21",
       "reviewDue": "2027-02-12",
       "history": [
         {
           "date": "2026-11-12",
           "action": "初期登録",
           "note": "出典と適用条件を併記。臨床利用前に原典を確認。"
+        },
+        {
+          "date": "2026-11-21",
+          "action": "院内運用を担当医に確認",
+          "note": "院内で検討し臨床使用中。ガイドライン推奨や処方線量セットの外部検証とは区別。"
         }
       ]
     },
@@ -1117,12 +1122,12 @@
     {
       "id": "o009",
       "cancer": "prostate",
-      "organ": "直腸",
+      "organ": "直腸肛門（anorectum）",
       "intent": "根治",
       "fx": 20,
       "metric": "V20 Gy",
       "limit": "< 85%",
-      "definition": "60 Gy / 20 fr。輪郭・Vx単位は原典を確認。",
+      "definition": "肛門縁から直腸S状結腸移行部までの直腸肛門（anorectum）全体。Vxはx Gy以上を受ける相対体積（%）。CHHiP 60 Gy／20回・57 Gy／19回の統合毒性解析による提案値（試験プロトコールの制約とは別）。",
       "refs": [
         "chhip-anorectum20"
       ],
@@ -1135,12 +1140,12 @@
     {
       "id": "o010",
       "cancer": "prostate",
-      "organ": "直腸",
+      "organ": "直腸肛門（anorectum）",
       "intent": "根治",
       "fx": 20,
       "metric": "V30 Gy",
       "limit": "< 57%",
-      "definition": "60 Gy / 20 fr。輪郭・Vx単位は原典を確認。",
+      "definition": "肛門縁から直腸S状結腸移行部までの直腸肛門（anorectum）全体。Vxはx Gy以上を受ける相対体積（%）。CHHiP 60 Gy／20回・57 Gy／19回の統合毒性解析による提案値（試験プロトコールの制約とは別）。",
       "refs": [
         "chhip-anorectum20"
       ],
@@ -1153,12 +1158,12 @@
     {
       "id": "o011",
       "cancer": "prostate",
-      "organ": "直腸",
+      "organ": "直腸肛門（anorectum）",
       "intent": "根治",
       "fx": 20,
       "metric": "V40 Gy",
       "limit": "< 38%",
-      "definition": "60 Gy / 20 fr。輪郭・Vx単位は原典を確認。",
+      "definition": "肛門縁から直腸S状結腸移行部までの直腸肛門（anorectum）全体。Vxはx Gy以上を受ける相対体積（%）。CHHiP 60 Gy／20回・57 Gy／19回の統合毒性解析による提案値（試験プロトコールの制約とは別）。",
       "refs": [
         "chhip-anorectum20"
       ],
@@ -1171,12 +1176,12 @@
     {
       "id": "o012",
       "cancer": "prostate",
-      "organ": "直腸",
+      "organ": "直腸肛門（anorectum）",
       "intent": "根治",
       "fx": 20,
       "metric": "V50 Gy",
       "limit": "< 22%",
-      "definition": "60 Gy / 20 fr。輪郭・Vx単位は原典を確認。",
+      "definition": "肛門縁から直腸S状結腸移行部までの直腸肛門（anorectum）全体。Vxはx Gy以上を受ける相対体積（%）。CHHiP 60 Gy／20回・57 Gy／19回の統合毒性解析による提案値（試験プロトコールの制約とは別）。",
       "refs": [
         "chhip-anorectum20"
       ],
@@ -1189,12 +1194,12 @@
     {
       "id": "o013",
       "cancer": "prostate",
-      "organ": "直腸",
+      "organ": "直腸肛門（anorectum）",
       "intent": "根治",
       "fx": 20,
       "metric": "V60 Gy",
       "limit": "< 0.01%",
-      "definition": "60 Gy / 20 fr。輪郭・Vx単位は原典を確認。",
+      "definition": "肛門縁から直腸S状結腸移行部までの直腸肛門（anorectum）全体。Vxはx Gy以上を受ける相対体積（%）。CHHiP 60 Gy／20回・57 Gy／19回の統合毒性解析による提案値（試験プロトコールの制約とは別）。",
       "refs": [
         "chhip-anorectum20"
       ],
@@ -1843,7 +1848,7 @@
       "jp": "JASTRO 2024：国内の治療計画章を参照。施設採用時のCTV/制約は個別確認。",
       "us": "ASTRO 2026：限局N0M0の前立腺・精嚢RTの中寡分割を推奨。",
       "eu": "ESTROはASTRO 2026の共同策定・支持。",
-      "local": "前立腺60Gy/20＋骨盤LN44–47Gy/20 は施設検討であり正式な標準推奨と区別。",
+      "local": "前立腺60 Gy／20回＋予防骨盤LN 44–47 Gy／20回は院内で検討し臨床使用中（担当医確認）。ガイドライン標準処方や外部で検証済みの線量セットとは区別。",
       "refs": [
         "jastro2024-v4",
         "astro-pr2026",
