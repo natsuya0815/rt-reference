@@ -1,5 +1,5 @@
 {
-  "version": "0.5.3",
+  "version": "0.5.4",
   "asof": "2026-11-18",
   "sources": [
     {
@@ -897,6 +897,142 @@
       "note": "Grade 2–3皮膚炎：Film群15.5%対標準ケア45.6%。非盲検・対象と運用条件に留意。",
       "checked": "2026-11-18",
       "reviewDue": "2027-02-18"
+    },
+    {
+      "id": "rt26-breast-1",
+      "region": "海外",
+      "type": "文献・ガイドライン",
+      "title": "ASTRO WBI ガイドライン",
+      "year": "原典参照",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/29545124/"
+    },
+    {
+      "id": "rt26-breast-2",
+      "region": "海外",
+      "type": "文献・ガイドライン",
+      "title": "ESTRO 早期乳癌CTV輪郭アトラス",
+      "year": "原典参照",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/25630428/"
+    },
+    {
+      "id": "rt26-breast-3",
+      "region": "海外",
+      "type": "文献・ガイドライン",
+      "title": "START-B 原著",
+      "year": "原典参照",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2277488/"
+    },
+    {
+      "id": "rt26-breast-4",
+      "region": "海外",
+      "type": "文献・ガイドライン",
+      "title": "START 10年追跡",
+      "year": "原典参照",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/24055415/"
+    },
+    {
+      "id": "rt26-brainmets-2",
+      "region": "海外",
+      "type": "文献・ガイドライン",
+      "title": "eviQ 3253：Target volumes",
+      "year": "原典参照",
+      "url": "https://www.eviq.org.au/radiation-oncology/palliative/3253-brain-metastases-palliative-ebrt-stereotactic"
+    },
+    {
+      "id": "rt26-hcc-1",
+      "region": "海外",
+      "type": "文献・ガイドライン",
+      "title": "ASTRO 原発性肝癌外照射ガイドライン KQ3・表6/7（2022）",
+      "year": "原典参照",
+      "url": "https://doi.org/10.1016/j.prro.2021.09.004"
+    },
+    {
+      "id": "rt26-pancreas-2",
+      "region": "海外",
+      "type": "文献・ガイドライン",
+      "title": "eviQ 3581：膵癌の根治・術前化学放射線療法",
+      "year": "原典参照",
+      "url": "https://www.eviq.org.au/radiation-oncology/upper-gastrointestinal/3581-pancreas-definitive-neoadjuvant-ebrt-chemorad"
+    },
+    {
+      "id": "rt26-esophagus-1",
+      "region": "海外",
+      "type": "文献・ガイドライン",
+      "title": "eviQ 1865：食道癌根治CRT",
+      "year": "原典参照",
+      "url": "https://www.eviq.org.au/p/1865"
+    },
+    {
+      "id": "rt26-esophagus-2",
+      "region": "海外",
+      "type": "文献・ガイドライン",
+      "title": "eviQ 1861：食道癌術前CRT",
+      "year": "原典参照",
+      "url": "https://www.eviq.org.au/p/1861"
+    },
+    {
+      "id": "rt26-headneck-1",
+      "region": "海外",
+      "type": "文献・ガイドライン",
+      "title": "eviQ 5049：中咽頭扁平上皮癌根治照射",
+      "year": "原典参照",
+      "url": "https://www.eviq.org.au/p/5049"
+    },
+    {
+      "id": "rt26-cervix-1",
+      "region": "海外",
+      "type": "文献・ガイドライン",
+      "title": "ESGO/ESTRO/ESP 2023：子宮頸癌",
+      "year": "原典参照",
+      "url": "https://link.springer.com/article/10.1007/s00428-023-03552-3"
+    },
+    {
+      "id": "rt26-cervix-2",
+      "region": "海外",
+      "type": "文献・ガイドライン",
+      "title": "ASTRO：子宮頸癌放射線治療ガイドライン",
+      "year": "原典参照",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8802172/"
+    },
+    {
+      "id": "rt26-bladder-1",
+      "region": "海外",
+      "type": "文献・ガイドライン",
+      "title": "BC2001・BCON：個人データ統合解析（2021）",
+      "year": "原典参照",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7851111/"
+    },
+    {
+      "id": "rt26-bladder-2",
+      "region": "海外",
+      "type": "文献・ガイドライン",
+      "title": "BC2001：化学放射線療法の10年追跡",
+      "year": "原典参照",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/35577644/"
+    },
+    {
+      "id": "rt26-bladder-3",
+      "region": "海外",
+      "type": "文献・ガイドライン",
+      "title": "eviQ 1025：膀胱癌の根治的外照射",
+      "year": "原典参照",
+      "url": "https://www.eviq.org.au/radiation-oncology/urogenital/bladder/1025-bladder-carcinoma-definitive-ebrt-with-or-wit"
+    },
+    {
+      "id": "rt26-lymphoma-1",
+      "region": "海外",
+      "type": "文献・ガイドライン",
+      "title": "BSH初発LBCLガイドライン：Stage I/II Recommendations",
+      "year": "原典参照",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7616447/"
+    },
+    {
+      "id": "rt26-lymphoma-2",
+      "region": "海外",
+      "type": "文献・ガイドライン",
+      "title": "ILROG ISRT概要",
+      "year": "原典参照",
+      "url": "https://www.redjournal.org/article/S0360301620309433/pdf"
     }
   ],
   "cancers": [
@@ -913,7 +1049,7 @@
         "60/20"
       ],
       "status": "expanded",
-      "summary": "局所限局癌の中寡分割・線量制約を中心に掲載。骨盤SIBは独立した施設検討として区別。",
+      "summary": "局所限局癌の中寡分割・線量制約を中心に掲載。院内で臨床使用中の骨盤SIBは根拠と適用条件を分けて掲載。",
       "topics": [
         "局所限局",
         "中寡分割",
@@ -966,15 +1102,15 @@
           "reviewDue": "2027-02-12"
         },
         {
-          "label": "骨盤SIB・院内検討案",
+          "label": "骨盤SIB・院内臨床運用",
           "dose": "前立腺 60 Gy / 20 fr ＋ 骨盤LN 44–47 Gy / 20 fr",
-          "detail": "超高リスク・一部高リスク・N1で検討した施設案。照射範囲・線量制約・エビデンスを別途確認。",
+          "detail": "超高リスク・一部高リスク・N1で個別に適応を判断し、院内で検討して臨床に使用中。",
           "refs": [],
-          "kind": "院内検討・未承認",
-          "note": "陽性リンパ節51 Gy/20 fr案も検討歴あり。正式な院内承認プロトコールではない。",
-          "checked": "2026-11-12",
-          "certainty": "未評価（原著・適用条件を要確認）",
-          "status": "施設検討",
+          "kind": "院内運用（担当医確認）",
+          "note": "陽性リンパ節増量の候補は51 Gy／20回（症例ごとに判断）。本線量セットはガイドライン標準処方ではありません。",
+          "checked": "2026-11-21",
+          "certainty": "臨床運用を担当医確認／線量セットの外部検証とは別",
+          "status": "院内で検討し臨床使用中",
           "reviewDue": "2027-02-12"
         }
       ],
@@ -1100,7 +1236,7 @@
           "reviewDue": "2027-02-12"
         },
         {
-          "organ": "直腸",
+          "organ": "直腸肛門（anorectum）",
           "regime": "60 Gy / 20 fr",
           "metric": "V20 Gy",
           "goal": "< 85%",
@@ -1108,14 +1244,14 @@
           "refs": [
             "chhip-anorectum20"
           ],
-          "note": "プロトコール採用制約とは別の提案。",
+          "note": "肛門縁から直腸S状結腸移行部までの全体。Vxは相対体積（%）。60 Gy／20回・57 Gy／19回の統合毒性解析による提案（試験プロトコールとは別）。 プロトコール採用制約とは別の提案。",
           "checked": "2026-11-12",
           "certainty": "未評価（原著・適用条件を要確認）",
           "status": "文献情報",
           "reviewDue": "2027-02-12"
         },
         {
-          "organ": "直腸",
+          "organ": "直腸肛門（anorectum）",
           "regime": "60 Gy / 20 fr",
           "metric": "V30 Gy",
           "goal": "< 57%",
@@ -1123,14 +1259,14 @@
           "refs": [
             "chhip-anorectum20"
           ],
-          "note": "",
+          "note": "肛門縁から直腸S状結腸移行部までの全体。Vxは相対体積（%）。60 Gy／20回・57 Gy／19回の統合毒性解析による提案（試験プロトコールとは別）。",
           "checked": "2026-11-12",
           "certainty": "未評価（原著・適用条件を要確認）",
           "status": "文献情報",
           "reviewDue": "2027-02-12"
         },
         {
-          "organ": "直腸",
+          "organ": "直腸肛門（anorectum）",
           "regime": "60 Gy / 20 fr",
           "metric": "V40 Gy",
           "goal": "< 38%",
@@ -1138,14 +1274,14 @@
           "refs": [
             "chhip-anorectum20"
           ],
-          "note": "",
+          "note": "肛門縁から直腸S状結腸移行部までの全体。Vxは相対体積（%）。60 Gy／20回・57 Gy／19回の統合毒性解析による提案（試験プロトコールとは別）。",
           "checked": "2026-11-12",
           "certainty": "未評価（原著・適用条件を要確認）",
           "status": "文献情報",
           "reviewDue": "2027-02-12"
         },
         {
-          "organ": "直腸",
+          "organ": "直腸肛門（anorectum）",
           "regime": "60 Gy / 20 fr",
           "metric": "V50 Gy",
           "goal": "< 22%",
@@ -1153,14 +1289,14 @@
           "refs": [
             "chhip-anorectum20"
           ],
-          "note": "",
+          "note": "肛門縁から直腸S状結腸移行部までの全体。Vxは相対体積（%）。60 Gy／20回・57 Gy／19回の統合毒性解析による提案（試験プロトコールとは別）。",
           "checked": "2026-11-12",
           "certainty": "未評価（原著・適用条件を要確認）",
           "status": "文献情報",
           "reviewDue": "2027-02-12"
         },
         {
-          "organ": "直腸",
+          "organ": "直腸肛門（anorectum）",
           "regime": "60 Gy / 20 fr",
           "metric": "V60 Gy",
           "goal": "< 0.01%",
@@ -1168,7 +1304,7 @@
           "refs": [
             "chhip-anorectum20"
           ],
-          "note": "厳格な提案値。採用の是非は施設判断。",
+          "note": "肛門縁から直腸S状結腸移行部までの全体。Vxは相対体積（%）。60 Gy／20回・57 Gy／19回の統合毒性解析による提案（試験プロトコールとは別）。 厳格な提案値。採用の是非は施設判断。",
           "checked": "2026-11-12",
           "certainty": "未評価（原著・適用条件を要確認）",
           "status": "文献情報",
@@ -1439,7 +1575,24 @@
         "乳房再建",
         "被膜拘縮"
       ],
-      "regimens": [],
+      "regimens": [
+        {
+          "label": "乳房温存術後・全乳房照射（WBI）",
+          "dose": "40 Gy / 15 fr",
+          "detail": "乳房温存術後、全乳房に40 Gyを15回（約3週）。腫瘍床boostと包括的RNIは適応を別に判断する。",
+          "refs": [
+            "rt26-breast-1",
+            "rt26-breast-2",
+            "rt26-breast-3",
+            "rt26-breast-4"
+          ],
+          "kind": "標準・文献",
+          "checked": "2026-11-21",
+          "status": "文献参照",
+          "certainty": "出典の適用条件を確認",
+          "reviewDue": "2027-02-21"
+        }
+      ],
       "oar": [],
       "systemic": [],
       "toxicity": [
@@ -1468,7 +1621,22 @@
         "FSRT",
         "V12"
       ],
-      "regimens": [],
+      "regimens": [
+        {
+          "label": "未切除脳転移・5分割定位照射",
+          "dose": "30 Gy / 5 fr",
+          "detail": "最大径2 cm以上3 cm未満の未切除脳転移に対するASTROの条件付き選択肢。術後腔・再照射には転用しない。",
+          "refs": [
+            "asco-brain22",
+            "rt26-brainmets-2"
+          ],
+          "kind": "標準・文献",
+          "checked": "2026-11-21",
+          "status": "文献参照",
+          "certainty": "出典の適用条件を確認",
+          "reviewDue": "2027-02-21"
+        }
+      ],
       "oar": [
         {
           "organ": "脳組織（正常脳＋標的）",
@@ -1697,7 +1865,21 @@
         "VMAT",
         "肝臓"
       ],
-      "regimens": [],
+      "regimens": [
+        {
+          "label": "肝細胞癌・中等度寡分割外照射",
+          "dose": "45–67.5 Gy / 15 fr",
+          "detail": "ASTRO表6の報告線量範囲。個別症例の標準処方ではありません。",
+          "refs": [
+            "rt26-hcc-1"
+          ],
+          "kind": "標準・文献",
+          "checked": "2026-11-21",
+          "status": "文献参照",
+          "certainty": "出典の適用条件を確認",
+          "reviewDue": "2027-02-21"
+        }
+      ],
       "oar": [],
       "systemic": [],
       "toxicity": [
@@ -1726,7 +1908,22 @@
         "GEM",
         "S-1"
       ],
-      "regimens": [],
+      "regimens": [
+        {
+          "label": "局所進行・根治的通常分割CRT",
+          "dose": "50.4–54 Gy / 28–30 fr",
+          "detail": "切除不能・局所進行の通常分割CRT。1.8 Gy/回。",
+          "refs": [
+            "astro-pan2026",
+            "rt26-pancreas-2"
+          ],
+          "kind": "標準・文献",
+          "checked": "2026-11-21",
+          "status": "文献参照",
+          "certainty": "出典の適用条件を確認",
+          "reviewDue": "2027-02-21"
+        }
+      ],
       "oar": [],
       "systemic": [],
       "toxicity": [],
@@ -1747,7 +1944,25 @@
       "topics": [
         "CRT"
       ],
-      "regimens": [],
+      "regimens": [
+        {
+          "label": "胸部食道癌・根治的同時CRT",
+          "dose": "50.4 Gy / 28 fr",
+          "pathwayId": "p026",
+          "pathwayDose": "50.4 Gy/28回",
+          "pathwayTitle": "根治的CRT（欧米の典型）",
+          "detail": "胸部食道の根治的CRT。術前CRT、頸部病変や再照射と区別。",
+          "refs": [
+            "rt26-esophagus-1",
+            "rt26-esophagus-2"
+          ],
+          "kind": "標準・文献",
+          "checked": "2026-11-21",
+          "status": "文献参照",
+          "certainty": "出典の適用条件を確認",
+          "reviewDue": "2027-02-21"
+        }
+      ],
       "oar": [],
       "systemic": [],
       "toxicity": [],
@@ -1888,7 +2103,21 @@
         "CRT",
         "IMRT"
       ],
-      "regimens": [],
+      "regimens": [
+        {
+          "label": "中咽頭扁平上皮癌・根治照射 SIB",
+          "dose": "高線量PTV 70 Gy / 35 fr",
+          "detail": "中咽頭扁平上皮癌の代表的な高線量PTV処方。",
+          "refs": [
+            "rt26-headneck-1"
+          ],
+          "kind": "標準・文献",
+          "checked": "2026-11-21",
+          "status": "文献参照",
+          "certainty": "出典の適用条件を確認",
+          "reviewDue": "2027-02-21"
+        }
+      ],
       "oar": [],
       "systemic": [],
       "toxicity": [],
@@ -1911,7 +2140,22 @@
         "CCRT",
         "IGBT"
       ],
-      "regimens": [],
+      "regimens": [
+        {
+          "label": "子宮頸癌・根治的骨盤外照射（小線源併用）",
+          "dose": "45 Gy / 25 fr",
+          "detail": "根治コースの骨盤外照射部分。小線源分の線量は含めません。",
+          "refs": [
+            "rt26-cervix-1",
+            "rt26-cervix-2"
+          ],
+          "kind": "標準・文献",
+          "checked": "2026-11-21",
+          "status": "文献参照",
+          "certainty": "出典の適用条件を確認",
+          "reviewDue": "2027-02-21"
+        }
+      ],
       "oar": [],
       "systemic": [],
       "toxicity": [],
@@ -1932,7 +2176,23 @@
       "topics": [
         "CRT"
       ],
-      "regimens": [],
+      "regimens": [
+        {
+          "label": "筋層浸潤性膀胱癌・全膀胱温存照射",
+          "dose": "55 Gy / 20 fr",
+          "detail": "N0M0の膀胱単独照射の選択肢。予防骨盤リンパ節照射・SIBとは別。",
+          "refs": [
+            "rt26-bladder-1",
+            "rt26-bladder-2",
+            "rt26-bladder-3"
+          ],
+          "kind": "標準・文献",
+          "checked": "2026-11-21",
+          "status": "文献参照",
+          "certainty": "出典の適用条件を確認",
+          "reviewDue": "2027-02-21"
+        }
+      ],
       "oar": [],
       "systemic": [],
       "toxicity": [],
@@ -1955,7 +2215,22 @@
         "ISRT",
         "DLBCL"
       ],
-      "regimens": [],
+      "regimens": [
+        {
+          "label": "限局期DLBCL・薬物療法後ISRT",
+          "dose": "30 Gy / 15 fr",
+          "detail": "BSH：他の選択群に該当しない80歳未満のStage I–II・IPI 0–1では、R-CHOP 3～4コース後に考慮（2B）。上顎洞45 Gy / 25 frの院内症例とは別。",
+          "refs": [
+            "rt26-lymphoma-1",
+            "rt26-lymphoma-2"
+          ],
+          "kind": "標準・文献",
+          "checked": "2026-11-21",
+          "status": "文献参照",
+          "certainty": "出典の適用条件を確認",
+          "reviewDue": "2027-02-21"
+        }
+      ],
       "oar": [],
       "systemic": [],
       "toxicity": [],
@@ -2411,7 +2686,7 @@
       "cancer": "prostate",
       "section": "regimens",
       "title": "骨盤リンパ節SIB：N1・超高リスク",
-      "summary": "施設検討として前立腺60 Gy/20fr＋予防骨盤LN44–47 Gy/20fr、陽性リンパ節約51 Gy/20frのSIBを検討した。",
+      "summary": "前立腺60 Gy／20回＋予防骨盤LN 44–47 Gy／20回（陽性LN増量の候補は51 Gy／20回）のSIBは、院内で検討し臨床使用中。",
       "points": [
         "骨盤照射の適応は画像診断、リスク、ADTの強度、病変部位で判断する。",
         "陽性LN増量の安全性は腸管・直腸など近接OARの条件に強く依存する。",
@@ -2421,7 +2696,7 @@
         "poprt2021",
         "jastro24"
       ],
-      "kind": "施設検討（未承認）",
+      "kind": "院内運用（担当医確認）",
       "month": "2026-05",
       "keywords": [
         "SIB",
@@ -2429,20 +2704,20 @@
         "陽性リンパ節",
         "elective"
       ],
-      "caution": "施設で正式承認された処方を示すものではない。",
-      "strength": "臨床検討／要原典照合",
+      "caution": "院内での臨床使用は、ガイドライン標準、正式な院内承認の有無、処方線量セットの外部検証とは別です。",
+      "strength": "担当医に臨床運用を確認／線量セットの外部検証とは別",
       "details": [
         {
           "heading": "適応と標的",
           "paragraphs": [
-            "超高リスク/N1などで前立腺だけでなく骨盤LNも照射する施設案を検討。N0高リスク全例に骨盤照射が必須と断定せず、リスクと全身療法を考慮する。"
+            "超高リスク・N1・一部高リスクで前立腺と骨盤LNへの照射を院内で個別に選択。N0高リスク全例で骨盤照射を必須とはせず、リスクと全身療法を考慮する。"
           ],
           "bullets": []
         },
         {
-          "heading": "施設で検討したSIB",
+          "heading": "院内で臨床使用中のSIB",
           "paragraphs": [
-            "前立腺60 Gy/20fr、予防骨盤LN44–47 Gy/20fr、陽性LN 51 Gy/20frという案を検討した。これは施設検討・未承認であり、推奨処方値として固定しない。"
+            "前立腺60 Gy／20回、予防骨盤LN 44–47 Gy／20回、陽性LN増量の候補は51 Gy／20回。院内で検討し臨床使用中だが、他施設に一般化する標準処方ではない。"
           ],
           "bullets": []
         },
@@ -2454,7 +2729,7 @@
           "bullets": []
         }
       ],
-      "checked": "2026-11-12",
+      "checked": "2026-11-21",
       "reviewDue": "2027-02-12"
     },
     {

@@ -31,5 +31,8 @@ test('article, sources and patient data key',()=>{
  const sources=new Set(d.sources.map(s=>s.id));
  for(const r of a.refs)assert.ok(sources.has(r));
  assert.ok(read('index.html').includes("const KEY='rt_reference_beta_v01'"));
- assert.ok(read('sw.js').includes('rt-reference-beta-v052-rectalsib'));
+ const sw=read('sw.js');
+ assert.match(sw,/const CACHE_NAME='rt-reference-beta-v0\d+-[^']+'/);
+ assert.match(sw,/\.\/evidence\.js/);
+ assert.match(sw,/cache\.addAll\(ASSETS\)/);
 });
