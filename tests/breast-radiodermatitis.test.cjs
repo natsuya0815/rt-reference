@@ -36,7 +36,7 @@ test('breast toxicity article has complete risk and treatment sections', () => {
 test('article navigation and offline seed update remain supported', () => {
   const index = read('index.html');
   const sw = read('sw.js');
-  assert.match(index, /<script src="data.js"><\/script>/);
+  assert.ok(index.includes('src="data.js?v='+data.version+'"'));
   assert.match(index, /#article\//);
   assert.ok(index.includes('Version '+data.version));
   assert.match(sw, /const CACHE_NAME='rt-reference-beta-v0\d+-[^']+'/);

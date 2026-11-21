@@ -77,8 +77,8 @@ test('all four pages use an accessible primary type size; supplemental JS is pre
   assert.match(source,/body\{font-size:1\.125rem;line-height:1\./);
   assert.match(source,/min-height:44px/);
  }
- assert.match(html,/<script src="rt-clinical-content.js"><\/script>/);
- assert.match(read('sw.js'),/'\.\/rt-clinical-content\.js'/);
+ assert.match(html,/<script src="rt-clinical-content[.]js[?]v=0[.]5[.]4"><\/script>/);
+ assert.match(read('sw.js'),/'\.\/rt-clinical-content\.js\?v=0\.5\.4'/);
 });
 
 test('full app renders every disease pathway and regimen, keeps data key, and distinguishes new sourced rows',()=>{
@@ -131,4 +131,13 @@ test('actual clinical content covers every site and each exact regimen binds onl
  assert.equal(exact,27);
  assert.deepEqual(Array.from(entries.brainmets.regimens,r=>r.match.dose),['30 Gy / 5 fr']);
  assert.deepEqual(Array.from(entries.lymphoma.regimens,r=>r.match.dose),['30 Gy / 15 fr']);
+});
+
+test('HTML and offline precache use the same explicit data revision',()=>{
+ const sw=read('sw.js');
+ for(const src of ['data.js','evidence.js','rt-clinical-content.js']){
+  const versioned=src+'?v='+data.version;
+  assert.ok(html.includes('src="'+versioned+'"'),src);
+  assert.ok(sw.includes("'./"+versioned+"'"),src);
+ }
 });
