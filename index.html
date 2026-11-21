@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja" data-ui-release="20261121-jastro">
+<html lang="ja" data-ui-release="20261121-pelvis-oar">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#102d46"><meta name="apple-mobile-web-app-capable" content="yes">
@@ -204,7 +204,14 @@ function renderRtSibDetail(){
  return `<details class="rt60 rt-sib"><summary><span class="rt60-label">前立腺癌 · 骨盤リンパ節を含むSIB</span><span class="rt60-dose">骨盤LN 44–47 Gy / 20回</span><span class="rt60-bottom"><span class="rt60-caption">院内で検討し臨床使用中</span><span><span class="rt60-open">詳細を開く</span><span class="rt60-close">詳細を閉じる</span></span></span></summary><div class="rt60-body">
  <section><div class="rt60-section-label">院内運用（担当医確認）</div><h4>適応・標的・処方</h4><p>超高リスク・N1・一部高リスクで個別判断。前立腺・精嚢、予防骨盤リンパ節、陽性リンパ節を区別して輪郭化します。</p>
  <table aria-label="院内の骨盤SIB 線量"><thead><tr><th scope="col">標的</th><th scope="col">20回の総線量</th></tr></thead><tbody><tr><th scope="row">前立腺</th><td>60 Gy</td></tr><tr><th scope="row">予防骨盤LN</th><td>44–47 Gy</td></tr><tr><th scope="row">陽性LN増量（候補）</th><td>51 Gy</td></tr></tbody></table><p class="rt60-small">陽性LNの増量は一律ではありません。長期ADTなどの併用は個別に検討します。</p></section>
- <section><div class="rt60-section-label">計画・安全性</div><h4>マージン・OAR・成績の扱い</h4><p>この詳細には骨盤SIB固有のマージン、OAR制約値、成績数値は登録していません。近接する小腸・大腸、膀胱、直腸等のDVH、標的輪郭、陽性LN増量の可否は院内基準に沿って個別に確認します。</p><p class="rt60-small">局所照射60 Gy／20回のCHHiP・Wilkins値は、この骨盤SIBに自動流用しません。</p></section>
+ <section><div class="rt60-section-label">院内計画基準 · 骨盤SIB 20回</div><h4>腸管（Bowel）の線量制約</h4>
+ <p>前立腺60 Gy／20回＋予防骨盤リンパ節44–47 Gy／20回を同時照射する場合。計画の努力目標と必須制約を分けて表示します。</p>
+ <table aria-label="骨盤SIB 20回の院内腸管線量制約"><thead><tr><th scope="col">指標</th><th scope="col">努力目標</th><th scope="col">必須制約</th></tr></thead><tbody>
+ <tr><th scope="row">V40 Gy</th><td>≤17 cc</td><td>≤70 cc</td></tr>
+ <tr><th scope="row">V48 Gy</th><td>≤0.5 cc</td><td>≤6 cc</td></tr>
+ <tr><th scope="row">V52 Gy</th><td>0 cc</td><td>0 cc</td></tr></tbody></table>
+ <p class="rt60-small">Vxはx Gy以上を受ける体積（cc）。参照したEast Midlandsのプロトコルは、小腸と大腸を直腸まで描出し、頭側はPTV上端の2 cm上までに絞ることを検討する定義です。院内で用いる輪郭の詳細は確認し、腸管腔（bowel bag）や小腸ループ単独に同値を流用しません。局所照射のCHHiP・Wilkins値は別扱いです。</p>
+ <p class="rt60-small"><a href="https://eastmidlandscanceralliance.nhs.uk/images/EMCP_-_2-13_-_Radiotherapy_Protocol_For_The_Management_of_Prostate_Cancer.pdf#page=12" target="_blank" rel="noopener noreferrer">参照：East Midlands前立腺癌照射プロトコル §9（輪郭・Bowelの表）</a></p></section>
  <section><div class="rt60-section-label">根拠の位置づけ</div><h4>院内臨床運用と外部エビデンスを区別</h4><p>この線量セットは担当医確認による院内運用で、ガイドライン標準処方や外部で検証済みのレジメンとして示すものではありません。</p><p class="rt60-small"><a href="https://pubmed.ncbi.nlm.nih.gov/33497252/" target="_blank" rel="noopener noreferrer">POP-RT</a>は骨盤照射を検討する背景資料で、この線量セットの直接検証ではありません。</p></section></div></details>`;
 }
 

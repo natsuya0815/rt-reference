@@ -1,4 +1,4 @@
-const CACHE_NAME='rt-reference-beta-v054-jastro-clinical-20261121';
+const CACHE_NAME='rt-reference-beta-v054-pelvis-oar-20261121';
 const ASSETS=['./','./index.html','./data.js?v=0.5.4','./evidence.js?v=0.5.4','./rt-clinical-content.js?v=0.5.4','./rt-jastro-content.js?v=1','./breast-field-planner.html','./breast-field-logic.js','./clinical-calculators.html','./clinical-calculators.js','./dose-calculator.html','./dose-calculator.js','./manifest.webmanifest','./icon-192.png','./icon-512.png','./apple-touch-icon.png','./icon.svg'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()));

@@ -57,3 +57,13 @@ test('renderer reports the trial result only for local treatment and institution
  assert.match(note.summary,/臨床使用中/);
  assert.doesNotMatch(JSON.stringify(note),/未承認/);
 });
+
+test('institutional 20-fraction pelvic SIB displays the three historical bowel objectives and limits only on its own card',()=>{
+ const sib=box.renderRtSibDetail(), local=box.renderRt60Detail();
+ assert.match(sib,/<th scope="row">V40 Gy<\/th><td>≤17 cc<\/td><td>≤70 cc<\/td>/);
+ assert.match(sib,/<th scope="row">V48 Gy<\/th><td>≤0\.5 cc<\/td><td>≤6 cc<\/td>/);
+ assert.match(sib,/<th scope="row">V52 Gy<\/th><td>0 cc<\/td><td>0 cc<\/td>/);
+ assert.match(sib,/院内計画基準 · 骨盤SIB 20回/);
+ assert.match(sib,/腸管腔（bowel bag）や小腸ループ単独に同値を流用しません/);
+ assert.doesNotMatch(local,/院内腸管線量制約|≤17 cc/);
+});
