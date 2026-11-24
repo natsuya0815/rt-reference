@@ -11,7 +11,7 @@ function calcCcr(age,weight,creatinine,sex){
 }
 function calcBsa(height,weight){
   if(!valid(height,50,250)||!valid(weight,1,500))return null;
-  return Math.sqrt(height*weight/3600);
+  return 0.008883*Math.pow(height,0.663)*Math.pow(weight,0.444);
 }
 function calcChild(bilirubin,albumin,coag,mode,ascites,encephalopathy){
   if(!valid(bilirubin,0,100)||!valid(albumin,0.1,10)||
@@ -54,7 +54,7 @@ function calculateCcr(){
 function calculateBsa(){
   var result=calcBsa(number('bsaHeight'),number('bsaWeight'));
   if(result===null){feedback('bsaResult','身長と体重を入力してください。');return;}
-  show('bsaResult','<strong>'+result.toFixed(2)+'</strong><span class="unit"> m²</span><div class="result-sub">Mosteller式（小数第3位を四捨五入）</div>');
+  show('bsaResult','<strong>'+result.toFixed(2)+'</strong><span class="unit"> m²</span><div class="result-sub">藤本式（小数第3位を四捨五入）</div>');
 }
 function calculateChild(){
   var ascites=el('cpAscites').value,enceph=el('cpEnceph').value;

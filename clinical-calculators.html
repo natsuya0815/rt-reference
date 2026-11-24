@@ -106,7 +106,7 @@ summary:focus-visible,button:focus-visible,a:focus-visible,input:focus-visible,s
   </section>
   <section id="bsa" class="panel" role="tabpanel" data-calc-panel hidden>
     <h2>体表面積（BSA）</h2>
-    <p class="sub">Mosteller式。身長と実体重から計算します。</p>
+    <p class="sub">藤本式。身長と実体重から計算します。</p>
     <div class="field-grid">
       <div class="field"><label for="bsaHeight">身長</label><div class="input-unit"><input class="calc-input" id="bsaHeight" type="number" inputmode="decimal" min="50" max="250" step="any" autocomplete="off" placeholder="例：170"><span>cm</span></div></div>
       <div class="field"><label for="bsaWeight">体重</label><div class="input-unit"><input class="calc-input" id="bsaWeight" type="number" inputmode="decimal" min="1" max="500" step="any" autocomplete="off" placeholder="例：65"><span>kg</span></div></div>
@@ -114,7 +114,7 @@ summary:focus-visible,button:focus-visible,a:focus-visible,input:focus-visible,s
     <div class="result" aria-live="polite"><div class="result-label">体表面積</div><div id="bsaResult"></div></div>
     <div class="actions"><button type="button" class="reset" data-reset="bsa">入力をクリア</button></div>
     <div class="details">
-      <p><b>計算式：</b> BSA (m²) = √[身長(cm) × 体重(kg) ÷ 3600]</p>
+      <p><b>計算式：</b> BSA (m²) = 0.008883 × 身長(cm)<sup>0.663</sup> × 体重(kg)<sup>0.444</sup></p>
       <p>結果は小数第2位まで表示します。抗癌剤の投与量計算時は、指定レジメンのBSA算出法・小数処理・投与量上限を優先してください。</p>
     </div>
   </section>
@@ -148,7 +148,7 @@ summary:focus-visible,button:focus-visible,a:focus-visible,input:focus-visible,s
   <div class="sources">
     <b>算出基準・参照先</b>
     <a href="https://www.kidney.org/professionals/kdoqi/cockcroft-gault-equation-estimating-creatinine-clearance" target="_blank" rel="noopener noreferrer">National Kidney Foundation — Cockcroft–Gault式と限界</a>
-    <a href="https://www.eviq.org.au/clinical-resources/eviq-calculators/3198-body-surface-area-calculator" target="_blank" rel="noopener noreferrer">eviQ — 体表面積（Mosteller式）</a>
+    <a href="https://jcog.jp/doctor/tool/calc/index.html" target="_blank" rel="noopener noreferrer">JCOG — 体表面積（藤本式）・CCr計算</a>
     <a href="https://www.kanen.jihs.go.jp/sick/kinds/kankouhen.html" target="_blank" rel="noopener noreferrer">肝炎情報センター — Child–Pugh分類（PT活性%を含む）</a>
     <a href="https://www.merckmanuals.com/professional/multimedia/table/child-turcotte-pugh-scoring-system" target="_blank" rel="noopener noreferrer">Merck Manual — Child–Pugh分類（PT-INR）</a>
   </div>
