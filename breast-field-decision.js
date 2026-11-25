@@ -60,7 +60,7 @@ function decide(raw){
  check(p.exam!=null&&(!Number.isInteger(p.exam)||p.exam<0||(p.nodes!=null&&p.nodes>p.exam)),'検索数が転移陽性数より少ない、または無効です。');
  check(nPos(p)===false&&p.nodes>0&&['neg','itc'].includes(p.deposit),'リンパ節陰性／ITCのみと転移陽性数が矛盾しています。');
  check(p.nodes===0&&['micro','macro'].includes(p.deposit),'微小／マクロ転移ありと陽性0個が矛盾しています。');
- check(p.hist==='dcis'&&(p.nodes>0||p.deposit==='macro'||p.deposit==='micro'),'純粋DCISとリンパ節転移ありの入力が矛盾しています。');
+ check(p.hist==='dcis'&&(p.nodes>0||p.deposit==='macro'||p.deposit==='micro'||p.cn==='c1'||p.cn==='c23'),'純粋DCISと臨床的・病理学的リンパ節転移ありの入力が矛盾しています（浸潤成分の再評価が必要）。');
  check(p.neo==='yes'&&p.ypn==='yp0'&&p.nodes>0,'ypN0と術後転移陽性数が矛盾しています。');
  check(p.neo==='no'&&known(p.ypn),'術前治療なしの症例にypNを指定しています。');
  check(p.age!=null&&(!Number.isFinite(p.age)||p.age<18||p.age>110),'年齢を確認してください（18～110歳）。');
@@ -138,8 +138,8 @@ function decide(raw){
      fields.scv=make('consider','cN1→ypN0はB-51による省略選択肢があります。治療前針生検・術前化学療法・術後節検索の条件を確認。',['B51','ASTRO'],'省略も選択可');
    }else if(p.cn==='c0'&&p.ypn==='yp0')fields.scv=make('omit','cN0→ypN0では通常、専用RNIは行いません。',['ASTRO']);
    else fields.scv=make('hold','治療前cNと術後ypNを確定してください。',['ASTRO']);
- }else if(node4){
-   fields.scv=make('include','4個以上の節転移：鎖骨上／Level IIIを照射範囲へ。',['JB5','JB6']);
+ }else if(node4||mas&&p.t==='t4'){
+   fields.scv=make('include',node4?'4個以上の節転移：鎖骨上／Level IIIを照射範囲へ。':'pT4N0：PMRTの領域照射を基本候補として検討。',['JB5','JB6','JB7']);
  }else if(node13){
    if(mas)fields.scv=make('include','PMRTを選ぶ場合、胸壁＋鎖骨上／Level IIIが標準的照射体積。SLNBのみでALND省略なら腋窩管理も同時に決定。',['JB6','JC5','JFRQ']);
    else if(axDissected){
@@ -161,7 +161,8 @@ function decide(raw){
  }else if(neo){
    if(p.ypn==='ypp'||p.ypn==='ypmi'){
      fields.axilla=make('consider','術前治療後に残存節転移あり。追加ALNDと未郭清腋窩照射の扱いを多職種で決定。',['ASTRO'],'治療必要');
-   }else if(p.ypn==='yp0')fields.axilla=make('omit','ypN0なら専用Level I–IIは通常省略。ただし初期高病期・検索手技の信頼性を別確認。',['B51','ASTRO']);
+   }else if(p.ypn==='yp0'&&p.cn==='c23'&&axLimited)fields.axilla=make('include','初期cN2–3でALND未施行：ypN0でも未郭清Level I–IIを含むRNIを基本候補。腋窩手術の質と標的範囲を要確認。',['ASTRO']);
+   else if(p.ypn==='yp0')fields.axilla=make('omit','ypN0なら専用Level I–IIは通常省略。ただし初期高病期・検索手技の信頼性を別確認。',['B51','ASTRO']);
    else fields.axilla=make('hold','術後ypN・腋窩治療方針を確認。',['ASTRO']);
  }else if(nPos(p)&&p.deposit==='macro'&&mas&&axLimited){
    if(p.axPlan==='rni')fields.axilla=make('include','全摘・SLNマクロ転移・ALND省略でPMRT＋RNIを選択：未郭清Level I–IIを照射標的として検討。',['JFRQ','ASTRO']);
@@ -202,6 +203,11 @@ function decide(raw){
    else fields.boost=make('hold','断端状態・年齢・局所リスクを確認。',['JBOOST']);
  }
  if(!known(p.margin)&&bcs)fields.boost=make('hold','断端所見を確認してください。',['JBOOST']);
+ // Clinically involved IMN changes RNI consideration regardless of axillary pathologic pN.
+ if(p.imn==='pos'&&p.hist==='inv'){
+   fields.scv=make('include','内胸リンパ節転移確認：領域リンパ節照射の治療計画を検討（臨床N病期を再評価）。',['JIMN','ASTRO']);
+   if(mas)fields.chest=make('include','IMN転移があるため胸壁と領域の包括的PMRTを検討。腋窩pN0だけで省略しません。',['JIMN','ASTRO']);
+ }
  // Safety: incomplete prerequisites make associated decisions provisional; never silently assume negative
  if(!nodeKnown){
    for(const key of ['scv','axilla'])fields[key]=make('hold','転移陽性数と節転移分類（陰性／ITC／微小／マクロ）を確認してください。');
@@ -227,7 +233,7 @@ function decide(raw){
  if(p.neo==='yes')out.notes.push('術前治療後例は日本2022の初回手術群から直接外挿不可。ASTRO 2025とB-51を補助資料として利用。');
  // Determine output confidence
  const essential=['術式','病理（浸潤癌／DCIS）','M0評価','術前薬物療法の有無','pT／ypT','断端','腋窩手術（ALND／SLNB）','術後リンパ節所見・陽性数'];
- if(missing.some(x=>essential.includes(x))||p.mstatus!=='m0'){
+ if(missing.length||Object.values(fields).some(x=>x.state==='hold')||p.mstatus!=='m0'){
    out.status='incomplete';out.primary='暫定の照射範囲です。必須項目を確認してください。';
  }else{
    out.status='assessed';out.primary='照射範囲の推奨案';
