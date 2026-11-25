@@ -5,7 +5,7 @@ const {decide}=require('../breast-field-decision.js');
 const base={
  surgery:'mas',hist:'inv',neo:'no',mstatus:'m0',t:'t1',margin:'neg',
  ax:'alnd',nodes:0,exam:16,deposit:'neg',axPlan:'unknown',
- alndQuality:'adequate',ct:'unknown',cn:'c0',ypn:'unknown',site:'outer',
+ alndQuality:'adequate',ct:'ct1',cn:'c0',ypn:'unknown',site:'outer',
  imn:'no',age:60,grade:'g1',lvi:'no',subtype:'hr',ene:'no',gross:'no',
  side:'right',recon:'none',systemic:'yes',cnExam:'neg'
 };
@@ -50,4 +50,6 @@ assert.equal(decide({...base,imn:'unknown'}).fields.imn.state,'hold','Unknown IM
 assert.equal(decide({...base,neo:'unknown'}).status,'incomplete','NAC unknown must remain provisional');
 assert.equal(decide({...base,ax:'alnd',alndQuality:'unknown'}).fields.axilla.state,'hold','ALND status alone does not prove field omission');
 assert.equal(decide({...base,surgery:'bcs',ax:'slnb',nodes:1,exam:3,deposit:'macro',gross:'unknown'}).fields.axilla.state,'consider','Z0011 requires absence of gross residual');
+assert.equal(decide({...base,surgery:'bcs',ax:'slnb',nodes:1,exam:3,deposit:'macro',ct:'unknown'}).fields.axilla.state,'consider','Z0011 requires clinical T1-2');
+assert.equal(decide({...base,surgery:'bcs',ax:'slnb',nodes:1,exam:null,deposit:'macro'}).fields.axilla.state,'consider','Unknown SLN examined count must not be assumed');
 console.log('Breast field decision tests passed: '+cases.length+' clinical scenarios, '+conflicts.length+' contradictions, and missing-data safety cases');
