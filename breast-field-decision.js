@@ -79,13 +79,17 @@ function decide(raw){
  need(p.surgery==='bcs'&&p.age===null,'年齢（ブースト）');
  need(!known(p.imn),'内胸リンパ節の画像・病理評価');
  need(!known(p.site),'腫瘍部位（内側／中央／外側）');
+ need(p.neo==='no'&&p.surgery==='bcs'&&p.ax==='slnb'&&p.deposit==='macro'&&p.nodes>0&&p.systemic!=='yes','SLNBマクロ転移の郭清省略：術後薬物療法計画');
+ need(p.neo==='no'&&p.surgery==='bcs'&&p.ax==='slnb'&&p.deposit==='macro'&&p.nodes>0&&p.cnExam!=='neg','SLNBマクロ転移の郭清省略：術前腋窩非触知の確認');
  const out={fields,errors,missing,notes,override,risks,status:'review',primary:'照射範囲は未確定です',selected:[],skipped:[],pending:[],sources:REFERENCES,model:'日本2022公開本文（2026版本文未照合）'};
  if(errors.length){out.status='error';out.primary='入力内容に矛盾があります。修正後に判定してください。';return out;}
  if(!known(p.surgery)||!known(p.hist)){return out;}
  if(p.mstatus==='m1'){out.status='outside';out.primary='M1：術後M0用の照射範囲判定は適用外';out.notes.push('局所制御・症状緩和など治療目的から個別に判断してください。');return out;}
  const neo=p.neo==='yes',bcs=p.surgery==='bcs',mas=p.surgery==='mas';
  const nodeKnown=nPos(p)||nNeg(p);
- const node4=nodeKnown&&p.nodes>=4,node13=nPos(p)&&p.nodes>=1&&p.nodes<=3;
+ const macroPos=p.deposit==='macro'&&p.nodes>0;
+ const microPos=p.deposit==='micro'&&p.nodes>0;
+ const node4=macroPos&&p.nodes>=4,node13=macroPos&&p.nodes>=1&&p.nodes<=3;
  const noNode=nNeg(p);
  const axDissected=p.ax==='alnd';
  const axLimited=p.ax==='slnb'||p.ax==='none';
@@ -110,6 +114,8 @@ function decide(raw){
     fields.chest=make('include',node4?'ALND後4個以上のリンパ節転移はPMRTの標準適応。':'pT4はPMRTの標準適応です。',['JB5','JB6']);
    }else if(node13){
     fields.chest=make('include','pN1（1–3個）でもPMRTを実施する方向を基本とします。日本2022 CQ5はALND後で弱い推奨。SLNBのみでは手術との組み合わせを確認。',['JC5','JFRQ','ASTRO']);
+   }else if(microPos){
+    fields.chest=make('consider','pN1miのみの全摘例はマクロ転移1–3個のCQ5を一律に適用しません。T分類・他の再発リスクとともにPMRTを個別評価。',['JFRQ','ASTRO'],'通常省略寄り');
    }else if(highTumor){
     fields.chest=make('include','pT3–4N0はPMRTを基本候補とします。pT3N0低リスク例は胸壁単独や省略の余地を個別検討。',['JB7']);
    }else if(p.margin==='pos'){
@@ -137,10 +143,12 @@ function decide(raw){
  }else if(node13){
    if(mas)fields.scv=make('include','PMRTを選ぶ場合、胸壁＋鎖骨上／Level IIIが標準的照射体積。SLNBのみでALND省略なら腋窩管理も同時に決定。',['JB6','JC5','JFRQ']);
    else if(axDissected){
-     fields.scv=risks.length||p.nodes===3?make('include','BCS・ALND後1–3個陽性。日本2022 CQ4はRNIを弱く推奨、追加リスクもあるため照射を基本候補。',['JC4']):make('consider','BCS・ALND後1–3個陽性。日本2022 CQ4は弱い推奨。低負荷・良好因子では追加RNIの上乗せを協議。',['JC4'],'省略も許容');
-   }else if(p.cn==='c0'&&p.nodes<=2&&p.t!=='t3'&&p.t!=='t4'&&p.gross!=='yes'){
+     fields.scv=make('include','BCS・ALND後1–3個陽性。日本2022 CQ4の弱い推奨を採用し鎖骨上RNIを基本候補。低負荷・良好背景なら省略も個別協議。',['JC4']);
+   }else if(p.cn==='c0'&&p.nodes<=2&&p.t!=='t3'&&p.t!=='t4'&&p.gross==='no'&&p.systemic==='yes'&&p.cnExam==='neg'){
      fields.scv=risks.length>=2?make('consider','Z0011型の郭清省略例。ただし再発リスクが複数あり、鎖骨上RNIを追加するか個別協議。',['JFRQ','Z0011'],'省略を基本候補'):make('omit','cN0・T1–2・SLN1–2個陽性の温存照射では、Z0011型の条件確認のうえ専用鎖骨上照射は必須ではありません。',['JFRQ','Z0011']);
    }else fields.scv=make('consider','ALND省略でZ0011適格性が明確でないため、鎖骨上RNIを個別検討。',['JFRQ'],'追加照射寄り');
+ }else if(microPos){
+   fields.scv=make('omit','微小転移のみでは専用鎖骨上照射を通常追加しません。高リスク背景は別評価。',['JFRQ']);
  }else if(noNode){
    if(bcs&&highTumor&&risks.length>=2)fields.scv=make('consider','pN0でもT3・高リスク因子がありRNI追加を検討。',['JC4'],'省略を基本候補');
    else fields.scv=make('omit','病理節陰性で通常は予防的鎖骨上照射を行いません。',['JB1','JB7']);
@@ -160,9 +168,9 @@ function decide(raw){
    else if(p.axPlan==='alnd')fields.axilla=make('hold','追加ALNDの最終病理を待ち、未郭清領域を再判定。',['JFRQ']);
    else fields.axilla=make('hold','先に「ALND省略＋RNI」または「追加ALND」を選択してください。単なるALND省略と腋窩治療省略は別です。',['JFRQ']);
  }else if(nPos(p)&&p.deposit==='macro'&&bcs&&axLimited){
-   if(p.cn==='c0'&&p.nodes<=2&&['t1','t2'].includes(p.t)&&p.gross==='no'){
+   if(p.cn==='c0'&&p.nodes<=2&&['t1','t2'].includes(p.t)&&p.gross==='no'&&p.systemic==='yes'&&p.cnExam==='neg'){
      fields.axilla=make('omit','Z0011に近い条件では専用Level I–II照射は自動追加しません。通常接線野による偶発的線量を専用照射と区別。',['JFRQ','Z0011']);
-   }else fields.axilla=make('consider','Z0011の条件外／不十分なため未郭清Level I–IIの補完照射または追加ALNDを検討。',['JFRQ'],'照射・手術を検討');
+   }else fields.axilla=make('consider','Z0011の条件外／未確認（術前cN0・非触知・薬物療法・T1–2・残存なし等）のため未郭清Level I–IIの補完照射または追加ALNDを検討。',['JFRQ'],'照射・手術を検討');
  }else if(p.deposit==='micro'||p.deposit==='itc'){
    fields.axilla=make('omit','ITC／微小転移のみで、専用腋窩照射を機械的に追加しません。残余リスクの個別判断。',['JFRQ']);
  }else if(noNode)fields.axilla=make('omit','転移陰性：専用Level I–II照射なし。',['JB1']);
@@ -174,8 +182,9 @@ function decide(raw){
  else if(p.hist==='dcis')fields.imn=make('omit','DCISの予防的IMN照射は通常不要。',['JB1']);
  else if(neo&&(p.cn==='c23'||p.ct==='ct4'))fields.imn=make('consider','術前高病期のRNI。内胸照射の利益と心肺DVHを評価。',['JIMN','ASTRO'],'追加照射寄り');
  else if(node4)fields.imn=make('include','節転移4個以上は日本2022 CQ6に記載されたIMN照射の高リスク群。心肺線量を確認。',['JIMN']);
- else if(nPos(p)&&['inner','central'].includes(p.site))fields.imn=make('include','内側／中央原発＋節転移陽性は、日本2022 CQ6のIMN照射高リスク群（弱い推奨）。',['JIMN']);
- else if(nPos(p)&&p.site==='outer')fields.imn=make('consider','外側原発・転移1–3個ではIMN追加による利益は限定的な可能性。照射体積と心肺DVHで検討。',['JIMN'],'通常省略');
+ else if(macroPos&&['inner','central'].includes(p.site))fields.imn=make('include','内側／中央原発＋節転移陽性は、日本2022 CQ6のIMN照射高リスク群（弱い推奨）。',['JIMN']);
+ else if(macroPos&&p.site==='outer')fields.imn=make('consider','外側原発・転移1–3個ではIMN追加による利益は限定的な可能性。照射体積と心肺DVHで検討。',['JIMN'],'通常省略');
+ else if(microPos)fields.imn=make('omit','微小転移のみではIMNを自動追加しません（臨床画像陽性は別）。',['JIMN']);
  else if(noNode)fields.imn=make('omit','IMN転移陰性かつ腋窩節陰性で、通常は予防的IMN照射を行いません。',['JIMN']);
  else fields.imn=make('hold','腋窩節の評価を確認してください。',['JIMN']);
  // Boost
