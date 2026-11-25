@@ -1521,6 +1521,115 @@ window.RT_CLINICAL = {
             ]
           }
         ]
+      },
+      {
+        "match": {
+          "label": "乳房全摘後・胸壁＋領域リンパ節（Radixact）",
+          "dose": "50 Gy / 25 fr"
+        },
+        "summary": "全摘後の通常分割PMRT/RNIをRadixactで計画する場合。中寡分割優先というガイドラインの位置付けを維持する。",
+        "sections": [
+          {
+            "title": "適応・標的",
+            "items": [
+              "胸壁または再建乳房＋適応に応じた鎖骨下（Level III）・鎖骨上（Level IV）・内胸LN（通常第1–3肋間を基本、解剖・リスクで調整）。十分郭清されたLevel I/IIは残存リスクに応じて選択し、機械的に全例含めない。",
+              "IMNは腫瘍部位、腫瘍径、転移負荷、OAR線量を総合判断する。BRCA1/2変異のみでは照射範囲を拡大・縮小しない。",
+              "肉眼残存なしでは通常GTVなし。CTVはESTRO等のアトラスと術前画像・術式・病理を統合。PTV 5 mm、評価用PTVの体表3–5 mm cropは施設検討例であり、実際の固定・IGRT・皮膚リスクに合わせる。皮膚CTVを無条件に削除しない。断端陰性かつ追加高リスク所見なしならboostは通常不要。"
+            ],
+            "refs": [
+              {
+                "label": "ASTRO/ASCO/SSO PMRT 2025：Tables 7–8",
+                "url": "https://doi.org/10.1200/JCO-25-01747"
+              },
+              {
+                "label": "遺伝性乳癌 ASCO/ASTRO/SSO 2020",
+                "url": "https://doi.org/10.1200/JCO.20.00299"
+              },
+              {
+                "label": "ESTRO 早期乳癌CTV輪郭アトラス",
+                "url": "https://pubmed.ncbi.nlm.nih.gov/25630428/"
+              }
+            ]
+          },
+          {
+            "title": "標的線量（Table 7 と最適化案）",
+            "items": [
+              "胸壁・照射対象腋窩・鎖骨上PTV：理想 D95 ≥47.5 Gy、許容 D90 ≥45 Gy。IMN：理想 D95 ≥45 Gy、許容 D90 ≥40 Gy。いずれも50 Gy処方の場合。許容値は意図的な低線量処方を意味しない。",
+              "胸壁・照射対象腋窩 D0.1cc：理想 ≤55 Gy、許容 ≤57.5 Gy。鎖骨上 D0.1cc：理想 ≤57.5 Gy、許容 ≤60 Gy。腕神経叢の独立した目標を優先して確認。",
+              "施設最適化案：可能なら評価用PTV D95＝50 Gy、hot spot 107%（53.5 Gy）以下を目標とする。学会の理想・許容値とは区別。"
+            ],
+            "refs": [
+              {
+                "label": "ASTRO/ASCO/SSO PMRT 2025：Tables 7–8",
+                "url": "https://doi.org/10.1200/JCO-25-01747"
+              }
+            ]
+          },
+          {
+            "title": "OAR：学会計画目標（25回）",
+            "items": [
+              "患側肺：V20 Gy 理想 ≤35%；許容 ≤40%。HYPOG-1を含む学会目標。",
+              "患側肺：V5 Gy / V10 Gy ≤75% / ≤65%。理想目標。",
+              "対側肺：V5 Gy 理想 ≤10%；許容 ≤15%。低線量域に注意。",
+              "心臓（右側乳癌）：Dmean 理想 <2 Gy；許容 ≤3 Gy。ALARA。",
+              "心臓（左側乳癌）：Dmean 理想 ≤3 Gy；許容 ≤5 Gy。ALARA。",
+              "対側乳房／胸壁：V3 Gy / V5 Gy 理想 V3 ≤10%；許容 V5 ≤10%。異なる指標を区別。",
+              "腕神経叢：D0.1cc ≤52.5 Gy（105% Rx）。追加考慮事項。50 Gy処方時。",
+              "脊髄：D0.1cc 45 Gy以下を目安。追加考慮事項。点最大線量とは異なる。",
+              "食道：V10 Gy / V20 Gy <30% / <15%。追加考慮事項。",
+              "甲状腺：Dmean <21 Gy。追加考慮事項。",
+              "上腕骨頭：Dmean <20 Gy。追加考慮事項。",
+              "肝臓（右側乳癌）：Dmean <7 Gy。追加考慮事項。",
+              "胃（左側乳癌）：Dmean <3 Gy。追加考慮事項。",
+              "左心室：V2 Gy <36%。追加考慮事項。全心臓Dmeanとは別。"
+            ],
+            "refs": [
+              {
+                "label": "ASTRO/ASCO/SSO PMRT 2025：Tables 7–8",
+                "url": "https://doi.org/10.1200/JCO-25-01747"
+              }
+            ]
+          },
+          {
+            "title": "Radixactでの追加最適化案（施設未承認）",
+            "items": [
+              "患側肺：V20 Gy / V5 Gy / Dmean ≤25% / ≤60% / ≤13 Gy。努力目標。IMNを含む計画で達成困難なら学会目標と標的被覆を再評価。",
+              "対側肺：Dmean ≤2 Gy。努力目標。V5も評価。",
+              "両肺：V20 Gy ≤15%。努力目標。左右別DVHも確認。",
+              "対側乳房：Dmean ≤1 Gy。努力目標。≤2 Gyも比較時の参考値とし、硬い許容限界ではない。",
+              "心臓（右側乳癌）：V25 Gy ≤5%。努力目標。Dmean・心臓亜構造も確認。",
+              "肝臓（右側乳癌）：Dmean ≤5 Gy。努力目標。",
+              "脊髄：D0.03cc ≤35 Gy。努力目標。学会のD0.1ccとは別指標。",
+              "食道：Dmean ≤10 Gy。努力目標。学会V10/V20と別。",
+              "甲状腺：Dmean ≤20 Gy。努力目標。",
+              "上記は施設検討の努力目標で、Radixact専用の耐容線量や硬い制約ではない。達成不良時は標的カバレッジと学会目標、個別リスクを総合評価。"
+            ],
+            "refs": []
+          },
+          {
+            "title": "Helical IMRT：実装時チェック",
+            "items": [
+              "対側肺・乳房の低線量拡散を評価し、directional/complete blockの適否を検討。blockによる標的欠損や線量集中を確認する。必要ならTomoDirect、partial-arc VMAT等との計画比較。",
+              "呼吸・浮腫・体表変化に対するロバスト性、virtual bolus/flash相当の実装と再計算を施設のTPS・QA手順で検証。virtual bolusと実物bolusは別。",
+              "皮膚浸潤、表層断端陽性、リンパ管・脈管侵襲では実物bolusを検討（ガイドラインではこれらに推奨、通常例はroutine使用なし）。厚さ・頻度は皮膚リスクと毒性から個別化。",
+              "毎回IGRT、胸壁と鎖骨上・下の位置関係、外形変化、必要に応じ再計画を確認。BRCA1/2変異保有者にも必要なRTは実施し、対側乳房線量はALARA。"
+            ],
+            "refs": [
+              {
+                "label": "ASTRO/ASCO/SSO PMRT 2025：Tables 7–8",
+                "url": "https://doi.org/10.1200/JCO-25-01747"
+              },
+              {
+                "label": "TomoDirect/HT/VMAT PMRT 50 Gy/25 fr 計画比較（2020）",
+                "url": "https://doi.org/10.1002/acm2.12989"
+              },
+              {
+                "label": "遺伝性乳癌 ASCO/ASTRO/SSO 2020",
+                "url": "https://doi.org/10.1200/JCO.20.00299"
+              }
+            ]
+          }
+        ]
       }
     ]
   }
