@@ -74,10 +74,12 @@ function decide(raw){
  need(!known(p.ax),'腋窩手術（ALND／SLNB）');
  need(p.nodes===null||!known(p.deposit),'術後リンパ節所見・陽性数');
  need(p.neo==='yes'&&!known(p.ct),'術前cT');
+ need(p.neo==='no'&&p.surgery==='bcs'&&p.ax==='slnb'&&p.deposit==='macro'&&p.nodes>0&&!['ct1','ct2'].includes(p.ct),'Z0011：治療前cT1–2を確認');
  need(p.neo==='yes'&&!known(p.cn),'術前cN');
  need(p.neo==='yes'&&!known(p.ypn),'治療後ypN');
  need(p.surgery==='bcs'&&p.age===null,'年齢（ブースト）');
  need(!known(p.imn),'内胸リンパ節の画像・病理評価');
+ need(p.imn==='suspected','内胸リンパ節転移疑いの追加評価');
  need(!known(p.site),'腫瘍部位（内側／中央／外側）');
  need(p.neo==='no'&&p.surgery==='bcs'&&p.ax==='slnb'&&p.deposit==='macro'&&p.nodes>0&&p.systemic!=='yes','SLNBマクロ転移の郭清省略：術後薬物療法計画');
  need(p.neo==='no'&&p.surgery==='bcs'&&p.ax==='slnb'&&p.deposit==='macro'&&p.nodes>0&&p.cnExam!=='neg','SLNBマクロ転移の郭清省略：術前腋窩非触知の確認');
@@ -144,7 +146,7 @@ function decide(raw){
    if(mas)fields.scv=make('include','PMRTを選ぶ場合、胸壁＋鎖骨上／Level IIIが標準的照射体積。SLNBのみでALND省略なら腋窩管理も同時に決定。',['JB6','JC5','JFRQ']);
    else if(axDissected){
      fields.scv=make('include','BCS・ALND後1–3個陽性。日本2022 CQ4の弱い推奨を採用し鎖骨上RNIを基本候補。低負荷・良好背景なら省略も個別協議。',['JC4']);
-   }else if(p.cn==='c0'&&p.nodes<=2&&p.t!=='t3'&&p.t!=='t4'&&p.gross==='no'&&p.systemic==='yes'&&p.cnExam==='neg'){
+   }else if(p.cn==='c0'&&p.nodes<=2&&['ct1','ct2'].includes(p.ct)&&['t1','t2'].includes(p.t)&&p.exam!=null&&p.exam>=p.nodes&&p.gross==='no'&&p.systemic==='yes'&&p.cnExam==='neg'){
      fields.scv=risks.length>=2?make('consider','Z0011型の郭清省略例。ただし再発リスクが複数あり、鎖骨上RNIを追加するか個別協議。',['JFRQ','Z0011'],'省略を基本候補'):make('omit','cN0・T1–2・SLN1–2個陽性の温存照射では、Z0011型の条件確認のうえ専用鎖骨上照射は必須ではありません。',['JFRQ','Z0011']);
    }else fields.scv=make('consider','ALND省略でZ0011適格性が明確でないため、鎖骨上RNIを個別検討。',['JFRQ'],'追加照射寄り');
  }else if(microPos){
@@ -169,7 +171,7 @@ function decide(raw){
    else if(p.axPlan==='alnd')fields.axilla=make('hold','追加ALNDの最終病理を待ち、未郭清領域を再判定。',['JFRQ']);
    else fields.axilla=make('hold','先に「ALND省略＋RNI」または「追加ALND」を選択してください。単なるALND省略と腋窩治療省略は別です。',['JFRQ']);
  }else if(nPos(p)&&p.deposit==='macro'&&bcs&&axLimited){
-   if(p.cn==='c0'&&p.nodes<=2&&['t1','t2'].includes(p.t)&&p.gross==='no'&&p.systemic==='yes'&&p.cnExam==='neg'){
+   if(p.cn==='c0'&&p.nodes<=2&&['t1','t2'].includes(p.t)&&['ct1','ct2'].includes(p.ct)&&p.exam!=null&&p.exam>=p.nodes&&p.gross==='no'&&p.systemic==='yes'&&p.cnExam==='neg'){
      fields.axilla=make('omit','Z0011に近い条件では専用Level I–II照射は自動追加しません。通常接線野による偶発的線量を専用照射と区別。',['JFRQ','Z0011']);
    }else fields.axilla=make('consider','Z0011の条件外／未確認（術前cN0・非触知・薬物療法・T1–2・残存なし等）のため未郭清Level I–IIの補完照射または追加ALNDを検討。',['JFRQ'],'照射・手術を検討');
  }else if(p.deposit==='micro'||p.deposit==='itc'){
