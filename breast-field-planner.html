@@ -1,143 +1,176 @@
 <!doctype html>
-<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#102d46"><title>乳癌術後照射範囲｜RT Reference β</title>
+<html lang="ja">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#102d46"><meta name="apple-mobile-web-app-capable" content="yes"><title>乳癌照射範囲の決定 | RT Reference β</title>
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <style>
-:root{--navy:#102d46;--teal:#087b77;--bg:#f4f7fa;--ink:#183448;--muted:#637a8b;--line:#dae4eb;--surface:white}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.7 -apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif}header{background:var(--navy);padding:15px 20px;color:white}header a{color:#9fe1d7;text-decoration:none;margin-right:20px}header b{font-size:17px}main{max-width:1100px;margin:auto;padding:25px 16px 80px}h1{font-size:clamp(23px,4vw,33px);line-height:1.4;margin:5px 0}h2{font-size:19px;margin:0 0 12px}h3{font-size:16px;margin:0}.muted{color:var(--muted)}.eyebrow{font-size:11px;color:var(--teal);font-weight:800;letter-spacing:1.1px}.panel{background:var(--surface);padding:21px;border:1px solid var(--line);border-radius:15px;margin:16px 0;box-shadow:0 5px 14px #1a30420a}.alert{padding:12px 15px;background:#fff7e9;color:#765322;border:1px solid #efdfbe;border-radius:12px;margin:15px 0;font-size:13px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.field{min-width:0}.field label{display:block;font-weight:750;font-size:12px;margin:0 0 5px}.field select,.field input{font:inherit;font-size:16px;color:var(--ink);min-height:43px;width:100%;border:1px solid #c9d7df;background:white;padding:8px;border-radius:9px}.field small{font-size:11px;color:var(--muted)}.section-tag{color:var(--teal);font-size:12px;font-weight:800;border-bottom:1px solid var(--line);padding-bottom:9px;margin-bottom:13px}.actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px}.btn{padding:10px 16px;border-radius:10px;background:white;border:1px solid var(--line);font-weight:800;cursor:pointer;font-size:14px;color:var(--ink)}.btn.primary{background:var(--teal);color:white;border-color:var(--teal)}.results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.result{border:1px solid var(--line);border-top:4px solid var(--line);padding:17px;border-radius:12px;min-width:0;background:#fff}.result.strong{border-top-color:#138d7e}.result.consider{border-top-color:#d9a342}.result.review{border-top-color:#b35e6a}.result.omit{border-top-color:#8ea0ac}.rhead{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:6px}.pill{border-radius:30px;background:#edf0f2;color:#4c6170;font-size:11px;font-weight:800;padding:3px 10px}.pill.strong{background:#dff4ee;color:#086e60}.pill.consider{background:#fff0d6;color:#84631e}.pill.review{background:#ffedee;color:#943f4d}.result p,.result ul{font-size:13px}.result ul{padding-left:20px}.result a,.refs a{color:var(--teal);font-size:11px;margin:4px 6px 0 0;display:inline-block}.callout{border:1px solid #d9e4e5;background:#edf8f5;border-radius:10px;padding:12px;font-size:13px;white-space:pre-wrap}.flag{font-size:12px;padding:9px 12px;border-left:3px solid #ce9a3c;margin:6px 0;background:#fff7e9}.danger{font-size:12px;background:#fff0f1;padding:12px;border-radius:10px;border:1px solid #e5c1c6;margin-top:15px}ol.refs{padding-left:22px;font-size:13px}ol.refs li{margin:8px 0}.plan-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:12px 0}.country-comparison{display:grid;gap:10px;margin-top:12px}#combined h3{margin-top:14px}#combined li{font-size:13px}@media(max-width:730px){.plan-options{grid-template-columns:1fr}}.result b{display:block;margin-top:8px}.result a{overflow-wrap:anywhere}.mode-switch{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 8px}.scope{font-size:13px;margin:12px 0}.result-details,.question-group{border-top:1px solid var(--line);padding:14px 0;margin-top:10px}summary{cursor:pointer;font-weight:750;min-height:32px}.question-group .grid{margin-top:12px}.important{font-size:13px;margin:15px 0}.important ul{padding-left:22px}.important a{color:var(--teal)}.result details{margin-top:10px;font-size:13px}.hidden{display:none}.meta{font-size:12px;color:var(--muted)}@media(max-width:730px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.results{grid-template-columns:1fr}}@media(max-width:500px){.grid{grid-template-columns:1fr}main{padding:18px 12px 50px}.panel{padding:16px}}
-.overall{border:2px solid #557a91;border-radius:14px;background:#f3f8fb;padding:18px;margin:16px 0 22px}.overall h3{margin:14px 0 6px;font-size:15px}.overall p{margin:6px 0;overflow-wrap:anywhere}.overall-first{font-size:18px;font-weight:750}.overall li{margin:5px 0}.overall small{display:block;margin-top:12px;color:#506776}.evidence-item{border-top:1px solid #cddbe4;padding:10px 0}.overall details{margin-top:12px}
-
-/* Clinical text and iOS touch sizing. */
-body{font-size:1.125rem;line-height:1.65;-webkit-text-size-adjust:100%;text-size-adjust:100%}
-input,select,textarea{font-size:1rem;min-height:44px;max-width:100%}
-button.btn,summary{min-height:44px}
-summary{cursor:pointer;padding-block:.35rem}
-summary:focus-visible,button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #3e9f98;outline-offset:2px}
-.result p,.result ul,.result details,.alert,.callout,.flag,.danger,.scope,.important,#combined li{font-size:1.125rem}.result a,.refs a{font-size:.9375rem}.field label{font-size:1rem}.field small,.meta{font-size:.9375rem} .result{overflow-wrap:anywhere}
-header{display:flex;flex-wrap:wrap;column-gap:1rem}header a{margin-right:0}.field,.overall{overflow-wrap:anywhere}
-</style></head><body>
-<header><a href="index.html#breast">← 乳癌リファレンスに戻る</a><b>Breast RT Field Planner <small>β</small></b></header>
+:root{--navy:#102d46;--teal:#087b77;--bg:#f4f7fa;--surface:#fff;--ink:#173145;--muted:#617687;--line:#dae3ea;--inc:#075e59;--incbg:#e8f4f1;--om:#52677a;--ombg:#eff3f6;--ask:#98621c;--askbg:#fff7ea;--stop:#9d4242;--stopbg:#fff0ef}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;-webkit-text-size-adjust:100%}
+button,select,input{font:inherit}button{cursor:pointer}a{color:var(--teal)}button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #44ada6;outline-offset:2px}
+header{background:#102d46;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px clamp(12px,3vw,36px)}
+header .brand{font-weight:850;font-size:16px}header small{display:block;color:#b2c9d6;font-size:11px}
+header a{color:#e1f5f3;text-decoration:none;border:1px solid #7193a4;padding:6px 12px;border-radius:8px;font-size:12px}
+main{max-width:1270px;margin:0 auto;padding:22px clamp(12px,2.2vw,30px) 72px}
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:1px;color:var(--teal)}
+h1{font-size:clamp(25px,3vw,35px);color:var(--navy);margin:3px 0 5px;line-height:1.3}
+.lead{font-size:14px;color:var(--muted);margin:0 0 15px}
+.warning{padding:12px 15px;background:var(--askbg);color:#67491e;border:1px solid #ead6ab;border-radius:11px;font-size:13px;margin-bottom:16px}
+.result{background:var(--surface);border:2px solid var(--teal);border-radius:17px;padding:22px;margin-bottom:18px;scroll-margin-top:14px}
+.result h2{font-size:20px;margin:0 0 6px}
+.summary-main{font-size:clamp(19px,2.5vw,27px);font-weight:850;line-height:1.6;margin:8px 0 12px;color:var(--inc)}
+.summary-secondary{font-size:14px;color:var(--muted);margin:0 0 12px}
+.toolbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:9px;margin:12px 0}
+.toolbar button,.action{background:var(--teal);color:#fff;border:none;border-radius:10px;padding:9px 15px;font-size:13px;font-weight:750;min-height:42px}
+.toolbar .secondary,.secondary{background:var(--surface);color:var(--teal);border:1px solid #8ebfb9}
+.legend{font-size:12px;color:var(--muted);margin:9px 0}
+.field-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.field-result{border:1px solid var(--line);border-radius:12px;padding:12px 15px;min-width:0}
+.field-result h3{margin:0;font-size:15px}
+.state{font-size:12px;font-weight:850;display:inline-block;padding:3px 8px;border-radius:20px;margin:7px 0}
+.state.include{background:var(--incbg);color:var(--inc)}.state.omit{background:var(--ombg);color:var(--om)}.state.consider{background:var(--askbg);color:var(--ask)}.state.hold{background:var(--stopbg);color:var(--stop)}
+.field-result p{font-size:13px;margin:3px 0 8px;color:var(--ink)}
+.field-result small{font-size:11px;color:var(--muted)}
+.field-result a{font-size:11px;white-space:normal;overflow-wrap:anywhere;margin-right:8px}
+.checklist{margin-top:13px;padding:12px 15px;border-radius:11px;background:var(--askbg);font-size:13px;color:var(--ink)}
+.checklist ul{margin:5px 0;padding-left:20px}
+.notes{font-size:12px;line-height:1.75;color:var(--muted);margin-top:12px}
+.input-panel{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:20px 22px;margin-bottom:16px}
+.input-panel h2{font-size:19px;color:var(--navy);margin:0 0 6px}
+.input-panel .hint{font-size:12px;color:var(--muted);margin:0 0 15px}
+.fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.field{min-width:0;display:flex;flex-direction:column;gap:5px}
+.field label{font-size:13px;font-weight:800;line-height:1.4}
+.field select,.field input{width:100%;background:var(--surface);color:var(--ink);border:1px solid #b7cbd8;border-radius:9px;min-height:45px;padding:7px 11px}
+.field small{font-size:11px;color:var(--muted)}
+fieldset{border:0;padding:0}
+details{border-top:1px solid var(--line);padding-top:10px;margin-top:13px}
+summary{cursor:pointer;color:var(--teal);font-weight:800;min-height:42px;padding:7px 0}
+.footer-links{font-size:13px;color:var(--muted)}
+.footer-links li{margin:6px 0;overflow-wrap:anywhere}
+footer{font-size:12px;line-height:1.7;color:var(--muted);padding:12px 2px}
+.empty{padding:12px;font-size:13px;color:var(--muted)}
+@media(max-width:1050px){.fields{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:690px){main{padding:17px 11px 65px}.field-results{grid-template-columns:1fr}.fields{grid-template-columns:1fr}.result,.input-panel{padding:17px 13px}.field-result{padding:12px}.result h2{font-size:18px}.toolbar{justify-content:flex-start}}
+@media print{header,.toolbar,.input-panel,details,footer{display:none!important}body{background:#fff;color:#000}main{padding:0}.result{border:0;padding:0}.field-results{grid-template-columns:repeat(2,1fr)}.field-result{break-inside:avoid}}
+</style></head>
+<body>
+<header><div class="brand">RT Reference <small>BREAST RADIATION FIELD DECISION · v2</small></div><a href="index.html#breast">← 乳癌リファレンスへ戻る</a></header>
 <main>
-<div class="eyebrow">POSTOPERATIVE BREAST RADIATION · FIELD DECISION SUPPORT</div><h1>乳癌術後照射範囲プランナー</h1><p class="muted">基本情報から照射範囲の暫定候補を確認し、必要な情報だけを追加できます。</p>
-<div class="alert"><b>臨床検証前の試験版です。</b> 出力だけで治療方針を決めず、原典確認が必要です。患者識別情報は入力しないでください。</div><details id="medicalScope" class="scope"><summary>適用範囲と原典確認について</summary><div class="alert"><b>医師による臨床検証前の試作版です。</b> 添付版に記載された日本乳癌学会2026年版の刊行情報・推奨本文は、本統合では原典照合していません。現時点では一般公開されている日本2022年版、米国ASTRO/ASCO/SSO 2025年版、主要RCTを参考にします。出力だけで照射適応・照射野を決めないでください。</div>
-<div class="alert"><b>今回の照合範囲：</b>日本2022 外科CQ1・放射線FRQ3・BQ6・CQ6、ASCO 2025 SLNBのRec 4.1–4.3、PMRT 2025の治療体積。照合日：2026-11-14。全摘・SLN陽性1–2個の初回手術例を主対象とし、術前治療例・3個以上・病理不明へ自動適用しません。5試験の主要条件を簡易照合しますが正式登録適格性を保証しません。日本2026版は未確認・不使用。DCIS・ブースト等の未確定項目は原典確認が必要です。患者識別情報は入力しないでください。</div>
+<div class="eyebrow">日本ガイドライン優先 · 照射野を先に表示</div>
+<h1>乳癌術後：どこを照射するか</h1>
+<p class="lead">術式・病理・術前治療・腋窩手術を入力すると、全乳房／胸壁／鎖骨上／腋窩／内胸／ブーストの方針を即時表示します。</p>
+<div class="warning"><strong>根拠の版に注意：</strong>日本乳癌学会<strong>2026年版は刊行済み</strong>ですが、推奨本文を照合できていません。本ツールの日本の判断基準は公開本文を確認した<strong>2022年版（2024年Web改訂を含む）</strong>です。2025年の米国指針・RCTは日本本文で未解決の部分のみ補助的に参照します。正式な最終判断には2026年版の該当BQ/CQ確認が必要です。</div>
+<section class="result" id="result" aria-live="polite">
+<div class="toolbar"><h2>今回の照射範囲</h2><button type="button" class="secondary" id="copy">判定結果をコピー</button></div>
+<div id="resultState" class="summary-secondary">症例情報を入力してください。</div>
+<div id="resultSummary" class="summary-main">必要項目の入力後に照射部位を表示します。</div>
+<div class="legend">「照射」＝原則の推奨案　「省略」＝専用標的には通常含めない　「個別検討」＝判断が分かれる部分　「保留」＝未入力・方針未確定</div>
+<div id="regionResults" class="field-results"></div>
+<div id="checklist"></div>
+<div id="otherNotes" class="notes"></div>
+</section>
+<form id="caseForm" autocomplete="off">
+<section class="input-panel">
+<h2>1. まず基本情報を入力</h2>
+<p class="hint">必須の項目は入力不足として表示します。分からない項目を「陰性」や「0個」として補完しません。</p>
+<div class="fields"><div class="field"><label for="surgery">手術術式</label><select id="surgery" name="surgery"><option value="unknown">選択してください</option><option value="bcs">乳房部分切除（BCS）</option><option value="mas">乳房全切除（Mastectomy）</option></select></div><div class="field"><label for="hist">病理型</label><select id="hist" name="hist"><option value="unknown">選択してください</option><option value="inv">浸潤癌</option><option value="dcis">純粋DCIS</option></select></div><div class="field"><label for="neo">術前薬物療法</label><select id="neo" name="neo"><option value="unknown">選択してください</option><option value="no">なし（初回手術）</option><option value="yes">あり（術前治療後）</option></select></div><div class="field"><label for="mstatus">遠隔転移</label><select id="mstatus" name="mstatus"><option value="unknown">未評価／不明</option><option value="m0">M0</option><option value="m1">M1</option></select></div><div class="field"><label for="t">病理T分類（pT／ypT）</label><select id="t" name="t"><option value="unknown">不明</option><option value="tis">Tis</option><option value="t0">T0（術前治療後）</option><option value="t1">T1（≤2 cm）</option><option value="t2">T2（>2–5 cm）</option><option value="t3">T3（>5 cm）</option><option value="t4">T4（皮膚・胸壁浸潤など）</option></select><small>術前薬物療法後はypTを選択</small></div><div class="field"><label for="margin">病理断端</label><select id="margin" name="margin"><option value="unknown">不明</option><option value="neg">陰性</option><option value="close">近接</option><option value="pos">陽性</option></select></div><div class="field"><label for="ax">腋窩手術</label><select id="ax" name="ax"><option value="unknown">未評価／不明</option><option value="slnb">SLNBのみ（ALND省略）</option><option value="alnd">ALND済み</option><option value="none">腋窩手術未施行</option></select></div><div class="field"><label for="nodes">転移陽性リンパ節数</label><input type="number" inputmode="numeric" id="nodes" min="0" max="99" step="1" placeholder="未評価は空欄"><small>0個は明示して入力。SLNBのみならSLN陽性数</small></div><div class="field"><label for="deposit">リンパ節転移分類</label><select id="deposit" name="deposit"><option value="unknown">未評価・不明</option><option value="neg">陰性</option><option value="itc">ITCのみ</option><option value="micro">微小転移（0.2–2 mm）</option><option value="macro">マクロ転移（>2 mm）</option></select></div><div class="field"><label for="exam">検索リンパ節数</label><input type="number" inputmode="numeric" id="exam" min="0" max="200" step="1" placeholder="任意・不明は空欄"></div></div>
+</section>
+<section class="input-panel">
+<h2>2. 照射範囲を決める追加項目</h2>
+<p class="hint">腋窩管理、術前治療前の病期、腫瘍の位置・内胸リンパ節の所見によって結論が変わります。</p>
+<div class="fields"><div class="field" data-group="axPlan"><label for="axPlan">SLN陽性・ALND省略時の腋窩管理方針</label><select id="axPlan" name="axPlan"><option value="unknown">未定</option><option value="rni">ALND省略＋PMRT／RNI</option><option value="alnd">追加ALND予定</option></select><small>全摘・SLNマクロ陽性では、ここを決めないと最終照射野は決まりません。</small></div><div class="field" data-group="alnd"><label for="alndQuality">ALNDの実施範囲・十分性</label><select id="alndQuality" name="alndQuality"><option value="unknown">不明</option><option value="adequate">Level I–II等を十分に郭清</option><option value="inadequate">不十分／残存部あり</option></select><small>Level I–IIの重複照射を避けるため必要</small></div><div class="field"><label for="ct">治療前cT</label><select id="ct" name="ct"><option value="unknown">不明</option><option value="ct1">cT1</option><option value="ct2">cT2</option><option value="ct3">cT3</option><option value="ct4">cT4</option></select><small>術前治療後の判定と、Z0011の治療前cT1–2確認に必要</small></div><div class="field"><label for="cn">治療前cN</label><select id="cn" name="cn"><option value="unknown">不明</option><option value="c0">cN0</option><option value="c1">cN1</option><option value="c23">cN2–3</option></select><small>術前治療なしでもZ0011などの適用確認に必要</small></div><div class="field" data-group="neo"><label for="ypn">術前治療後ypN</label><select id="ypn" name="ypn"><option value="unknown">不明</option><option value="yp0">ypN0</option><option value="ypmi">ypN1mi</option><option value="ypp">ypN（マクロ転移陽性）</option></select><small>cNとは別に入力</small></div><div class="field"><label for="site">原発腫瘍の位置</label><select id="site" name="site"><option value="unknown">不明</option><option value="inner">内側</option><option value="central">中央</option><option value="outer">外側</option></select><small>内胸リンパ節照射の判断に重要</small></div><div class="field"><label for="imn">内胸リンパ節所見</label><select id="imn" name="imn"><option value="unknown">未評価／不明</option><option value="no">画像で転移所見なし</option><option value="suspected">転移疑い</option><option value="pos">転移確認済み</option></select></div></div>
+</section>
+<section class="input-panel">
+<h2>3. ブースト・個別リスク因子</h2>
+<p class="hint">照射野の境界例や若年者、再建例で判断に使用します。</p>
+<div class="fields"><div class="field"><label for="systemic">術後薬物療法の予定（Z0011条件）</label><select id="systemic"><option value="unknown">不明</option><option value="yes">適切な術後薬物療法を予定／実施</option><option value="no">予定なし・不適応</option></select></div><div class="field"><label for="cnExam">治療前の腋窩触診（Z0011条件）</label><select id="cnExam"><option value="unknown">不明</option><option value="neg">非触知</option><option value="pos">触知転移疑い</option></select></div><div class="field"><label for="age">年齢</label><input id="age" type="number" min="18" max="110" step="1" inputmode="numeric" placeholder="例：48"><small>ブースト判断に使用</small></div><div class="field"><label for="grade">組織学的グレード</label><select id="grade" name="grade"><option value="unknown">不明</option><option value="g1">Grade 1</option><option value="g2">Grade 2</option><option value="g3">Grade 3</option></select></div><div class="field"><label for="lvi">脈管侵襲（LVI）</label><select id="lvi" name="lvi"><option value="unknown">不明・未評価</option><option value="yes">あり</option><option value="no">なし</option></select></div><div class="field"><label for="subtype">サブタイプ</label><select id="subtype" name="subtype"><option value="unknown">不明</option><option value="hr">HR陽性／HER2陰性</option><option value="her2">HER2陽性</option><option value="tn">トリプルネガティブ</option></select></div><div class="field"><label for="ene">節外進展</label><select id="ene" name="ene"><option value="unknown">不明・未評価</option><option value="yes">あり</option><option value="no">なし</option></select></div><div class="field"><label for="gross">肉眼的残存病変／癒合リンパ節</label><select id="gross" name="gross"><option value="unknown">不明・未評価</option><option value="yes">あり</option><option value="no">なし</option></select></div><div class="field"><label for="side">左右</label><select id="side" name="side"><option value="unknown">不明</option><option value="left">左</option><option value="right">右</option></select></div><div class="field"><label for="recon">乳房再建</label><select id="recon" name="recon"><option value="unknown">不明</option><option value="none">なし</option><option value="implant">人工物</option><option value="auto">自家組織</option></select></div></div>
+</section>
+<div class="toolbar">
+<button type="button" id="resetForm" class="secondary">全項目クリア</button>
+<button type="button" id="jump" class="action">結果を表示 ↑</button>
+</div>
+<details class="input-panel"><summary>代表的な症例を入力して操作を試す</summary>
+<div class="toolbar"><button type="button" class="secondary" data-example="bcsN0">温存・N0</button><button type="button" class="secondary" data-example="bcsSLN">温存・SLN1個陽性</button><button type="button" class="secondary" data-example="masN1">全摘・ALND後N1</button><button type="button" class="secondary" data-example="masSLN">全摘・SLN1個陽性（RNI選択）</button><button type="button" class="secondary" data-example="neoN0">術前治療cN1→ypN0</button></div>
+<p class="hint">例は入力UIと判定ロジックの確認用です。実症例の代入時は全項目を再確認してください。</p>
 </details>
-<form id="frm" autocomplete="off">
-<div class="mode-switch" role="group" aria-label="入力モード"><button type="button" class="btn primary" id="modeBasic" aria-pressed="true">基本入力</button><button type="button" class="btn" id="modeDetailed" aria-pressed="false">詳細入力・5試験を照合</button></div>
-<p id="modeNote" class="meta">まず10項目から暫定候補を確認できます。分からない項目は不明のままで構いません。</p>
-<section class="panel" id="basicInputs"><h2>基本情報</h2><div class="grid">
-<div class="field"><label for="surgery">術式 *</label><select id="surgery" required><option value="">選択</option><option value="bcs">乳房部分切除（BCS）</option><option value="mas">乳房全切除</option></select><small></small></div>
-<div class="field"><label for="age">年齢</label><input id="age" type="number" min="0" max="110" step="1"><small></small></div>
-<div class="field"><label for="neo">術前薬物療法</label><select id="neo"><option value="unk">不明</option><option value="no">なし</option><option value="yes">あり</option></select><small></small></div>
-<div class="field"><label for="cn">術前の臨床的cN</label><select id="cn"><option value="unk">不明</option><option value="notdone">未評価：cNX</option><option value="c0">cN0</option><option value="c1">cN1</option><option value="c23">cN2–3</option></select><small>術前cN0＋SLNB陽性でもcNを自動変更しません。</small></div>
-<div class="field"><label for="tstage">術後pT／ypT</label><select id="tstage"><option value="unk">不明</option><option value="notdone">未評価</option><option value="t0">T0（術前治療後）</option><option value="tis">Tis</option><option value="t1">T1（詳細不明）</option><option value="t1a">T1a</option><option value="t1b">T1b</option><option value="t1c">T1c</option><option value="t2">T2</option><option value="t3">T3</option><option value="t4">T4</option></select><small></small></div>
-<div class="field"><label for="ax">現在の腋窩手術</label><select id="ax"><option value="unk">不明</option><option value="slnb">SLNBのみ（ALND省略）</option><option value="alnd">ALND実施済み</option><option value="none">未施行</option></select><small></small></div>
-<div class="field"><label for="nodes">術後の転移陽性数（ITC除く）</label><input id="nodes" type="number" min="0" max="99" step="1"><small>SLNBのみならSLN陽性数。未評価は空欄、陰性は明示的に0。</small></div>
-<div class="field"><label for="micro">術後病理リンパ節所見（pN／ypN）</label><select id="micro"><option value="unk">不明</option><option value="notdone">未評価</option><option value="negative">陰性：pN0／ypN0</option><option value="itc">ITCのみ：pN0(i+)／ypN0(i+)</option><option value="micro">微小転移のみ：pN1mi／ypN1mi</option><option value="macro">マクロ転移あり：N分類は報告書で確認</option></select><small>ITCは転移陽性節数には数えません。径だけでなく細胞数を含め病理報告で選択。</small></div>
-<div class="field"><label for="margin">断端</label><select id="margin"><option value="unk">不明</option><option value="neg">陰性</option><option value="close">近接</option><option value="pos">陽性</option></select><small></small></div>
-<div class="field"><label for="site">腫瘍部位</label><select id="site"><option value="unk">不明</option><option value="inner">内側</option><option value="central">中央</option><option value="outer">外側</option></select><small></small></div>
-</div></section>
-<section class="panel hidden" id="followupInputs"><h2>判定に関わる追加質問</h2><p class="meta">必要な情報だけを順に確認できます。すべて埋めなくても暫定候補は表示します。5試験の厳密な照合は詳細入力で確認してください。</p><div id="followupGroups"></div><details id="retainedDetails" class="hidden"><summary>その他の入力済み詳細</summary><div id="retainedFields" class="grid"></div></details></section>
-<section class="panel hidden" id="detailInputs"><h2>詳細情報・5試験の照合</h2><p class="meta">基本入力と同じデータを使用します。未入力は陰性として補完しません。</p><div class="grid" id="detailGrid">
-<div class="field"><label for="ct">初回治療前cT</label><select id="ct"><option value="unk">不明</option><option value="notdone">未評価</option><option value="ct1">cT1（詳細不明）</option><option value="ct1a">cT1a</option><option value="ct1b">cT1b</option><option value="ct1c">cT1c</option><option value="ct2">cT2</option><option value="ct3">cT3</option><option value="ct4">cT4</option></select><small></small></div>
-<div class="field"><label for="cnExam">cN評価：治療前の診察・触診</label><select id="cnExam"><option value="unk">不明</option><option value="notdone">未評価・未施行</option><option value="neg">陰性／所見なし</option><option value="pos">陽性／触知あり</option></select><small></small></div>
-<div class="field"><label for="cnImaging">cN評価：治療前画像</label><select id="cnImaging"><option value="unk">不明</option><option value="notdone">未評価</option><option value="neg">疑わしい所見なし</option><option value="susp">転移疑い／陽性所見</option></select><small></small></div>
-<div class="field"><label for="axUS">治療前腋窩超音波の実施</label><select id="axUS"><option value="unk">不明</option><option value="yes">実施済み</option><option value="no">未施行</option></select><small></small></div>
-<div class="field"><label for="cnBiopsy">治療前の腋窩FNA／針生検</label><select id="cnBiopsy"><option value="unk">不明</option><option value="notdone">未施行</option><option value="neg">転移を証明せず</option><option value="pos">転移を証明</option></select><small>SLNBの術後病理とは別の結果。cN1以上では特に確認。</small></div>
-<div class="field"><label for="cnNodes">画像・針生検で評価した転移節個数</label><input id="cnNodes" type="number" min="0" max="99" step="1"><small>SENOMACの非触知画像陽性例の確認。分からなければ空欄。</small></div>
-<div class="field"><label for="m0">遠隔転移の評価</label><select id="m0"><option value="unk">不明</option><option value="notdone">未評価</option><option value="yes">M0を確認</option><option value="no">M1／遠隔転移あり</option></select><small></small></div>
-<div class="field"><label for="hist">病理診断</label><select id="hist"><option value="">選択</option><option value="inv">浸潤癌</option><option value="dcis">純粋DCIS</option></select><small></small></div>
-<div class="field"><label for="slnTiming">SLNBの実施時期</label><select id="slnTiming"><option value="unk">不明</option><option value="notdone">SLNB未施行</option><option value="upfront">術前治療なし・初回手術時</option><option value="preNeo">術前治療開始前</option><option value="postNeo">術前治療後</option></select><small></small></div>
-<div class="field"><label for="examined">術後の検索リンパ節数</label><input id="examined" type="number" min="0" max="200" step="1"><small></small></div>
-<div class="field"><label for="macroNodes">マクロ転移を認めたSLN個数</label><input id="macroNodes" type="number" min="0" max="99" step="1"><small>SENOMACでは総陽性数と分けて確認。</small></div>
-<div class="field"><label for="deposit">最大リンパ節転移径（mm）</label><input id="deposit" type="number" min="0" max="200" step="0.1"><small></small></div>
-<div class="field"><label for="pathMethod">SLN転移の検出方法</label><select id="pathMethod"><option value="unk">不明</option><option value="he">HEで確認</option><option value="ihc">IHCのみ</option><option value="osna">OSNA等</option></select><small></small></div>
-<div class="field"><label for="ene">顕微鏡的な節外進展</label><select id="ene"><option value="unk">不明</option><option value="yes">あり／確認済み</option><option value="no">なし</option></select><small></small></div>
-<div class="field"><label for="gross">肉眼的残存・癒合節・肉眼的節外進展</label><select id="gross"><option value="unk">不明</option><option value="yes">あり／確認済み</option><option value="no">なし</option></select><small></small></div>
-<div class="field"><label for="quality">実施済みALNDの十分性・範囲</label><select id="quality"><option value="unk">不明</option><option value="notdone">ALND未施行</option><option value="adequate">適切な郭清・範囲を確認</option><option value="inadequate">不十分／範囲に懸念</option></select><small></small></div>
-<div class="field"><label for="slnN">ALND例：先行SLNBの陽性数</label><input id="slnN" type="number" min="0" max="99" step="1"><small></small></div>
-<div class="field"><label for="slnExam">ALND例：先行SLNBの検索数</label><input id="slnExam" type="number" min="0" max="200" step="1"><small></small></div>
-<div class="field"><label for="priorAx">今回の治療より前の同側腋窩手術・照射歴</label><select id="priorAx"><option value="unk">不明</option><option value="yes">あり／確認済み</option><option value="no">なし</option></select><small></small></div>
-<div class="field"><label for="neoType">術前薬物療法の種類</label><select id="neoType"><option value="unk">不明</option><option value="chemo">化学療法（併用療法を含む）</option><option value="endocrine">内分泌療法のみ</option><option value="other">その他</option></select><small></small></div>
-<div class="field"><label for="ypn">術前治療後ypN（報告書）</label><select id="ypn"><option value="unk">不明</option><option value="notdone">未評価</option><option value="na">該当なし（術前治療なし）</option><option value="yp0">ypN0</option><option value="yp0i">ypN0(i+)：ITCのみ</option><option value="ypmi">ypN1mi</option><option value="ypp">ypNマクロ転移陽性</option></select><small></small></div>
-<div class="field"><label for="chemoStandard">8週以上の標準術前化学療法</label><select id="chemoStandard"><option value="unk">不明</option><option value="yes">アンスラサイクリン／タキサン系を含み確認済み</option><option value="no">未達／該当しない</option></select><small></small></div>
-<div class="field"><label for="her2">HER2</label><select id="her2"><option value="unk">不明</option><option value="pos">陽性</option><option value="neg">陰性</option></select><small></small></div>
-<div class="field"><label for="antiHer2">HER2陽性時の術前抗HER2療法</label><select id="antiHer2"><option value="unk">不明</option><option value="yes">実施あり</option><option value="no">実施なし</option><option value="na">HER2陰性・該当なし</option><option value="contra">禁忌で未実施：原典の例外を要確認</option></select><small></small></div>
-<div class="field"><label for="preSlnMicro">治療前SLNBがある場合：その時点の病理</label><select id="preSlnMicro"><option value="unk">不明／該当なし</option><option value="macro">マクロ転移あり</option><option value="micro">微小転移のみ</option><option value="itc">ITCのみ</option><option value="negative">陰性</option></select></div>
-<div class="field"><label for="preSlnMacroNodes">治療前SLNB時点のマクロ転移SLN数</label><input id="preSlnMacroNodes" type="number" min="0" max="99" step="1"></div>
-<div class="field"><label for="senoTiming">SENOMAC：治療前SLNB時の登録時期・非進行条件</label><select id="senoTiming"><option value="unk">不明</option><option value="yes">原典の該当条件を確認済み</option><option value="no">条件を満たさない</option></select><small></small></div>
-<div class="field"><label for="strategy">検討する腋窩方針</label><select id="strategy"><option value="undecided">未定／比較検討</option><option value="omit_rt">ALND省略＋PMRT・RNI（全摘）</option><option value="bcs_omit">BCS＋全乳房照射・ALND省略</option><option value="add_alnd">追加ALND後に再評価</option></select><small></small></div>
-<div class="field"><label for="rt">全摘：PMRT＋RNIの実施可能性・合意</label><select id="rt"><option value="unk">不明</option><option value="yes">実施可能・治療チームと本人が合意</option><option value="no">実施しない／困難（胸壁単独含む）</option></select><small></small></div>
-<div class="field"><label for="wbi">部分切除：全乳房照射の予定</label><select id="wbi"><option value="unk">不明</option><option value="yes">予定・合意あり</option><option value="no">予定なし</option></select><small></small></div>
-<div class="field"><label for="rtPossible">照射の実施可能性</label><select id="rtPossible"><option value="unk">不明</option><option value="yes">可能</option><option value="no">禁忌／実施困難</option></select><small></small></div>
-<div class="field"><label for="systemic">適切な術後薬物療法の計画</label><select id="systemic"><option value="unk">不明</option><option value="yes">確認済み</option><option value="no">未計画／実施困難</option></select><small></small></div>
-<div class="field"><label for="imn">内胸リンパ節の評価</label><select id="imn"><option value="unk">不明</option><option value="notdone">未評価</option><option value="no">転移を示す所見なし</option><option value="yes">転移疑い／確認あり</option></select><small></small></div>
-<div class="field"><label for="lowRisk">全摘pT1–2N0：総合的な低リスク評価</label><select id="lowRisk"><option value="unk">不明</option><option value="yes">病理・生物学的所見を含め確認済み</option><option value="no">高リスク要因あり</option></select><small></small></div>
-<div class="field"><label for="er">ER</label><select id="er"><option value="unk">不明</option><option value="pos">陽性</option><option value="neg">陰性</option></select><small></small></div>
-<div class="field"><label for="pr">PR</label><select id="pr"><option value="unk">不明</option><option value="pos">陽性</option><option value="neg">陰性</option></select><small></small></div>
-<div class="field"><label for="grade">Grade</label><select id="grade"><option value="unk">不明</option><option value="g1">G1</option><option value="g2">G2</option><option value="g3">G3</option></select><small></small></div>
-<div class="field"><label for="lvi">脈管侵襲</label><select id="lvi"><option value="unk">不明</option><option value="yes">あり／確認済み</option><option value="no">なし</option></select><small></small></div>
-<div class="field"><label for="side">左右</label><select id="side"><option value="unk">不明</option><option value="left">左</option><option value="right">右</option></select><small></small></div>
-<div class="field"><label for="recon">乳房再建</label><select id="recon"><option value="unk">不明</option><option value="none">なし</option><option value="implant">人工物</option><option value="auto">自家組織</option></select><small></small></div>
-</div></section>
-<div class="actions"><button type="submit" class="btn primary">照射範囲の候補を表示</button><button type="reset" class="btn" id="reset">入力をリセット</button><span class="meta">入力・結果は保存・送信しません。</span></div>
 </form>
-<section id="output" class="hidden" aria-live="polite"><div class="panel"><div class="actions" style="justify-content:space-between"><h2>照射範囲の候補 <small class="meta">試験版・暫定</small></h2><button id="copy" class="btn" type="button">結果をコピー</button></div><div id="overall"></div><p id="summary" class="meta"></p><h2>照射領域別の一覧</h2><div id="cards" class="results"></div><div id="important" class="important"></div>
-<details id="reasonDetails" class="result-details"><summary>治療方針・判断理由を確認</summary><div id="flags"></div><div id="staging" class="callout"></div><div id="combined"></div></details>
-<details id="trialDetails" class="result-details"><summary>5試験の主要条件を確認</summary><div id="trials"></div></details>
-<details id="guidelineDetails" class="result-details"><summary>日本・米国・欧州のガイドラインを確認</summary><div id="guidelines"></div></details>
-<p class="meta">候補は処方の確定ではありません。原典・画像・DVH・既照射歴・本人の意向等を確認し、カンファレンスで確定してください。</p></div></section>
-<details class="panel" id="referenceDetails"><summary>採用文献と更新状況</summary><p class="meta">照合日：2026-11-14（限定範囲）。臨床的妥当性は未検証。日本2026年版の未確認内容は使用しません。</p><ol id="refs" class="refs"></ol></details>
+<details class="input-panel"><summary>根拠と限界（公開日本ガイドラインを優先）</summary>
+<p class="footer-links">日本2022のBQ/CQを主根拠にし、ALND省略と術前治療後など日本側で照射野が一意に決まらない場合のみZ0011・B-51・ASTRO 2025を補助として示します。</p>
+<p class="footer-links">「腋窩Level I–II」は<strong>意図的な専用照射</strong>です。全乳房の通常接線野による偶発的被曝と混同しません。郭清済みの腋窩への重複照射は避けます。内胸は日本2022 CQ6の高リスク例（4節以上、内側・中央＋節陽性など）で優先検討します。</p>
+<ul id="references" class="footer-links"></ul>
+<p class="footer-links">本ツールは放射線治療専門医の検討を助ける参考計算です。最終的なCTV/PTV・心肺制約・既照射・患者希望・腫瘍ボードでの決定は別途必要です。症例データは保存・送信しません。</p>
+</details>
+<footer>RT Reference β ／ Clinician decision support ／ Version 2.0 ／ 原典照合日 2026-11-25 ／ 2026年版本文の内容は未照合</footer>
 </main>
-<script src="breast-field-logic.js"></script>
+<script src="./breast-field-decision.js"></script>
 <script>
-(()=>{'use strict';
-const S=BreastFieldLogic.REFERENCES;
-const by=id=>document.getElementById(id),v=id=>by(id).value,h=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function link(ids){return '<div>'+[...new Set(ids)].map(id=>S[id]?`<a target="_blank" rel="noopener noreferrer" href="${h(S[id][3])}">${h(S[id][0])}</a>`:'').join(' ')+'</div>'}
-by('refs').innerHTML=Object.values(S).map(s=>`<li><a target="_blank" rel="noopener noreferrer" href="${h(s[3])}">${h(s[0])}</a> <span class="meta">${h(s[1])}／${h(s[2])}</span></li>`).join('');
+(()=>{
+'use strict';
+const by=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
+const N=BreastFieldDecision.NAMES,R=BreastFieldDecision.REFERENCES;
+const ids=['surgery','hist','neo','mstatus','t','margin','ax','nodes','deposit','exam','axPlan','alndQuality','ct','cn','ypn','site','imn','systemic','cnExam','age','grade','lvi','subtype','ene','gross','side','recon'];
+const numberVal=id=>by(id).value.trim()===''?null:Number(by(id).value);
+const read=()=>Object.fromEntries(ids.map(id=>[id,['age','nodes','exam'].includes(id)?numberVal(id):by(id).value]));
+const words={include:'照射する',omit:'原則省略',consider:'個別検討',hold:'判定保留'};
+function links(refs){
+  return (refs||[]).map(key=>R[key]?'<a target="_blank" rel="noopener noreferrer" href="'+esc(R[key].url)+'">'+esc(key.startsWith('J')?'日本':'補助')+'・'+esc(key)+'</a>':'').join(' ');
+}
+function setVisibility(){
+  const p=read();
+  document.querySelectorAll('[data-group="neo"]').forEach(x=>x.hidden=p.neo!=='yes');
+  document.querySelectorAll('[data-group="axPlan"]').forEach(x=>x.hidden=!(p.surgery==='mas'&&p.ax!=='alnd'&&p.deposit==='macro'&&p.nodes>0));
+  document.querySelectorAll('[data-group="alnd"]').forEach(x=>x.hidden=p.ax!=='alnd');
+}
+let latest;
+function render(){
+  setVisibility();
+  const r=BreastFieldDecision.decide(read());
+  latest=r;
+  const state=by('resultState'),summary=by('resultSummary');
+  state.textContent=r.status==='assessed'?'判定案：入力情報に基づく評価':r.status==='error'?'入力内容を修正してください':r.status==='outside'?'本ツールの適用範囲外':'暫定判定・確認すべき項目があります';
+  summary.textContent=r.summary||r.primary;
+  if(r.status==='error'||r.status==='outside'){summary.textContent=r.primary;}
+  const nodes=Object.entries(N).map(([key,name])=>{
+    const f=r.fields[key],badge=words[f.state]||'保留';
+    return '<article class="field-result"><h3>'+esc(name)+'</h3><span class="state '+esc(f.state)+'">'+esc(badge)+'</span>'+
+      (f.defaultAction?'<small>・現時点の方向性：'+esc(f.defaultAction)+'</small>':'')+
+      '<p>'+esc(f.reason)+'</p><small>'+links(f.refs)+'</small></article>';
+  });
+  by('regionResults').innerHTML=nodes.join('');
+  const items=[...r.errors.map(x=>'⚠ '+x),...r.missing.map(x=>'未確認：'+x)];
+  by('checklist').innerHTML=items.length?'<div class="checklist"><b>最終決定前に確認（'+items.length+'件）</b><ul>'+items.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></div>':'';
+  by('otherNotes').innerHTML=r.notes.map(x=>'<p>・'+esc(x)+'</p>').join('');
+}
+function setupExample(which){
+  const cases={
+   bcsN0:{surgery:'bcs',hist:'inv',neo:'no',ct:'ct1',mstatus:'m0',t:'t1',margin:'neg',ax:'slnb',nodes:0,exam:3,deposit:'neg',cn:'c0',cnExam:'neg',systemic:'yes',age:65,site:'outer',imn:'no',gross:'no',grade:'g1',lvi:'no'},
+   bcsSLN:{surgery:'bcs',hist:'inv',neo:'no',ct:'ct1',mstatus:'m0',t:'t1',margin:'neg',ax:'slnb',nodes:1,exam:3,deposit:'macro',cn:'c0',cnExam:'neg',systemic:'yes',age:48,site:'outer',imn:'no',gross:'no',grade:'g1',lvi:'no'},
+   masN1:{surgery:'mas',hist:'inv',neo:'no',mstatus:'m0',t:'t1',margin:'neg',ax:'alnd',nodes:1,exam:18,deposit:'macro',alndQuality:'adequate',age:60,site:'outer',imn:'no',gross:'no',grade:'g1',lvi:'no'},
+   masSLN:{surgery:'mas',hist:'inv',neo:'no',mstatus:'m0',t:'t1',margin:'neg',ax:'slnb',nodes:1,exam:3,deposit:'macro',axPlan:'rni',cn:'c0',age:39,site:'inner',imn:'no',gross:'no'},
+   neoN0:{surgery:'mas',hist:'inv',neo:'yes',mstatus:'m0',t:'t0',ct:'ct2',cn:'c1',ypn:'yp0',margin:'neg',ax:'alnd',alndQuality:'adequate',nodes:0,exam:14,deposit:'neg',age:49,site:'outer',imn:'no',gross:'no'}
+  };
+  by('caseForm').reset();
+  const chosen=cases[which]||{};
+  Object.entries(chosen).forEach(([key,val])=>{if(by(key))by(key).value=String(val);});
+  render();by('result').scrollIntoView({behavior:'smooth',block:'start'});
+}
+by('caseForm').addEventListener('input',render);
+by('caseForm').addEventListener('change',render);
+by('caseForm').addEventListener('submit',e=>e.preventDefault());
+by('resetForm').addEventListener('click',()=>{by('caseForm').reset();render();});
+by('jump').addEventListener('click',()=>by('result').scrollIntoView({behavior:'smooth',block:'start'}));
+document.querySelectorAll('[data-example]').forEach(btn=>btn.addEventListener('click',()=>setupExample(btn.dataset.example)));
 let lastText='';
-const keys=['wbi','chest','scv','axilla','imn','boost'],names=['全乳房照射','胸壁・再建乳房','鎖骨上・Level III','腋窩Level I–II','内胸リンパ節','腫瘍床／胸壁高リスク部位ブースト'];
-const cls={strong:'適応・方針に沿って検討',consider:'個別検討',review:'追加情報／原典確認が必要',omit:'通常は対象外／非該当'};
-function renderTrials(items){return `<section class="panel"><h2>臨床試験：主要条件の簡易照合</h2><p class="meta">条件不一致があれば「適用対象外」、不一致なしで未確認があれば「情報不足」。その他の登録条件・除外基準は原典確認が必要です。合致は治療方針の自動決定ではありません。</p><div class="country-comparison">${items.map(t=>`<article class="result" data-trial="${h(t.id)}" data-trial-status="${h(t.status)}"><h3>${h(t.name)}：${h(t.status)}</h3>${t.excluded.length?'<b>合致しない条件</b><ul>'+t.excluded.map(x=>`<li>${h(x)}</li>`).join('')+'</ul>':''}${t.missing.length?'<b>不足情報</b><ul>'+t.missing.map(x=>`<li>${h(x)}</li>`).join('')+'</ul>':''}<details><summary>確認した主要条件</summary><ul>${t.conditions.map(x=>`<li>${x.state===true?'確認':x.state===false?'不一致':'未確認'}：${h(x.text)}</li>`).join('')}</ul></details><p>${h(t.note)}</p>${link(t.refs)}</article>`).join('')}</div></section>`}
-function renderPlan(plan){return plan?`<section class="panel" data-plan-status="${h(plan.status)}"><h2>腋窩手術と照射の一体評価</h2><h3>${h(plan.title)}</h3><p>${h(plan.reason)}</p>${link(plan.refs)}<h3>方針別の条件付き比較</h3><div class="plan-options">${plan.options.map(x=>`<article class="result"><h3>${h(x.title)}</h3><p>${h(x.text)}</p></article>`).join('')}</div><h3>判断保留・追加確認事項</h3><ul>${plan.checks.map(x=>`<li>${h(x)}</li>`).join('')}</ul></section>`:''}
-function renderGuidelines(items){return `<section class="panel"><h2>ガイドラインごとの対象と確実性</h2><p class="meta">日本2022を基本に、米国2025・欧州AGO 2024を区別して補足。推奨体系を相互換算しません。</p><div class="country-comparison">${items.map(x=>`<article class="result"><h3>${h(x.name)}</h3><p>対象：${h(x.population)}</p><p>推奨：${h(x.recommendation)}</p><p>確実性・強さ：${h(x.certainty)}</p>${link(x.refs)}</article>`).join('')}</div></section>`}
-function overallLinks(ids){const labels={JC1:'日本2022',ASLN25:'ASCO 2025',APOCKET:'PMRT 2025',AMAROS:'AMAROS',S24:'SENOMAC',Z11:'Z0011',JBOOST:'日本2022ブースト',B51:'B-51'};const selected=ids.filter(id=>labels[id]);return (selected.length?selected:ids.slice(0,2)).map(id=>`<a target="_blank" rel="noopener noreferrer" href="${h(S[id][3])}">${h(labels[id]||S[id][0])}</a>`).join(' ／ ')}
-function renderOverall(x){return `<section class="overall" data-overall-pathway="${h(x.pathway)}" data-overall-status="${h(x.status)}"><h2>総合的な照射方針の候補</h2><span class="pill ${x.status==='標準的に推奨'?'strong':x.status==='個別検討'?'consider':'review'}">${h(x.status)}</span><h3>第一候補</h3><p class="overall-first">${h(x.first)}</p><p>${h(x.details)}</p><h3>代替案</h3><p>${h(x.alternative)}</p>${x.checks.length?'<h3>追加確認事項</h3><ul>'+x.checks.map(t=>`<li>${h(t)}</li>`).join('')+'</ul>':''}<div class="meta">エビデンス：${overallLinks(x.refs)}</div><details id="overallEvidence"><summary>推奨強度・適用条件・未確認事項</summary>${x.evidence.map(e=>`<article class="evidence-item"><h3>${h(e.source)}</h3><p>推奨強度・確実性：${h(e.strength)}</p><p>適用条件：${h(e.conditions)}</p><p>未確認事項・限界：${h(e.unconfirmed)}</p>${link(e.refs)}</article>`).join('')}</details><small>「標準的に推奨」は表示した方針の適用条件内での位置づけです。代替案や個別領域の照射まで一律必須とする表示ではありません。</small></section>`}
-function readForm(){const p={};for(const id of ['age','site','margin','neo','cn','ypn','ax','micro','ene','recon','er','pr','her2','grade','lvi','side','ct','strategy','rt','systemic','gross','quality','imn','cnExam','cnImaging','cnBiopsy','axUS','m0','slnTiming','pathMethod','priorAx','neoType','chemoStandard','antiHer2','senoTiming','wbi','rtPossible','lowRisk','preSlnMicro'])p[id]=v(id);p.s=v('surgery');p.hist=v('hist')||'unk';p.t=v('tstage');for(const [key,id] of Object.entries({age:'age',n:'nodes',exam:'examined',macroNodes:'macroNodes',deposit:'deposit',cnNodes:'cnNodes',slnN:'slnN',slnExam:'slnExam',preSlnMacroNodes:'preSlnMacroNodes'}))p[key]=v(id)===''?null:Number(v(id));return p}
-function evaluate(){hasEvaluated=true;syncInputMode(true);const result=BreastFieldLogic.assessForDisplay(readForm());if(result.errors.length){alert(result.errors.join('\n'));return}
-by('overall').innerHTML=renderOverall(result.overall);
-by('flags').innerHTML=result.warnings.map(x=>`<div class="flag">⚠ ${h(x)}</div>`).join('');by('staging').textContent=result.staging;by('summary').textContent='基本情報と入力済みの追加情報に基づく候補です。未確認情報は陰性として補完していません。';
-by('trials').innerHTML=renderTrials(result.trials);by('combined').innerHTML=renderPlan(result.plan);by('guidelines').innerHTML=renderGuidelines(result.guidelines);
-by('cards').innerHTML=keys.map((k,i)=>{const x=result.displayFields[k];return `<article class="result ${h(x.l)}" data-field="${k}"><h3>${h(names[i])}</h3><span class="pill ${h(x.l)}">${h(cls[x.l])}</span><b>${h(x.title)}</b><details><summary>理由・文献</summary><p>${h(x.desc)}</p>${link(x.refs)}</details></article>`}).join('');
-by('important').innerHTML=result.important.length?'<b>判断を左右する確認事項</b><ul>'+result.important.map(x=>`<li>${h(x.text)}</li>`).join('')+'</ul><a href="#followupInputs" id="reviewQuestions">追加質問を確認する ↑</a>':'<p>入力した条件の範囲で評価しました。正式な適応は判断理由・原典で確認してください。</p>';
-for(const id of ['reasonDetails','trialDetails','guidelineDetails'])by(id).open=false;
-const refs=[...new Set([...result.overall.refs,...result.overall.evidence.flatMap(x=>x.refs),...result.trials.flatMap(x=>x.refs),...Object.values(result.displayFields).flatMap(x=>x.refs)])];
-lastText=['Breast RT Field Planner β（試験版・原典確認が必要）','総合的な照射方針の候補：'+result.overall.status,'第一候補：'+result.overall.first,result.overall.details,'代替案：'+result.overall.alternative,...result.overall.checks.map(x=>'総合確認：'+x),...result.overall.evidence.map(x=>x.source+'／'+x.strength+'／適用条件：'+x.conditions+'／未確認：'+x.unconfirmed),result.staging,...result.warnings,...result.important.map(x=>'追加確認：'+x.text),...keys.map((k,i)=>`${names[i]}：${result.displayFields[k].title} — ${result.displayFields[k].desc}`),...result.trials.map(t=>`${t.name}：${t.status}\n不一致：${t.excluded.join('／')||'なし'}\n不足：${t.missing.join('／')||'なし'}\n${t.note}`),...(result.plan?[result.plan.title,result.plan.reason,...result.plan.checks,...result.plan.options.map(x=>x.title+'：'+x.text)]:[]),...result.guidelines.map(x=>x.name+'：'+x.population+'／'+x.recommendation+'／'+x.certainty),...refs.map(id=>S[id][0]+' '+S[id][3])].join('\n');
-by('copy').textContent='結果をコピー';by('output').classList.remove('hidden');by('output').scrollIntoView({behavior:'smooth'});
-}
-const basicIds=['surgery','age','neo','cn','tstage','ax','nodes','micro','margin','site'];
-const extraNodes=new Map([...by('detailGrid').querySelectorAll('.field')].map(el=>[el.querySelector('input,select').id,el]));
-let mode='basic',hasEvaluated=false,lastSignature='';
-function answered(id){const value=v(id);return value!==''&&value!=='unk'&&value!=='undecided'}
-function syncInputMode(force=false){
- const groups=BreastFieldLogic.followUpQuestions(readForm());
- const relevant=new Set(groups.flatMap(g=>g.ids));
- const retained=[...extraNodes.keys()].filter(id=>!relevant.has(id)&&answered(id));
- by('modeNote').textContent=mode==='detailed'?'詳細入力：基本入力と同じ値を使用し、5試験の主要条件を照合します。':'基本入力：10項目から暫定候補を確認できます。入力済みの詳細情報'+[...extraNodes.keys()].filter(answered).length+'項目も判定に使用します。';
- by('modeBasic').setAttribute('aria-pressed',String(mode==='basic'));by('modeDetailed').setAttribute('aria-pressed',String(mode==='detailed'));by('modeBasic').classList.toggle('primary',mode==='basic');by('modeDetailed').classList.toggle('primary',mode==='detailed');
- const signature=JSON.stringify([mode,hasEvaluated,groups.map(g=>g.ids),retained]);if(!force&&signature===lastSignature)return;lastSignature=signature;
- for(const node of extraNodes.values())by('detailGrid').appendChild(node);
- by('detailInputs').classList.toggle('hidden',mode!=='detailed');by('followupInputs').classList.toggle('hidden',mode!=='basic'||!hasEvaluated);
- by('followupGroups').replaceChildren();by('retainedFields').replaceChildren();
- if(mode==='basic'&&hasEvaluated){let opened=false;for(const g of groups){const details=document.createElement('details');details.className='question-group';const missing=g.ids.some(id=>!answered(id));details.open=!opened&&missing;if(details.open)opened=true;const summary=document.createElement('summary');summary.textContent=g.title;details.appendChild(summary);const reason=document.createElement('p');reason.className='meta';reason.textContent=g.reason;details.appendChild(reason);const grid=document.createElement('div');grid.className='grid';for(const id of g.ids)if(extraNodes.has(id))grid.appendChild(extraNodes.get(id));details.appendChild(grid);by('followupGroups').appendChild(details)}
-  for(const id of retained)by('retainedFields').appendChild(extraNodes.get(id));by('retainedDetails').classList.toggle('hidden',retained.length===0);by('retainedDetails').querySelector('summary').textContent='その他の入力済み詳細（'+retained.length+'項目）';
- }
-}
-function setMode(next){mode=next;syncInputMode(true)}
-by('modeBasic').addEventListener('click',()=>setMode('basic'));by('modeDetailed').addEventListener('click',()=>setMode('detailed'));
-by('frm').addEventListener('submit',e=>{e.preventDefault();const invalid=e.target.querySelector('input:invalid,select:invalid');if(invalid&&!invalid.getClientRects().length)setMode('detailed');if(e.target.reportValidity())evaluate()});
-for(const event of ['input','change'])by('frm').addEventListener(event,()=>{by('output').classList.add('hidden');lastText='';syncInputMode()});
-by('frm').addEventListener('reset',()=>{by('output').classList.add('hidden');lastText='';queueMicrotask(()=>{mode='basic';hasEvaluated=false;syncInputMode(true)})});
-by('copy').addEventListener('click',()=>{if(navigator.clipboard)navigator.clipboard.writeText(lastText).then(()=>by('copy').textContent='コピーしました').catch(()=>by('copy').textContent='コピー不可');else by('copy').textContent='コピー非対応'});
-syncInputMode(true);
+by('copy').addEventListener('click',()=>{
+  const r=latest;
+  lastText=['乳癌術後・照射範囲の暫定評価',r.primary,r.summary||'',...Object.entries(N).map(([k,name])=>name+'：'+words[r.fields[k].state]+(r.fields[k].defaultAction?'（'+r.fields[k].defaultAction+'）':'')+'／'+r.fields[k].reason),'要確認：'+r.missing.join('、'),'日本2022公開本文を主根拠。日本2026本文未照合。'].join('\n');
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(lastText).then(()=>{by('copy').textContent='コピーしました';setTimeout(()=>by('copy').textContent='判定結果をコピー',1400);}).catch(()=>{by('copy').textContent='コピー不可';});
+  else by('copy').textContent='この環境ではコピー非対応';
+});
+by('references').innerHTML=Object.entries(R).map(([key,v])=>'<li><a target="_blank" rel="noopener noreferrer" href="'+esc(v.url)+'">'+esc(v.title)+'</a>（'+esc(v.role)+'）</li>').join('');
+render();
 })();
 </script></body></html>
