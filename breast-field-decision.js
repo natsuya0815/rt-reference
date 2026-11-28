@@ -1,13 +1,15 @@
-/* Breast RT field decision v2.0
+/* Breast RT field decision v2.1
  * Japanese source baseline: publicly accessible JBCS 2022 (2024 web update).
- * JBCS 2026 was published but full recommendations are not verified here.
+ * JBCS 2026 update scoped to surgery-first ALND BQ6/BQ7 and conditional PMRT fields BQ8.
  * Supplemental only: ASTRO/ASCO/SSO 2025 PMRT, NSABP B-51, Z0011.
  * Clinical decision support, not a prescription or substitute for review.
  * Pure core without personal data persistence or network requests. */
 (function(root){
 'use strict';
 const REFERENCES={
- J2026:{title:'日本乳癌学会 乳癌診療ガイドライン2026（刊行情報・推奨本文未照合）',url:'https://www.jbcs.gr.jp/modules/journals/index.php?content_id=3',year:2026,role:'存在確認のみ'},
+ J26BQ6:{title:'日本乳癌学会 2026 BQ6（温存・ALND後の鎖骨上照射）',url:'https://jbcs.xsrv.jp/guideline/2026/h_index/bq6/',year:2026,role:'日本本文'},
+ J26BQ7:{title:'日本乳癌学会 2026 BQ7（全摘・ALND後のPMRT適応）',url:'https://jbcs.xsrv.jp/guideline/2026/h_index/bq7/',year:2026,role:'日本本文'},
+ J26BQ8:{title:'日本乳癌学会 2026 BQ8（PMRT施行時の照射野）',url:'https://jbcs.xsrv.jp/guideline/2026/h_index/bq8/',year:2026,role:'日本本文'},
  JB1:{title:'日本2022 放射線BQ1/BQ2（全乳房照射）',url:'https://jbcs.xsrv.jp/guideline/2022/h_index/',year:2022,role:'日本本文'},
  JC4:{title:'日本2022 放射線CQ4（BCS・ALND後1–3個 RNI）',url:'https://jbcs.xsrv.jp/guideline/2022/h_index/cq4/',year:2022,role:'日本本文'},
  JC5:{title:'日本2022 放射線CQ5（全摘・ALND後1–3個 PMRT）',url:'https://jbcs.xsrv.jp/guideline/2022/h_index/cq5/',year:2022,role:'日本本文'},
@@ -83,7 +85,7 @@ function decide(raw){
  need(!known(p.site),'腫瘍部位（内側／中央／外側）');
  need(p.neo==='no'&&p.surgery==='bcs'&&p.ax==='slnb'&&p.deposit==='macro'&&p.nodes>0&&p.systemic!=='yes','SLNBマクロ転移の郭清省略：術後薬物療法計画');
  need(p.neo==='no'&&p.surgery==='bcs'&&p.ax==='slnb'&&p.deposit==='macro'&&p.nodes>0&&p.cnExam!=='neg','SLNBマクロ転移の郭清省略：術前腋窩非触知の確認');
- const out={fields,errors,missing,notes,override,risks,status:'review',primary:'照射範囲は未確定です',selected:[],skipped:[],pending:[],sources:REFERENCES,model:'日本2022公開本文（2026版本文未照合）'};
+ const out={fields,errors,missing,notes,override,risks,status:'review',primary:'照射範囲は未確定です',selected:[],skipped:[],pending:[],sources:REFERENCES,model:'日本2026 BQ6–8を部分反映（その他は従来の根拠）'};
  if(errors.length){out.status='error';out.primary='入力内容に矛盾があります。修正後に判定してください。';return out;}
  if(!known(p.surgery)||!known(p.hist)){return out;}
  if(p.mstatus==='m1'){out.status='outside';out.primary='M1：術後M0用の照射範囲判定は適用外';out.notes.push('局所制御・症状緩和など治療目的から個別に判断してください。');return out;}
@@ -107,7 +109,7 @@ function decide(raw){
    if(['c23'].includes(p.cn)||p.ct==='ct4'||p.t==='t4'||p.ypn==='ypp'||p.ypn==='ypmi'||nPos(p)){
     fields.chest=make('include','術前cN2–3/cT4またはypN陽性では、反応にかかわらずPMRTを支持します。',['ASTRO']);
    }else if((p.cn==='c1'||p.ct==='ct3')&&p.ypn==='yp0'){
-    fields.chest=make('consider','治療前cN1／cT3 → ypN0。ASTRO 2025は条件付きPMRT、B-51は一部で省略を支持。日本2026の記載未照合のため個別決定。',['ASTRO','B51'],'照射を基本候補');
+    fields.chest=make('consider','治療前cN1／cT3 → ypN0。ASTRO 2025は条件付きPMRT、B-51は一部で省略を支持。本更新の対象外のため個別決定。',['ASTRO','B51'],'照射を基本候補');
    }else if(p.cn==='c0'&&p.ypn==='yp0'&&['t0','t1','t2'].includes(p.t)){
     fields.chest=make('omit','治療前cN0、治療後ypN0・ypT0–2で他の高リスク因子がなければPMRTを通常省略します。',['ASTRO']);
    }else fields.chest=make('hold','術前cT/cN・治療後ypT/ypNの関係を確認してください。',['ASTRO','B51']);
@@ -210,6 +212,30 @@ function decide(raw){
    fields.scv=make('include','内胸リンパ節転移確認：領域リンパ節照射の治療計画を検討（臨床N病期を再評価）。',['JIMN','ASTRO']);
    if(mas)fields.chest=make('include','IMN転移があるため胸壁と領域の包括的PMRTを検討。腋窩pN0だけで省略しません。',['JIMN','ASTRO']);
  }
+ // JBCS 2026 BQ6/BQ7: surgery first, pathologic macro-positive axilla after ALND.
+ // Clinically involved IMN and gross residual require separate treatment evaluation.
+ const primaryALND=p.neo==='no'&&p.hist==='inv'&&axDissected&&!gross&&p.imn!=='pos';
+ if(primaryALND&&node4){
+   if(bcs)fields.scv=make('include','温存＋腋窩郭清後、腋窩転移4個以上：同側鎖骨上照射が標準です。',['J26BQ6']);
+   if(mas){
+     fields.chest=make('include','全摘＋腋窩郭清後、腋窩転移4個以上：PMRTが標準です。',['J26BQ7','J26BQ8']);
+     fields.scv=make('include','PMRT施行時は胸壁と領域リンパ節を照射範囲に含めるのが標準です。内胸・腋窩の詳細は別判定。',['J26BQ7','J26BQ8']);
+   }
+ }else if(primaryALND&&node13){
+   if(bcs)fields.scv=make('consider','温存＋腋窩郭清後、腋窩転移1～3個：個数だけでなく他の再発リスクも見て、同側鎖骨上照射を個別検討します。',['J26BQ6']);
+   if(mas&&p.t!=='t4'){
+     fields.chest=make('consider','全摘＋腋窩郭清後、腋窩転移1～3個：再発リスクと有害事象を比較してPMRTを個別検討します。安全に省略できる条件は確立していません。',['J26BQ7','J26BQ8']);
+     fields.scv=make('consider','PMRTを行うと決めた場合は、胸壁と領域リンパ節を含めるのが標準です。適応の判定とは分けて評価します。',['J26BQ7','J26BQ8'],'PMRTを行う場合は照射範囲に含める');
+   }
+   if((bcs||fields.chest.state==='consider')&&fields.imn.state==='include'){
+     fields.imn=make('consider','内胸リンパ節は、領域リンパ節照射を行うか決めたうえで、原発部位・転移状況・心肺線量を踏まえて別途評価します。',['JIMN']);
+   }
+ }
+ if(p.hist==='inv'&&axDissected&&node13&&!known(p.neo)&&!gross&&p.imn!=='pos'&&(bcs||mas&&p.t!=='t4')){
+   fields.scv=make('hold','術前薬物療法の有無を確認してから、鎖骨上照射を判定します。');
+   if(mas)fields.chest=make('hold','術前薬物療法の有無を確認してから、PMRT適応を判定します。');
+   if(fields.imn.state==='include')fields.imn=make('hold','領域リンパ節照射の適応を先に確認します。');
+ }
  // Safety: incomplete prerequisites make associated decisions provisional; never silently assume negative
  if(!nodeKnown){
    for(const key of ['scv','axilla'])fields[key]=make('hold','転移陽性数と節転移分類（陰性／ITC／微小／マクロ）を確認してください。');
@@ -246,6 +272,8 @@ function decide(raw){
  if(fields.wbi.state==='include'||fields.chest.state==='include'){
    out.summary=[fields.wbi.state==='include'?'全乳房':null,fields.chest.state==='include'?'胸壁／再建乳房':null,fields.scv.state==='include'?'鎖骨上＋Level III':null,fields.axilla.state==='include'?'未郭清腋窩I–II':null,fields.imn.state==='include'?'内胸':null].filter(Boolean).join(' ＋ ');
  }else out.summary=out.selected.length?out.selected.join(' ＋ '):'照射対象の確定待ち';
+ if(fields.chest.state==='consider'&&fields.chest.refs.includes('J26BQ7'))out.summary='PMRTを個別検討';
+ if(fields.scv.state==='consider'&&fields.scv.refs.includes('J26BQ6'))out.summary+=' ／ 鎖骨上照射を個別検討';
  return out;
 }
 const api={decide,NAMES,REFERENCES,highRisk};

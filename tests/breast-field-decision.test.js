@@ -14,9 +14,9 @@ const cases=[
  ['BCS N0', {surgery:'bcs',ax:'slnb',exam:3},['include','omit','omit','omit','omit','consider']],
  ['BCS SLN 1 macro Z0011', {surgery:'bcs',ax:'slnb',nodes:1,exam:3,deposit:'macro'},['include','omit','omit','omit','consider','consider']],
  ['BCS SLN 1 macro no systemic', {surgery:'bcs',ax:'slnb',nodes:1,exam:3,deposit:'macro',systemic:'unknown'},['include','omit','consider','consider','consider','consider']],
- ['BCS ALND 1 macro', {surgery:'bcs',nodes:1,deposit:'macro'},['include','omit','include','omit','consider','consider']],
+ ['BCS ALND 1 macro', {surgery:'bcs',nodes:1,deposit:'macro'},['include','omit','consider','omit','consider','consider']],
  ['Mastectomy N0',{},['omit','omit','omit','omit','omit','omit']],
- ['Mastectomy N1 after ALND',{nodes:1,deposit:'macro'},['omit','include','include','omit','consider','omit']],
+ ['Mastectomy N1 after ALND',{nodes:1,deposit:'macro'},['omit','consider','consider','omit','consider','omit']],
  ['Mastectomy N4 inner',{nodes:4,deposit:'macro',site:'inner'},['omit','include','include','omit','include','omit']],
  ['Mastectomy SLN+ no ax plan',{ax:'slnb',nodes:1,deposit:'macro',exam:3},['omit','hold','hold','hold','consider','omit']],
  ['Mastectomy SLN+ RNI',{ax:'slnb',nodes:1,deposit:'macro',exam:3,axPlan:'rni'},['omit','include','include','include','consider','omit']],
@@ -52,4 +52,27 @@ assert.equal(decide({...base,ax:'alnd',alndQuality:'unknown'}).fields.axilla.sta
 assert.equal(decide({...base,surgery:'bcs',ax:'slnb',nodes:1,exam:3,deposit:'macro',gross:'unknown'}).fields.axilla.state,'consider','Z0011 requires absence of gross residual');
 assert.equal(decide({...base,surgery:'bcs',ax:'slnb',nodes:1,exam:3,deposit:'macro',ct:'unknown'}).fields.axilla.state,'consider','Z0011 requires clinical T1-2');
 assert.equal(decide({...base,surgery:'bcs',ax:'slnb',nodes:1,exam:null,deposit:'macro'}).fields.axilla.state,'consider','Unknown SLN examined count must not be assumed');
+for(const nodes of [1,2,3,4,5]){
+ for(const surgery of ['bcs','mas']){
+  const r=decide({...base,nodes,deposit:'macro',surgery,site:'inner'});
+  const ref=surgery==='bcs'?'J26BQ6':'J26BQ7';
+  assert.equal(r.fields.scv.state,nodes<4?'consider':'include');
+  assert(r.fields.scv.refs.includes(ref));
+  assert.equal(r.fields.chest.state,surgery==='bcs'?'omit':nodes<4?'consider':'include');
+  assert.equal(r.fields.imn.state,nodes<4?'consider':'include');
+  if(nodes<4){
+   assert(!r.selected.includes('鎖骨上・鎖骨下（Level III）'));
+   assert.match(r.summary,/個別検討/);
+  }
+  if(surgery==='mas')assert(r.fields.scv.refs.includes('J26BQ8'));
+ }
+}
+const n1={...base,nodes:2,deposit:'macro'};
+assert.equal(decide({...n1,neo:'unknown'}).fields.chest.state,'hold');
+assert.equal(decide({...n1,t:'t4'}).fields.chest.state,'include');
+assert.equal(decide({...n1,t:'t4'}).fields.scv.state,'include');
+assert.equal(decide({...n1,imn:'pos'}).fields.imn.state,'include');
+assert.equal(decide({...n1,imn:'pos'}).fields.chest.state,'include');
+assert(!decide({...n1,ax:'slnb',axPlan:'rni'}).fields.chest.refs.includes('J26BQ7'));
+assert(!decide({...n1,neo:'yes',ypn:'ypp'}).fields.chest.refs.includes('J26BQ7'));
 console.log('Breast field decision tests passed: '+cases.length+' clinical scenarios, '+conflicts.length+' contradictions, and missing-data safety cases');
