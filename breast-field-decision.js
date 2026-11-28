@@ -20,7 +20,7 @@ const REFERENCES={
  JFRQ:{title:'日本2022 放射線FRQ3（SLNB陽性・ALND省略）',url:'https://jbcs.xsrv.jp/guideline/2022/h_index/frq3/',year:2022,role:'日本本文'},
  JBOOST:{title:'日本2022 放射線CQ2（腫瘍床ブースト）',url:'https://jbcs.xsrv.jp/guideline/2022/h_index/cq2/',year:2022,role:'日本本文'},
  ASTRO:{title:'ASTRO/ASCO/SSO 2025 PMRT（補助）',url:'https://www.astro.org/provider-resources/guidelines/clinical-practice-guidelines/postmastectomy-radiation-therapy',year:2025,role:'海外補助'},
- B51:{title:'NSABP B-51/RTOG 1304（術前化学療法後ypN0、補助）',url:'https://pubmed.ncbi.nlm.nih.gov/40466065/',year:2025,role:'海外RCT'},
+ B51:{title:'NSABP B-51/RTOG 1304（術前cT1–3N1M0、術前化学療法後ypN0）',url:'https://pmc.ncbi.nlm.nih.gov/articles/PMC12269788/#sec3',year:2025,role:'海外RCT'},
  Z0011:{title:'ACOSOG Z0011（BCS＋SLN少数陽性、補助）',url:'https://pmc.ncbi.nlm.nih.gov/articles/PMC5672806/',year:2017,role:'海外RCT'}
 };
 const NAMES={
@@ -90,6 +90,9 @@ function decide(raw){
  if(!known(p.surgery)||!known(p.hist)){return out;}
  if(p.mstatus==='m1'){out.status='outside';out.primary='M1：術後M0用の照射範囲判定は適用外';out.notes.push('局所制御・症状緩和など治療目的から個別に判断してください。');return out;}
  const neo=p.neo==='yes',bcs=p.surgery==='bcs',mas=p.surgery==='mas';
+ // Stage match only; the form cannot verify pretreatment biopsy or the chemotherapy regimen.
+ const b51StageMatch=neo&&p.hist==='inv'&&p.mstatus==='m0'&&p.cn==='c1'&&['ct1','ct2','ct3'].includes(p.ct)&&p.ypn==='yp0';
+ const b51Check='適用には治療前の腋窩転移の針生検・細胞診確認、術前化学療法、術後腋窩評価（SLN 2個以上またはALND）の条件を別途確認してください。';
  const nodeKnown=nPos(p)||nNeg(p);
  const macroPos=p.deposit==='macro'&&p.nodes>0;
  const microPos=p.deposit==='micro'&&p.nodes>0;
@@ -109,10 +112,15 @@ function decide(raw){
    if(['c23'].includes(p.cn)||p.ct==='ct4'||p.t==='t4'||p.ypn==='ypp'||p.ypn==='ypmi'||nPos(p)){
     fields.chest=make('include','術前cN2–3/cT4またはypN陽性では、反応にかかわらずPMRTを支持します。',['ASTRO']);
    }else if((p.cn==='c1'||p.ct==='ct3')&&p.ypn==='yp0'){
-    fields.chest=make('consider','治療前cN1／cT3 → ypN0。ASTRO 2025は条件付きPMRT、B-51は一部で省略を支持。本更新の対象外のため個別決定。',['ASTRO','B51'],'照射を基本候補');
+    const reason=p.ct==='ct3'&&p.cn==='c0'
+      ?'治療前cT3N0 → ypN0：ASTRO/ASCO/SSO 2025はPMRTを条件付きで推奨。cN0はB-51の登録対象外で、この試験を照射省略の根拠にしません。'
+      :b51StageMatch
+        ?'治療前cT1–3N1M0 → ypN0：ASTRO/ASCO/SSO 2025はPMRTを条件付きで推奨。B-51の全摘例では胸壁＋領域照射と無照射を比較しました。'+b51Check
+        :'術前病期と術後ypNを照合し、ASTRO/ASCO/SSO 2025に基づきPMRTを個別検討。B-51の適用条件は未確認です。';
+    fields.chest=make('consider',reason,b51StageMatch?['ASTRO','B51']:['ASTRO'],'照射を基本候補');
    }else if(p.cn==='c0'&&p.ypn==='yp0'&&['t0','t1','t2'].includes(p.t)){
     fields.chest=make('omit','治療前cN0、治療後ypN0・ypT0–2で他の高リスク因子がなければPMRTを通常省略します。',['ASTRO']);
-   }else fields.chest=make('hold','術前cT/cN・治療後ypT/ypNの関係を確認してください。',['ASTRO','B51']);
+   }else fields.chest=make('hold','術前cT/cN・治療後ypT/ypNの関係を確認してください。',['ASTRO']);
   }else if(p.hist==='inv'){
    if(node4||p.t==='t4'){
     fields.chest=make('include',node4?'ALND後4個以上のリンパ節転移はPMRTの標準適応。':'pT4はPMRTの標準適応です。',['JB5','JB6']);
@@ -139,7 +147,9 @@ function decide(raw){
    if(['c23'].includes(p.cn)||p.ct==='ct4'||p.t==='t4'||p.ypn==='ypp'||p.ypn==='ypmi'||nPos(p)){
      fields.scv=make('include','術前高病期またはypN陽性：鎖骨上／Level IIIをRNIに含める方針。',['ASTRO']);
    }else if(p.cn==='c1'&&p.ypn==='yp0'){
-     fields.scv=make('consider','cN1→ypN0はB-51による省略選択肢があります。治療前針生検・術前化学療法・術後節検索の条件を確認。',['B51','ASTRO'],'省略も選択可');
+     fields.scv=make('consider',b51StageMatch
+       ?'cT1–3N1M0 → ypN0では領域照射の追加・省略を個別検討します。B-51は鎖骨上単独の省略を検証した試験ではありません。'+b51Check
+       :'cN1 → ypN0の領域照射は個別検討。B-51の適用条件は未確認です。',b51StageMatch?['B51','ASTRO']:['ASTRO'],'省略も選択可');
    }else if(p.cn==='c0'&&p.ypn==='yp0')fields.scv=make('omit','cN0→ypN0では通常、専用RNIは行いません。',['ASTRO']);
    else fields.scv=make('hold','治療前cNと術後ypNを確定してください。',['ASTRO']);
  }else if(node4||mas&&p.t==='t4'){
@@ -166,7 +176,7 @@ function decide(raw){
    if(p.ypn==='ypp'||p.ypn==='ypmi'){
      fields.axilla=make('consider','術前治療後に残存節転移あり。追加ALNDと未郭清腋窩照射の扱いを多職種で決定。',['ASTRO'],'治療必要');
    }else if(p.ypn==='yp0'&&p.cn==='c23'&&axLimited)fields.axilla=make('include','初期cN2–3でALND未施行：ypN0でも未郭清Level I–IIを含むRNIを基本候補。腋窩手術の質と標的範囲を要確認。',['ASTRO']);
-   else if(p.ypn==='yp0')fields.axilla=make('omit','ypN0なら専用Level I–IIは通常省略。ただし初期高病期・検索手技の信頼性を別確認。',['B51','ASTRO']);
+   else if(p.ypn==='yp0')fields.axilla=make('omit','ypN0なら専用Level I–IIは通常省略。ただし初期高病期・検索手技の信頼性を別確認。B-51は専用腋窩Level I–II単独の省略を検証していません。',['ASTRO']);
    else fields.axilla=make('hold','術後ypN・腋窩治療方針を確認。',['ASTRO']);
  }else if(nPos(p)&&p.deposit==='macro'&&mas&&axLimited){
    if(p.axPlan==='rni')fields.axilla=make('include','全摘・SLNマクロ転移・ALND省略でPMRT＋RNIを選択：未郭清Level I–IIを照射標的として検討。',['JFRQ','ASTRO']);
@@ -242,7 +252,7 @@ function decide(raw){
    if(mas&&p.hist==='inv'&&!highTumor&&p.margin!=='pos')fields.chest=make('hold','術後リンパ節所見が未確定です。');
  }
  if(neo&&(!known(p.cn)||!known(p.ct)||!known(p.ypn))){
-   for(const key of ['chest','scv','axilla'])if(key!=='chest'||mas)fields[key]=make('hold','術前cT/cNと術後ypNが揃っていません。日本2022を術前治療後にそのまま外挿しません。',['ASTRO','B51']);
+   for(const key of ['chest','scv','axilla'])if(key!=='chest'||mas)fields[key]=make('hold','術前cT/cNと術後ypNが揃っていません。日本2022を術前治療後にそのまま外挿しません。',['ASTRO']);
  }
  if(p.mstatus!=='m0'){
    out.notes.push('M0未確認のため、以下は候補にとどめます。');
@@ -258,7 +268,7 @@ function decide(raw){
  if(p.recon==='implant'&&mas&&fields.chest.state!=='omit')out.notes.push('人工物再建あり：PMRTに伴う被膜拘縮・再建合併症を事前説明。');
  if(p.side==='left'&&fields.imn.state!=='omit')out.notes.push('左側：DIBHやIMRT/VMATを含む心臓・肺の線量最適化が重要。');
  if(p.gross==='yes')out.notes.push('肉眼的残存は別途GTV/CTVと追加線量を決める必要があります。');
- if(p.neo==='yes')out.notes.push('術前治療後例は日本2022の初回手術群から直接外挿不可。ASTRO 2025とB-51を補助資料として利用。');
+ if(p.neo==='yes')out.notes.push('術前治療後例は日本2022の初回手術群から直接外挿不可。ASTRO/ASCO/SSO 2025を補助資料とし、B-51は登録時の病期が一致する場合に限り、試験適格性の確認用として示します。');
  // Determine output confidence
  const essential=['術式','病理（浸潤癌／DCIS）','M0評価','術前薬物療法の有無','pT／ypT','断端','腋窩手術（ALND／SLNB）','術後リンパ節所見・陽性数'];
  if(missing.length||Object.values(fields).some(x=>x.state==='hold')||p.mstatus!=='m0'){
