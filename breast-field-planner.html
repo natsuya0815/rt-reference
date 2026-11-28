@@ -116,7 +116,7 @@ const numberVal=id=>by(id).value.trim()===''?null:Number(by(id).value);
 const read=()=>Object.fromEntries(ids.map(id=>[id,['age','nodes','exam'].includes(id)?numberVal(id):by(id).value]));
 const words={include:'照射する',omit:'原則省略',consider:'個別検討',hold:'判定保留'};
 function links(refs){
-  return (refs||[]).map(key=>R[key]?'<a target="_blank" rel="noopener noreferrer" href="'+esc(R[key].url)+'">'+esc(key.startsWith('J')?'日本':'補助')+'・'+esc(key)+'</a>':'').join(' ');
+  return (refs||[]).map(key=>R[key]?'<a target="_blank" rel="noopener noreferrer" href="'+esc(R[key].url)+'">'+esc(key.startsWith('J26')?'日本2026 '+key.slice(3):(key.startsWith('J')?'日本':'補助')+'・'+key)+'</a>':'').join(' ');
 }
 function setVisibility(){
   const p=read();

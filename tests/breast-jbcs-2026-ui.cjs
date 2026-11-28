@@ -9,10 +9,13 @@ try{
  for(const mobile of [false,true]){
   const ctx=await browser.newContext(mobile?devices['iPhone 13']:{viewport:{width:1440,height:1000}});
   const page=await ctx.newPage(),errors=[];
+  page.setDefaultTimeout(8000);
   page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(base);
+  await page.goto(new URL('#breast',base).href);
   if(!process.env.RT_SKIP_OFFLINE)await page.evaluate(()=>navigator.serviceWorker.ready.then(()=>true));
   await page.locator('a[href="breast-field-planner.html"]').first().click();
+  const openExamples=()=>page.locator("#caseForm details > summary").click();
+  await openExamples();
   const summary=()=>page.locator('#resultSummary').innerText();
   const state=heading=>page.locator('#regionResults article').filter({has:page.getByRole('heading',{name:heading,exact:true})}).locator('.state').innerText();
   await page.locator('[data-example="masN1"]').click();
@@ -35,6 +38,7 @@ try{
   if(!process.env.RT_SKIP_OFFLINE){
    await ctx.setOffline(true);
    await page.reload();
+   await openExamples();
    await page.locator('[data-example="masN1"]').click();
    assert.match(await summary(),/PMRTを個別検討/);
   }
