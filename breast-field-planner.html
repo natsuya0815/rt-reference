@@ -61,7 +61,7 @@ footer{font-size:12px;line-height:1.7;color:var(--muted);padding:12px 2px}
 <div class="eyebrow">日本ガイドライン優先 · 照射野を先に表示</div>
 <h1>乳癌術後：どこを照射するか</h1>
 <p class="lead">術式・病理・術前治療・腋窩手術を入力すると、全乳房／胸壁／鎖骨上／腋窩／内胸／ブーストの方針を即時表示します。</p>
-<div class="warning"><strong>根拠の版に注意：</strong>日本乳癌学会<strong>2026年版は刊行済み</strong>ですが、推奨本文を照合できていません。本ツールの日本の判断基準は公開本文を確認した<strong>2022年版（2024年Web改訂を含む）</strong>です。2025年の米国指針・RCTは日本本文で未解決の部分のみ補助的に参照します。正式な最終判断には2026年版の該当BQ/CQ確認が必要です。</div>
+<div class="warning"><strong>根拠の版：</strong>日本乳癌学会<strong>2026年版のBQ6・BQ7・BQ8を部分反映</strong>しました。初回手術・腋窩郭清後のマクロ転移について、1～3個では温存後の鎖骨上照射／全摘後のPMRTを個別検討、4個以上では標準と表示します。pT4など別の適応がある場合は個別に評価します。<strong>これ以外の場面（術前治療後・郭清省略・内胸の適応など）は2026年版への更新対象外</strong>です。最終判断は<a href="https://jbcs.xsrv.jp/guideline/2026/h_index/">現行のBQ/CQ</a>をご確認ください。</div>
 <section class="result" id="result" aria-live="polite">
 <div class="toolbar"><h2>今回の照射範囲</h2><button type="button" class="secondary" id="copy">判定結果をコピー</button></div>
 <div id="resultState" class="summary-secondary">症例情報を入力してください。</div>
@@ -97,12 +97,12 @@ footer{font-size:12px;line-height:1.7;color:var(--muted);padding:12px 2px}
 </details>
 </form>
 <details class="input-panel"><summary>根拠と限界（公開日本ガイドラインを優先）</summary>
-<p class="footer-links">日本2022のBQ/CQを主根拠にし、ALND省略と術前治療後など日本側で照射野が一意に決まらない場合のみZ0011・B-51・ASTRO 2025を補助として示します。</p>
+<p class="footer-links">各項目に照合した出典と版を示します。今回の更新範囲外では従来の日本2022年版（2024年Web改訂を含む）と海外補助資料を表示します。</p>
 <p class="footer-links">「腋窩Level I–II」は<strong>意図的な専用照射</strong>です。全乳房の通常接線野による偶発的被曝と混同しません。郭清済みの腋窩への重複照射は避けます。内胸は日本2022 CQ6の高リスク例（4節以上、内側・中央＋節陽性など）で優先検討します。</p>
 <ul id="references" class="footer-links"></ul>
 <p class="footer-links">本ツールは放射線治療専門医の検討を助ける参考計算です。最終的なCTV/PTV・心肺制約・既照射・患者希望・腫瘍ボードでの決定は別途必要です。症例データは保存・送信しません。</p>
 </details>
-<footer>RT Reference β ／ Clinician decision support ／ Version 2.0 ／ 原典照合日 2026-11-25 ／ 2026年版本文の内容は未照合</footer>
+<footer>RT Reference β ／ Clinician decision support ／ Version 2.1 ／ 2026年版の照合範囲：BQ6・BQ7・BQ8（2026-11-28）</footer>
 </main>
 <script src="./breast-field-decision.js"></script>
 <script>
@@ -116,7 +116,7 @@ const numberVal=id=>by(id).value.trim()===''?null:Number(by(id).value);
 const read=()=>Object.fromEntries(ids.map(id=>[id,['age','nodes','exam'].includes(id)?numberVal(id):by(id).value]));
 const words={include:'照射する',omit:'原則省略',consider:'個別検討',hold:'判定保留'};
 function links(refs){
-  return (refs||[]).map(key=>R[key]?'<a target="_blank" rel="noopener noreferrer" href="'+esc(R[key].url)+'">'+esc(key.startsWith('J')?'日本':'補助')+'・'+esc(key)+'</a>':'').join(' ');
+  return (refs||[]).map(key=>R[key]?'<a target="_blank" rel="noopener noreferrer" href="'+esc(R[key].url)+'">'+esc(key.startsWith('J26')?'日本2026 '+key.slice(3):(key.startsWith('J')?'日本':'補助')+'・'+key)+'</a>':'').join(' ');
 }
 function setVisibility(){
   const p=read();
@@ -166,7 +166,7 @@ document.querySelectorAll('[data-example]').forEach(btn=>btn.addEventListener('c
 let lastText='';
 by('copy').addEventListener('click',()=>{
   const r=latest;
-  lastText=['乳癌術後・照射範囲の暫定評価',r.primary,r.summary||'',...Object.entries(N).map(([k,name])=>name+'：'+words[r.fields[k].state]+(r.fields[k].defaultAction?'（'+r.fields[k].defaultAction+'）':'')+'／'+r.fields[k].reason),'要確認：'+r.missing.join('、'),'日本2022公開本文を主根拠。日本2026本文未照合。'].join('\n');
+  lastText=['乳癌術後・照射範囲の暫定評価',r.primary,r.summary||'',...Object.entries(N).map(([k,name])=>name+'：'+words[r.fields[k].state]+(r.fields[k].defaultAction?'（'+r.fields[k].defaultAction+'）':'')+'／'+r.fields[k].reason),'要確認：'+r.missing.join('、'),'日本2026 BQ6～8の対象分岐のみ部分更新。その他は従来の根拠。'].join('\n');
   if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(lastText).then(()=>{by('copy').textContent='コピーしました';setTimeout(()=>by('copy').textContent='判定結果をコピー',1400);}).catch(()=>{by('copy').textContent='コピー不可';});
   else by('copy').textContent='この環境ではコピー非対応';
 });
